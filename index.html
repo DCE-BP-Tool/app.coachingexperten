@@ -16,13 +16,14 @@
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   // ══ FIREBASE CONFIG – hier Ihre eigene Config eintragen ══
-  const firebaseConfig = {
-    apiKey: "IHRE_API_KEY",
-    authDomain: "IHRE_PROJECT.firebaseapp.com",
-    projectId: "IHRE_PROJECT_ID",
-    storageBucket: "IHRE_PROJECT.appspot.com",
-    messagingSenderId: "IHRE_SENDER_ID",
-    appId: "IHRE_APP_ID"
+  window._FIREBASE_CONFIG = {
+  apiKey: "AIzaSyANOJHOHAgrbfiQG0H6mseqTgKhGz3mmbI",
+  authDomain: "die-coachingexperten-abdfa.firebaseapp.com",
+  projectId: "die-coachingexperten-abdfa",
+  storageBucket: "die-coachingexperten-abdfa.firebasestorage.app",
+  messagingSenderId: "78028063080",
+  appId: "1:78028063080:web:87b621433bc5445c3996dd",
+  measurementId: "G-S1XZFLK3NW"
   };
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
