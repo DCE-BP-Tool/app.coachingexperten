@@ -11,7 +11,7 @@
 <script type="module">
 try {
   const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
-  const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+  const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, setPersistence, browserSessionPersistence }
     = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
   const { getFirestore, doc, setDoc, getDoc }
     = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
@@ -30,67 +30,19 @@ try {
   const auth = getAuth(app);
   const db   = getFirestore(app);
 
+  // Kein Auto-Login – nur Session-basiert
+  await setPersistence(auth, browserSessionPersistence);
+
   window._fbAuth = auth;
   window._fbDb   = db;
   window._fbFn   = { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, doc, setDoc, getDoc };
   window._firebaseReady = true;
-
-  // Speichere Auth-User temporär, starte App erst nach DOM-Load
-  onAuthStateChanged(auth, async user => {
-    if (user) {
-      window._currentUser = user;
-      try {
-        const snap = await getDoc(doc(db, 'businessplans', user.uid));
-        if (snap.exists()) {
-          const d = snap.data();
-          if (d.savedData) Object.assign(window._savedData, d.savedData);
-          if (d.doneSet)   d.doneSet.forEach(i => window._doneSet.add(i));
-          if (d.profile)   Object.assign(window._profile, d.profile);
-          if (d.finData)   Object.assign(window._finData, d.finData);
-        }
-      } catch(e) {}
-      window._autoLoginUser = user;
-    }
-  });
-
-  window._loadUserData = async function(uid) {
-    try {
-      const snap = await getDoc(doc(db, 'businessplans', uid));
-      if (snap.exists()) {
-        const d = snap.data();
-        if (d.savedData) Object.assign(window._savedData, d.savedData);
-        if (d.doneSet)   d.doneSet.forEach(i => window._doneSet.add(i));
-        if (d.profile)   Object.assign(window._profile, d.profile);
-        if (d.finData)   Object.assign(window._finData, d.finData);
-      }
-    } catch(e) {}
-  };
-
-  window._saveToFirebase = async function(uid) {
-    try {
-      await setDoc(doc(db, 'businessplans', uid), {
-        savedData: window._savedData,
-        doneSet:   [...window._doneSet],
-        profile:   window._profile,
-        finData:   window._finData,
-        updatedAt: new Date().toISOString()
-      });
-    } catch(e) {}
-  };
 
   console.log('Firebase verbunden ✓');
 } catch(e) {
   console.log('Demo-Modus aktiv');
   window._firebaseReady = false;
 }
-</script>
-<script>
-// Auto-Login nach DOM-Load
-document.addEventListener('DOMContentLoaded', function() {
-  if (window._autoLoginUser) {
-    launchApp(window._autoLoginUser);
-  }
-});
 </script>
 <style>
 /* ═══════════════════════════════════════
