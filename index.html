@@ -7,16 +7,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<!-- Firebase -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged }
-    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, doc, setDoc, getDoc }
-    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-  // ══ FIREBASE CONFIG – hier Ihre eigene Config eintragen ══
-  window._FIREBASE_CONFIG = {
+<!-- Firebase – Demo-Modus aktiv bis eigene Config eingetragen -->
+<script>
+window._FIREBASE_CONFIG = {
   apiKey: "AIzaSyANOJHOHAgrbfiQG0H6mseqTgKhGz3mmbI",
   authDomain: "die-coachingexperten-abdfa.firebaseapp.com",
   projectId: "die-coachingexperten-abdfa",
@@ -24,78 +17,66 @@
   messagingSenderId: "78028063080",
   appId: "1:78028063080:web:87b621433bc5445c3996dd",
   measurementId: "G-S1XZFLK3NW"
-  };
-  <!-- Firebase -->
+};
+window._firebaseReady = false;
+window._savedData = window._savedData || {};
+window._doneSet   = window._doneSet   || new Set();
+window._profile   = window._profile   || {};
+window._finData   = window._finData   || {rev1:0,rev2:0,rev3:0,fix1:0,fix2:0,fix3:0,var1:0,var2:0,var3:0,invest:0,eigen:0,fremd:0,förder:0};
+</script>
 <script type="module">
-try {
-  const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
-  const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged }
-    = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
-  const { getFirestore, doc, setDoc, getDoc }
-    = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyANOJHOHAgrbfiQG0H6mseqTgKhGz3mmbI",
-    authDomain: "die-coachingexperten-abdfa.firebaseapp.com",
-    projectId: "die-coachingexperten-abdfa",
-    storageBucket: "die-coachingexperten-abdfa.firebasestorage.app",
-    messagingSenderId: "78028063080",
-    appId: "1:78028063080:web:87b621433bc5445c3996dd",
-    measurementId: "G-S1XZFLK3NW"
-  };
-
-  const app  = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db   = getFirestore(app);
-
-  window._fbAuth = auth;
-  window._fbDb   = db;
-  window._fbFn   = { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, doc, setDoc, getDoc };
-  window._firebaseReady = true;
-
-  onAuthStateChanged(auth, async user => {
-    if (user) {
-      window._currentUser = user;
-      try {
-        const snap = await getDoc(doc(db, 'businessplans', user.uid));
-        if (snap.exists()) {
-          const d = snap.data();
-          if (d.savedData) Object.assign(window._savedData, d.savedData);
-          if (d.doneSet)   d.doneSet.forEach(i => window._doneSet.add(i));
-          if (d.profile)   Object.assign(window._profile, d.profile);
-          if (d.finData)   Object.assign(window._finData, d.finData);
-        }
-      } catch(e) {}
-      launchApp(user);
-    }
-  });
-
-  window._loadUserData = async function(uid) {
-    try {
-      const snap = await getDoc(doc(db, 'businessplans', uid));
-      if (snap.exists()) {
-        const d = snap.data();
-        if (d.savedData) Object.assign(window._savedData, d.savedData);
-        if (d.doneSet)   d.doneSet.forEach(i => window._doneSet.add(i));
-        if (d.profile)   Object.assign(window._profile, d.profile);
-        if (d.finData)   Object.assign(window._finData, d.finData);
+const cfg = window._FIREBASE_CONFIG;
+if (cfg.apiKey && cfg.apiKey !== 'IHRE_API_KEY') {
+  try {
+    const {initializeApp} = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
+    const {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged}
+      = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
+    const {getFirestore,doc,setDoc,getDoc}
+      = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+    const app=initializeApp(cfg), auth=getAuth(app), db=getFirestore(app);
+    window._fbAuth=auth; window._fbDb=db;
+    window._fbFn={createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged,doc,setDoc,getDoc};
+    window._firebaseReady=true;
+    onAuthStateChanged(auth, async user => {
+      if(user){
+        window._currentUser=user;
+        try{
+          const snap=await getDoc(doc(db,'businessplans',user.uid));
+          if(snap.exists()){
+            const d=snap.data();
+            if(d.savedData) Object.assign(window._savedData,d.savedData);
+            if(d.doneSet)   d.doneSet.forEach(i=>window._doneSet.add(i));
+            if(d.profile)   Object.assign(window._profile,d.profile);
+            if(d.finData)   Object.assign(window._finData,d.finData);
+          }
+        }catch(e){}
+        launchApp(user);
       }
-    } catch(e) {}
-  };
-
-  window._saveToFirebase = async function(uid) {
-    try {
-      await setDoc(doc(db, 'businessplans', uid), {
-        savedData: window._savedData,
-        doneSet:   [...window._doneSet],
-        profile:   window._profile,
-        finData:   window._finData,
-        updatedAt: new Date().toISOString()
-      });
-    } catch(e) {}
-  };
-} catch(e) {
-  window._firebaseReady = false;
+    });
+    window._loadUserData=async function(uid){
+      try{
+        const snap=await getDoc(doc(db,'businessplans',uid));
+        if(snap.exists()){const d=snap.data();
+          if(d.savedData) Object.assign(window._savedData,d.savedData);
+          if(d.doneSet)   d.doneSet.forEach(i=>window._doneSet.add(i));
+          if(d.profile)   Object.assign(window._profile,d.profile);
+          if(d.finData)   Object.assign(window._finData,d.finData);
+        }
+      }catch(e){}
+    };
+    window._saveToFirebase=async function(uid){
+      try{
+        await setDoc(doc(db,'businessplans',uid),{
+          savedData:window._savedData, doneSet:[...window._doneSet],
+          profile:window._profile, finData:window._finData,
+          updatedAt:new Date().toISOString()
+        });
+      }catch(e){console.error('Speicherfehler',e);}
+    };
+    console.log('Firebase verbunden ✓');
+  } catch(e){ console.error('Firebase Fehler:',e); }
+} else {
+  console.log('Demo-Modus aktiv – Firebase nicht konfiguriert');
 }
 </script>
 <style>
@@ -562,7 +543,7 @@ select.fi{cursor:pointer}
       <div class="fg"><label class="fl">Vorname</label><input class="fi" id="regFirst" placeholder="Max" type="text"></div>
       <div class="fg"><label class="fl">Nachname</label><input class="fi" id="regLast" placeholder="Mustermann" type="text"></div>
     </div>
-    <div class="fg"><label class="fl">E-Mail-Adresse-Adresse</label><input class="fi" id="regEmail" type="email" placeholder="max@mustermann.de"></div>
+    <div class="fg"><label class="fl">E-Mail-Adresse</label><input class="fi" id="regEmail" type="email" placeholder="max@mustermann.de"></div>
     <div class="fg"><label class="fl">Passwort (mindestens 6 Zeichen)</label><input class="fi" id="regPw" type="password" placeholder="••••••••"></div>
     <div id="regErr" class="err-msg" style="display:none"></div>
     <div class="checkbox-row" style="margin-bottom:14px">
@@ -1047,10 +1028,7 @@ select.fi{cursor:pointer}
   </div>
 </div>
 
-<!-- ══ AGB MODAL ══ -->
-<div class="overlay" id="agbModal">
-  <div class="modal" style="max-height:85vh;overflow-y:auto">
-    <div class="modal-top"><div class="modal-title">Allgemeine Geschäftsbedingungen</div><div class="modal-sub">Nutzungsbedingungen des Businessplan-Tools</div></div>
+
     <div class="modal-body" style="font-size:13px;line-height:1.8;color:var(--mu)">
       <p><b style="color:var(--p1)">§ 1 Geltungsbereich</b><br>Diese AGB gelten für die Nutzung des Businessplan-Tools der Coachingexperten (nachfolgend "Tool").</p><br>
       <p><b style="color:var(--p1)">§ 2 Leistungsumfang</b><br>Das Tool ermöglicht die kostenlose Erstellung eines Businessplans. Ein Rechtsanspruch auf bestimmte Funktionen oder Verfügbarkeit besteht nicht.</p><br>
@@ -1058,7 +1036,7 @@ select.fi{cursor:pointer}
       <p><b style="color:var(--p1)">§ 4 Haftungsbeschränkung</b><br>Das Tool dient als Hilfsmittel zur Erstellung eines Businessplans. Die Coachingexperten übernehmen keine Garantie für die Eignung des erstellten Plans für spezifische Finanzierungszwecke. Eine professionelle Beratung wird empfohlen.</p><br>
       <p><b style="color:var(--p1)">§ 5 Kündigung</b><br>Der Nutzer kann sein Konto jederzeit löschen. Die Coachingexperten behalten sich vor, den Zugang bei Verstößen gegen diese AGB zu sperren.</p>
     </div>
-    <div class="modal-foot"><button class="btn-cancel" onclick="closeModal('agbModal')">Schließen</button></div>
+    <div class="modal-foot"><button class="btn-cancel" onclick="closeAgbModal()">Schließen</button></div>
   </div>
 </div>
 
@@ -1152,13 +1130,13 @@ async function doRegister() {
   const err   = document.getElementById('regErr');
 
   if (!first || !last) { showErr(err, 'Bitte Vor- und Nachname eingeben.'); return; }
-  if (!email) { showErr(err, 'Bitte E-Mail-Adresse-Adresse eingeben.'); return; }
+  if (!email) { showErr(err, 'Bitte E-Mail-Adresse eingeben.'); return; }
   if (pw.length < 6) { showErr(err, 'Das Passwort muss mindestens 6 Zeichen haben.'); return; }
   if (!agb) { showErr(err, 'Bitte AGB und Datenschutzerklärung bestätigen.'); return; }
   err.style.display = 'none';
 
   // Demo mode (no Firebase configured)
-  if (!window._fbAuth || window._fbAuth.app.options.apiKey === 'IHRE_API_KEY') {
+  if (!window._firebaseReady) {
     window._profile = { first, last, email };
     window._currentUser = { uid: 'demo_' + Date.now(), email };
     showScreen('onboardScreen');
@@ -1172,7 +1150,7 @@ async function doRegister() {
     showScreen('onboardScreen');
   } catch(e) {
     const msg = e.code === 'auth/email-already-in-use' ? 'Diese E-Mail-Adresse ist bereits registriert.' :
-                e.code === 'auth/invalid-email' ? 'Ungültige E-Mail-Adresse-Adresse.' : 'Fehler: ' + e.message;
+                e.code === 'auth/invalid-email' ? 'Ungültige E-Mail-Adresse.' : 'Fehler: ' + e.message;
     showErr(err, msg);
   }
 }
@@ -1181,12 +1159,16 @@ async function doLogin() {
   const email = document.getElementById('loginEmail').value.trim();
   const pw    = document.getElementById('loginPw').value;
   const err   = document.getElementById('loginErr');
-  if (!email || !pw) { showErr(err, 'Bitte E-Mail-Adresse-Adresse und Passwort eingeben.'); return; }
+  if (!email || !pw) { showErr(err, 'Bitte E-Mail-Adresse und Passwort eingeben.'); return; }
   err.style.display = 'none';
 
-  if (!window._fbAuth || window._fbAuth.app.options.apiKey === 'IHRE_API_KEY') {
-    window._currentUser = { uid: 'demo', email };
-    window._profile = { first: 'Demo', last: 'Nutzer', email };
+  // Demo-Modus: kein Firebase nötig
+  if (!window._firebaseReady) {
+    const nameParts = email.split('@')[0].split('.');
+    const first = nameParts[0] ? nameParts[0].charAt(0).toUpperCase() + nameParts[0].slice(1) : 'Nutzer';
+    const last  = nameParts[1] ? nameParts[1].charAt(0).toUpperCase() + nameParts[1].slice(1) : '';
+    window._currentUser = { uid: 'demo_' + Date.now(), email };
+    window._profile = { first, last, email };
     showScreen('onboardScreen');
     return;
   }
@@ -1197,7 +1179,12 @@ async function doLogin() {
     if (window._loadUserData) await window._loadUserData(cred.user.uid);
     launchApp(cred.user);
   } catch(e) {
-    showErr(err, 'E-Mail-Adresse-Adresse oder Passwort ist falsch.');
+    const msg = e.code === 'auth/user-not-found' ? 'Diese E-Mail-Adresse ist nicht registriert.' :
+                e.code === 'auth/wrong-password'  ? 'Das Passwort ist falsch.' :
+                e.code === 'auth/invalid-email'   ? 'Ungültige E-Mail-Adresse.' :
+                e.code === 'auth/too-many-requests' ? 'Zu viele Versuche. Bitte warten Sie kurz.' :
+                'Fehler beim Anmelden. Bitte erneut versuchen.';
+    showErr(err, msg);
   }
 }
 
