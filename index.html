@@ -7,76 +7,80 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<!-- Firebase – Demo-Modus aktiv bis eigene Config eingetragen -->
-<script>
-window._FIREBASE_CONFIG = {
-  apiKey: "AIzaSyANOJHOHAgrbfiQG0H6mseqTgKhGz3mmbI",
-  authDomain: "die-coachingexperten-abdfa.firebaseapp.com",
-  projectId: "die-coachingexperten-abdfa",
-  storageBucket: "die-coachingexperten-abdfa.firebasestorage.app",
-  messagingSenderId: "78028063080",
-  appId: "1:78028063080:web:87b621433bc5445c3996dd",
-  measurementId: "G-S1XZFLK3NW"
-};
-window._firebaseReady = false;
-window._savedData = window._savedData || {};
-window._doneSet   = window._doneSet   || new Set();
-window._profile   = window._profile   || {};
-window._finData   = window._finData   || {rev1:0,rev2:0,rev3:0,fix1:0,fix2:0,fix3:0,var1:0,var2:0,var3:0,invest:0,eigen:0,fremd:0,förder:0};
-</script>
+<!-- Firebase -->
 <script type="module">
-const cfg = window._FIREBASE_CONFIG;
-if (cfg.apiKey && cfg.apiKey !== 'IHRE_API_KEY') {
-  try {
-    const {initializeApp} = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
-    const {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged}
-      = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
-    const {getFirestore,doc,setDoc,getDoc}
-      = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
-    const app=initializeApp(cfg), auth=getAuth(app), db=getFirestore(app);
-    window._fbAuth=auth; window._fbDb=db;
-    window._fbFn={createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged,doc,setDoc,getDoc};
-    window._firebaseReady=true;
-    onAuthStateChanged(auth, async user => {
-      if(user){
-        window._currentUser=user;
-        try{
-          const snap=await getDoc(doc(db,'businessplans',user.uid));
-          if(snap.exists()){
-            const d=snap.data();
-            if(d.savedData) Object.assign(window._savedData,d.savedData);
-            if(d.doneSet)   d.doneSet.forEach(i=>window._doneSet.add(i));
-            if(d.profile)   Object.assign(window._profile,d.profile);
-            if(d.finData)   Object.assign(window._finData,d.finData);
-          }
-        }catch(e){}
-        launchApp(user);
-      }
-    });
-    window._loadUserData=async function(uid){
-      try{
-        const snap=await getDoc(doc(db,'businessplans',uid));
-        if(snap.exists()){const d=snap.data();
-          if(d.savedData) Object.assign(window._savedData,d.savedData);
-          if(d.doneSet)   d.doneSet.forEach(i=>window._doneSet.add(i));
-          if(d.profile)   Object.assign(window._profile,d.profile);
-          if(d.finData)   Object.assign(window._finData,d.finData);
+try {
+  const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
+  const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+    = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
+  const { getFirestore, doc, setDoc, getDoc }
+    = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyANOJHOHAgrbfiQG0H6mseqTgKhGz3mmbI",
+    authDomain: "die-coachingexperten-abdfa.firebaseapp.com",
+    projectId: "die-coachingexperten-abdfa",
+    storageBucket: "die-coachingexperten-abdfa.firebasestorage.app",
+    messagingSenderId: "78028063080",
+    appId: "1:78028063080:web:87b621433bc5445c3996dd",
+    measurementId: "G-S1XZFLK3NW"
+  };
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+
+  window._fbAuth = auth;
+  window._fbDb   = db;
+  window._fbFn   = { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, doc, setDoc, getDoc };
+  window._firebaseReady = true;
+
+  onAuthStateChanged(auth, async user => {
+    if (user) {
+      window._currentUser = user;
+      try {
+        const snap = await getDoc(doc(db, 'businessplans', user.uid));
+        if (snap.exists()) {
+          const d = snap.data();
+          if (d.savedData) Object.assign(window._savedData, d.savedData);
+          if (d.doneSet)   d.doneSet.forEach(i => window._doneSet.add(i));
+          if (d.profile)   Object.assign(window._profile, d.profile);
+          if (d.finData)   Object.assign(window._finData, d.finData);
         }
-      }catch(e){}
-    };
-    window._saveToFirebase=async function(uid){
-      try{
-        await setDoc(doc(db,'businessplans',uid),{
-          savedData:window._savedData, doneSet:[...window._doneSet],
-          profile:window._profile, finData:window._finData,
-          updatedAt:new Date().toISOString()
-        });
-      }catch(e){console.error('Speicherfehler',e);}
-    };
-    console.log('Firebase verbunden ✓');
-  } catch(e){ console.error('Firebase Fehler:',e); }
-} else {
-  console.log('Demo-Modus aktiv – Firebase nicht konfiguriert');
+      } catch(e) {}
+      launchApp(user);
+    }
+  });
+
+  window._loadUserData = async function(uid) {
+    try {
+      const snap = await getDoc(doc(db, 'businessplans', uid));
+      if (snap.exists()) {
+        const d = snap.data();
+        if (d.savedData) Object.assign(window._savedData, d.savedData);
+        if (d.doneSet)   d.doneSet.forEach(i => window._doneSet.add(i));
+        if (d.profile)   Object.assign(window._profile, d.profile);
+        if (d.finData)   Object.assign(window._finData, d.finData);
+      }
+    } catch(e) {}
+  };
+
+  window._saveToFirebase = async function(uid) {
+    try {
+      await setDoc(doc(db, 'businessplans', uid), {
+        savedData: window._savedData,
+        doneSet:   [...window._doneSet],
+        profile:   window._profile,
+        finData:   window._finData,
+        updatedAt: new Date().toISOString()
+      });
+    } catch(e) {}
+  };
+
+  console.log('Firebase verbunden ✓');
+} catch(e) {
+  console.log('Demo-Modus aktiv');
+  window._firebaseReady = false;
 }
 </script>
 <style>
@@ -1028,17 +1032,6 @@ select.fi{cursor:pointer}
   </div>
 </div>
 
-
-    <div class="modal-body" style="font-size:13px;line-height:1.8;color:var(--mu)">
-      <p><b style="color:var(--p1)">§ 1 Geltungsbereich</b><br>Diese AGB gelten für die Nutzung des Businessplan-Tools der Coachingexperten (nachfolgend "Tool").</p><br>
-      <p><b style="color:var(--p1)">§ 2 Leistungsumfang</b><br>Das Tool ermöglicht die kostenlose Erstellung eines Businessplans. Ein Rechtsanspruch auf bestimmte Funktionen oder Verfügbarkeit besteht nicht.</p><br>
-      <p><b style="color:var(--p1)">§ 3 Nutzerpflichten</b><br>Der Nutzer ist verpflichtet, wahrheitsgemäße Angaben zu machen und das Tool nicht für rechtswidrige Zwecke zu nutzen.</p><br>
-      <p><b style="color:var(--p1)">§ 4 Haftungsbeschränkung</b><br>Das Tool dient als Hilfsmittel zur Erstellung eines Businessplans. Die Coachingexperten übernehmen keine Garantie für die Eignung des erstellten Plans für spezifische Finanzierungszwecke. Eine professionelle Beratung wird empfohlen.</p><br>
-      <p><b style="color:var(--p1)">§ 5 Kündigung</b><br>Der Nutzer kann sein Konto jederzeit löschen. Die Coachingexperten behalten sich vor, den Zugang bei Verstößen gegen diese AGB zu sperren.</p>
-    </div>
-    <div class="modal-foot"><button class="btn-cancel" onclick="closeAgbModal()">Schließen</button></div>
-  </div>
-</div>
 
 <div class="toast" id="toast"></div>
 
