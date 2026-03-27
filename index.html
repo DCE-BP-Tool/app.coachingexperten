@@ -49,7 +49,7 @@
         if (d.profile) Object.assign(window._profile, d.profile);
         if (d.finData) Object.assign(window._finData, d.finData);
       }
-    } catch(e) { console.log("No data yet"); }
+    } catch(e) { console.log("Keine Daten vorhanden"); }
   }
   window._loadUserData = loadUserData;
 
@@ -62,7 +62,7 @@
         finData: window._finData,
         updatedAt: new Date().toISOString()
       });
-    } catch(e) { console.error("Save error", e); }
+    } catch(e) { console.error("Speicherfehler", e); }
   };
 </script>
 <style>
@@ -487,7 +487,7 @@ select.fi{cursor:pointer}
       </div>
       <div style="font-size:11px;color:var(--mu);font-weight:400;margin-bottom:20px">Clever beraten, smart starten!</div>
       <div style="font-size:23px;font-weight:800;color:var(--p1);letter-spacing:-.4px">Kostenlos registrieren</div>
-      <div style="font-size:13px;color:var(--mu);margin-top:5px;font-weight:400;margin-bottom:4px">Erstellen Sie Ihren Businessplan – kostenlos & professionell</div>
+      <div style="font-size:13px;color:var(--mu);margin-top:5px;font-weight:400;margin-bottom:4px">Erstellen Sie Ihren Businessplan – kostenlos &amp; professionell</div>
       <div style="height:3px;background:linear-gradient(90deg,var(--a1),var(--a3));border-radius:2px;margin:16px -28px 0"></div>
     </div>
     <div style="padding:22px 28px">
@@ -495,12 +495,12 @@ select.fi{cursor:pointer}
       <div class="fg"><label class="fl">Vorname</label><input class="fi" id="regFirst" placeholder="Max" type="text"></div>
       <div class="fg"><label class="fl">Nachname</label><input class="fi" id="regLast" placeholder="Mustermann" type="text"></div>
     </div>
-    <div class="fg"><label class="fl">E-Mail Adresse</label><input class="fi" id="regEmail" type="email" placeholder="max@mustermann.de"></div>
-    <div class="fg"><label class="fl">Passwort (mind. 6 Zeichen)</label><input class="fi" id="regPw" type="password" placeholder="••••••••"></div>
+    <div class="fg"><label class="fl">E-Mail-Adresse-Adresse</label><input class="fi" id="regEmail" type="email" placeholder="max@mustermann.de"></div>
+    <div class="fg"><label class="fl">Passwort (mindestens 6 Zeichen)</label><input class="fi" id="regPw" type="password" placeholder="••••••••"></div>
     <div id="regErr" class="err-msg" style="display:none"></div>
     <div class="checkbox-row" style="margin-bottom:14px">
       <input type="checkbox" id="regAgb">
-      <label class="checkbox-label" for="regAgb">Ich akzeptiere die <a href="#" href="agb.html" target="_blank" rel="noopener">AGB</a> und habe die <a href="https://die-coachingexperten.de/datenschutz/" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen.</label>
+      <label class="checkbox-label" for="regAgb">Ich akzeptiere die <a href="agb.html" target="_blank" rel="noopener">AGB</a> und habe die <a href="https://die-coachingexperten.de/datenschutz/" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen.</label>
     </div>
     <button class="btn-a" id="regBtn" onclick="doRegister()">Jetzt kostenlos registrieren →</button>
     <div style="display:flex;align-items:center;gap:14px;margin:18px 0"><div style="flex:1;height:1px;background:var(--bdr)"></div><span style="font-size:13px;font-weight:600;color:var(--p1);white-space:nowrap">Bereits registriert?</span><div style="flex:1;height:1px;background:var(--bdr)"></div></div>
@@ -526,7 +526,7 @@ select.fi{cursor:pointer}
       <div style="height:3px;background:linear-gradient(90deg,var(--a1),var(--a3));border-radius:2px;margin:16px -28px 0"></div>
     </div>
     <div style="padding:22px 28px">
-    <div class="fg"><label class="fl">E-Mail</label><input class="fi" id="loginEmail" type="email" placeholder="max@mustermann.de"></div>
+    <div class="fg"><label class="fl">E-Mail-Adresse</label><input class="fi" id="loginEmail" type="email" placeholder="max@mustermann.de"></div>
     <div class="fg"><label class="fl">Passwort</label><input class="fi" id="loginPw" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
     <div id="loginErr" class="err-msg" style="display:none"></div>
     <button class="btn-a" onclick="doLogin()">Anmelden →</button>
@@ -593,16 +593,16 @@ select.fi{cursor:pointer}
 
     <!-- STEP 2: Branche & Details -->
     <div id="ob2" style="display:none">
-      <div class="ob-label">Ihr Unternehmen</div>
+      <div class="ob-label">Ihr Vorhaben</div>
       <div class="card-title">Grunddaten erfassen</div>
-      <div class="card-sub" style="margin-bottom:18px">Diese Angaben personalisieren Ihren Businessplan.</div>
-      <div class="fg"><label class="fl">Name Ihres Unternehmens / Vorhabens</label><input class="fi" id="obCompany" placeholder="z.B. Mustermann Consulting" type="text"></div>
+      <div class="card-sub" style="margin-bottom:18px">Diese Angaben passen Ihren Businessplan individuell an.</div>
+      <div class="fg"><label class="fl">Name Ihres Unternehmens / Vorhabens</label><input class="fi" id="obCompany" placeholder="z.B. Mustermann Consulting GmbH" type="text"></div>
       <div class="fi-row">
         <div class="fg">
           <label class="fl">Branche</label>
           <select class="fi" id="obBranche">
-            <option value="">Bitte wählen…</option>
-            <option>Handel & E-Commerce</option>
+            <option value="">Bitte auswählen …</option>
+            <option>Handel &amp; E-Commerce</option>
             <option>Dienstleistung</option>
             <option>Handwerk & Bau</option>
             <option>Gastronomie & Hotellerie</option>
@@ -617,7 +617,7 @@ select.fi{cursor:pointer}
         <div class="fg">
           <label class="fl">Rechtsform (geplant)</label>
           <select class="fi" id="obRechtsform">
-            <option value="">Bitte wählen…</option>
+            <option value="">Bitte auswählen …</option>
             <option>Einzelunternehmen / Freiberufler</option>
             <option>GbR</option>
             <option>UG (haftungsbeschränkt)</option>
@@ -629,9 +629,9 @@ select.fi{cursor:pointer}
         </div>
       </div>
       <div class="fg">
-        <label class="fl">Gründungszeitpunkt (geplant)</label>
+        <label class="fl">Geplanter Gründungszeitpunkt</label>
         <select class="fi" id="obGründung">
-          <option value="">Bitte wählen…</option>
+          <option value="">Bitte auswählen …</option>
           <option>Sofort / bereits gegründet</option>
           <option>In den nächsten 3 Monaten</option>
           <option>In den nächsten 6 Monaten</option>
@@ -648,12 +648,12 @@ select.fi{cursor:pointer}
     <!-- STEP 3: Kapitalbedarf -->
     <div id="ob3" style="display:none">
       <div class="ob-label">Fast geschafft!</div>
-      <div class="card-title">Finanzbedarf & Start</div>
+      <div class="card-title">Finanzbedarf &amp; Startdaten</div>
       <div class="card-sub" style="margin-bottom:18px">Letzte Angaben zur optimalen Ausrichtung Ihres Businessplans.</div>
       <div class="fg">
         <label class="fl">Geplanter Kapitalbedarf</label>
         <select class="fi" id="obKapital">
-          <option value="">Bitte wählen…</option>
+          <option value="">Bitte auswählen …</option>
           <option>Unter 5.000 €</option>
           <option>5.000 – 25.000 €</option>
           <option>25.000 – 50.000 €</option>
@@ -664,7 +664,7 @@ select.fi{cursor:pointer}
       <div class="fg">
         <label class="fl">Wie haben Sie von uns erfahren?</label>
         <select class="fi" id="obQuelle">
-          <option value="">Bitte wählen…</option>
+          <option value="">Bitte auswählen …</option>
           <option>Google / Suchmaschine</option>
           <option>Empfehlung / Bekannte</option>
           <option>Jobcenter / Agentur für Arbeit</option>
@@ -675,7 +675,7 @@ select.fi{cursor:pointer}
       </div>
       <div class="fg">
         <label class="fl">Kurze Beschreibung Ihrer Geschäftsidee</label>
-        <textarea class="fi" id="obIdea" rows="3" placeholder="Beschreiben Sie in 2–3 Sätzen, was Sie gründen möchten…" style="resize:vertical;line-height:1.6"></textarea>
+        <textarea class="fi" id="obIdea" rows="3" placeholder="Beschreiben Sie in 2–3 Sätzen, was Sie gründen möchten …" style="resize:vertical;line-height:1.6"></textarea>
       </div>
       <div style="display:flex;gap:10px">
         <button class="btn-ghost" onclick="obNext(2)" style="flex:1">← Zurück</button>
@@ -696,7 +696,7 @@ select.fi{cursor:pointer}
     <div class="hdr-spacer"></div>
     <div class="hdr-planname" id="planName">Mein Businessplan</div>
     <button class="hdr-btn hdr-save" onclick="saveAll()">💾 Speichern</button>
-    <button class="hdr-btn hdr-export" onclick="openExport()">⬇ Download</button>
+    <button class="hdr-btn hdr-export" onclick="openExport()">⬇ Herunterladen</button>
     <div class="hdr-avatar" id="hdrAvatar">M</div>
     <button class="hdr-out" onclick="doLogout()">Abmelden</button>
   </header>
@@ -715,7 +715,7 @@ select.fi{cursor:pointer}
   <!-- MOBILE PROGRESS -->
   <div class="mobile-progress" id="mobileProgress">
     <div class="mob-prog-bar"><div class="mob-prog-fill" id="mobFill" style="width:0%"></div></div>
-    <div class="mob-prog-label" id="mobLabel">Kapitel 1 von 9 · Schritt für Schritt zum Businessplan</div>
+    <div class="mob-prog-label" id="mobLabel">Kapitel 1 von 9 · Schritt für Schritt zum fertigen Businessplan</div>
   </div>
   <!-- SIDEBAR OVERLAY -->
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
@@ -730,7 +730,7 @@ select.fi{cursor:pointer}
       <div class="sb-prog">
         <div class="sb-prog-label">Ihr Fortschritt</div>
         <div class="sb-bar"><div class="sb-fill" id="sbFill" style="width:0%"></div></div>
-        <div class="sb-pct" id="sbPct">0 von 9 Kapiteln</div>
+        <div class="sb-pct" id="sbPct">0 von 9 Kapiteln abgeschlossen</div>
       </div>
       <nav class="sb-nav" id="sbNav"></nav>
       <div class="sb-foot">
@@ -757,11 +757,11 @@ select.fi{cursor:pointer}
   </div>
 
   <footer class="page-foot">
-    <span>© 2024 Die Coachingexperten – Alle Rechte vorbehalten</span>
+    <span>© 2025 Die Coachingexperten – Alle Rechte vorbehalten</span>
     <span>
       <a href="https://die-coachingexperten.de/impressum/" target="_blank" rel="noopener">Impressum</a> &nbsp;·&nbsp;
       <a href="https://die-coachingexperten.de/datenschutz/" target="_blank" rel="noopener">Datenschutzerklärung</a> &nbsp;·&nbsp;
-      <a href="#" href="agb.html" target="_blank" rel="noopener">AGB</a>
+      <a href="agb.html" target="_blank" rel="noopener">AGB</a>
     </span>
   </footer>
 </div>
@@ -772,8 +772,8 @@ select.fi{cursor:pointer}
     <div class="modal-top"><div class="modal-title">Businessplan herunterladen</div><div class="modal-sub">Wählen Sie Ihr gewünschtes Format.</div></div>
     <div class="modal-body">
       <div class="modal-sec-title">Format wählen</div>
-      <div class="exp-opt sel" id="opt-pdf" onclick="selExp('pdf')"><div class="exp-icon">📄</div><div><div class="exp-name">PDF-Dokument</div><div class="exp-desc">Professionell formatiert – ideal für Banken, Jobcenter & Investoren</div></div></div>
-      <div class="exp-opt" id="opt-txt" onclick="selExp('txt')"><div class="exp-icon">📝</div><div><div class="exp-name">Text-Datei (.txt)</div><div class="exp-desc">Für weitere Bearbeitung in Word oder anderen Programmen</div></div></div>
+      <div class="exp-opt sel" id="opt-pdf" onclick="selExp('pdf')"><div class="exp-icon">📄</div><div><div class="exp-name">PDF-Dokument</div><div class="exp-desc">Professionell formatiert – ideal für Banken, Jobcenter &amp; Investoren</div></div></div>
+      <div class="exp-opt" id="opt-txt" onclick="selExp('txt')"><div class="exp-icon">📝</div><div><div class="exp-name">Textdatei (.txt)</div><div class="exp-desc">Für die weitere Bearbeitung in Word oder anderen Programmen</div></div></div>
     </div>
     <div class="modal-foot"><button class="btn-cancel" onclick="closeExport()">Abbrechen</button><button class="btn-dl" onclick="doDownload()">⬇ Herunterladen</button></div>
   </div>
@@ -885,7 +885,7 @@ const CHAPTERS = [
   ]},
   { id:'org', title:'Unternehmensorganisation', desc:'Struktur, Rechtsform und Personalbedarf Ihres Unternehmens – ein klares Bild schafft Vertrauen.', fields:[
     {id:'org_rechts', label:'Rechtsform & Begründung', hint:'Welche Rechtsform wählen Sie? Warum ist diese für Ihr Vorhaben am besten geeignet?', rows:3},
-    {id:'org_struct', label:'Organisationsstruktur', hint:'Wie ist Ihr Unternehmen organisiert? Abteilungen, Rollen, Verantwortlichkeiten.', rows:3},
+    {id:'org_struct', label:'Organisationsstruktur', hint:'Wie ist Ihr Vorhaben organisiert? Abteilungen, Rollen, Verantwortlichkeiten.', rows:3},
     {id:'org_personal', label:'Personalbedarf & Einstellungsplan', hint:'Welche Mitarbeiter benötigen Sie? Wann werden diese eingestellt? Qualifikationen?', rows:3},
     {id:'org_standort', label:'Standort & Betriebsstätte', hint:'Wo sind Sie tätig? Warum dieser Standort? Miet- oder Eigenimmobilie?', rows:3},
   ]},
@@ -918,9 +918,9 @@ async function doRegister() {
   const err   = document.getElementById('regErr');
 
   if (!first || !last) { showErr(err, 'Bitte Vor- und Nachname eingeben.'); return; }
-  if (!email) { showErr(err, 'Bitte E-Mail-Adresse eingeben.'); return; }
-  if (pw.length < 6) { showErr(err, 'Passwort muss mindestens 6 Zeichen haben.'); return; }
-  if (!agb) { showErr(err, 'Bitte AGB und Datenschutzerklärung akzeptieren.'); return; }
+  if (!email) { showErr(err, 'Bitte E-Mail-Adresse-Adresse eingeben.'); return; }
+  if (pw.length < 6) { showErr(err, 'Das Passwort muss mindestens 6 Zeichen haben.'); return; }
+  if (!agb) { showErr(err, 'Bitte AGB und Datenschutzerklärung bestätigen.'); return; }
   err.style.display = 'none';
 
   // Demo mode (no Firebase configured)
@@ -937,8 +937,8 @@ async function doRegister() {
     window._currentUser = cred.user;
     showScreen('onboardScreen');
   } catch(e) {
-    const msg = e.code === 'auth/email-already-in-use' ? 'Diese E-Mail ist bereits registriert.' :
-                e.code === 'auth/invalid-email' ? 'Ungültige E-Mail-Adresse.' : 'Fehler: ' + e.message;
+    const msg = e.code === 'auth/email-already-in-use' ? 'Diese E-Mail-Adresse ist bereits registriert.' :
+                e.code === 'auth/invalid-email' ? 'Ungültige E-Mail-Adresse-Adresse.' : 'Fehler: ' + e.message;
     showErr(err, msg);
   }
 }
@@ -947,7 +947,7 @@ async function doLogin() {
   const email = document.getElementById('loginEmail').value.trim();
   const pw    = document.getElementById('loginPw').value;
   const err   = document.getElementById('loginErr');
-  if (!email || !pw) { showErr(err, 'Bitte E-Mail und Passwort eingeben.'); return; }
+  if (!email || !pw) { showErr(err, 'Bitte E-Mail-Adresse-Adresse und Passwort eingeben.'); return; }
   err.style.display = 'none';
 
   if (!window._fbAuth || window._fbAuth.app.options.apiKey === 'IHRE_API_KEY') {
@@ -963,7 +963,7 @@ async function doLogin() {
     if (window._loadUserData) await window._loadUserData(cred.user.uid);
     launchApp(cred.user);
   } catch(e) {
-    showErr(err, 'E-Mail oder Passwort ist falsch.');
+    showErr(err, 'E-Mail-Adresse-Adresse oder Passwort ist falsch.');
   }
 }
 
@@ -1063,7 +1063,7 @@ function buildEditor() {
     div.innerHTML = `
       <div class="ftop"><div class="flabel">${f.label}</div></div>
       <div class="fhint">${f.hint}</div>
-      <textarea class="fta" id="${f.id}" rows="${f.rows}" placeholder="Ihre Antwort…" oninput="onInput('${f.id}',this)">${val}</textarea>
+      <textarea class="fta" id="${f.id}" rows="${f.rows}" placeholder="Hier eingeben …" oninput="onInput('${f.id}',this)">${val}</textarea>
       <div class="ffoot"><span class="fcc" id="cc_${f.id}">${val.length} Zeichen</span></div>`;
     panel.appendChild(div);
   });
@@ -1073,7 +1073,7 @@ function onInput(id, el) {
   window._savedData[id] = el.value;
   const cc = document.getElementById('cc_'+id);
   if (cc) cc.textContent = el.value.length + ' Zeichen';
-  document.getElementById('saveStatus').textContent = 'Speichert…';
+  document.getElementById('saveStatus').textContent = 'Wird gespeichert …';
   clearTimeout(window._st);
   window._st = setTimeout(() => { document.getElementById('saveStatus').textContent = 'Gespeichert'; }, 1200);
 }
@@ -1085,24 +1085,24 @@ function buildSwot(panel) {
   const s = window._savedData;
   panel.innerHTML = `
     <div style="margin-bottom:18px;font-size:13px;font-weight:500;color:var(--mu);line-height:1.7">
-      Die SWOT-Analyse zeigt Stärken (<b>S</b>trengths), Schwächen (<b>W</b>eaknesses), Chancen (<b>O</b>pportunities) und Risiken (<b>T</b>hreats) Ihres Vorhabens.
+      Die SWOT-Analyse zeigt die <b>Stärken</b>, <b>Schwächen</b>, <b>Chancen</b> und <b>Risiken</b> Ihres Vorhabens auf einen Blick.
     </div>
     <div class="swot-grid">
       <div class="swot-cell s">
-        <div class="swot-head">💪 Stärken (Strengths)</div>
+        <div class="swot-head">💪 Stärken</div>
         <textarea class="swot-ta" id="sw_s" placeholder="Was können Sie besonders gut?&#10;Welche Ressourcen haben Sie?&#10;Was unterscheidet Sie positiv?" oninput="onInput('sw_s',this)">${s.sw_s||''}</textarea>
       </div>
       <div class="swot-cell w">
-        <div class="swot-head">⚠️ Schwächen (Weaknesses)</div>
-        <textarea class="swot-ta" id="sw_w" placeholder="Was müssen Sie verbessern?&#10;Wo fehlen Ressourcen?&#10;Was machen Konkurrenten besser?" oninput="onInput('sw_w',this)">${s.sw_w||''}</textarea>
+        <div class="swot-head">⚠️ Schwächen</div>
+        <textarea class="swot-ta" id="sw_w" placeholder="Was müssen Sie verbessern?&#10;Wo fehlen Ressourcen?&#10;Was machen Mitbewerber besser?" oninput="onInput('sw_w',this)">${s.sw_w||''}</textarea>
       </div>
       <div class="swot-cell o">
-        <div class="swot-head">🚀 Chancen (Opportunities)</div>
+        <div class="swot-head">🚀 Chancen</div>
         <textarea class="swot-ta" id="sw_o" placeholder="Welche Markttrends begünstigen Sie?&#10;Welche Lücken gibt es im Markt?&#10;Welche Chancen sehen Sie?" oninput="onInput('sw_o',this)">${s.sw_o||''}</textarea>
       </div>
       <div class="swot-cell t">
-        <div class="swot-head">🛑 Risiken (Threats)</div>
-        <textarea class="swot-ta" id="sw_t" placeholder="Welche Marktrisiken gibt es?&#10;Was könnten Wettbewerber tun?&#10;Welche externen Risiken drohen?" oninput="onInput('sw_t',this)">${s.sw_t||''}</textarea>
+        <div class="swot-head">🛑 Risiken</div>
+        <textarea class="swot-ta" id="sw_t" placeholder="Welche Marktrisiken gibt es?&#10;Was könnten Mitbewerber tun?&#10;Welche externen Risiken drohen?" oninput="onInput('sw_t',this)">${s.sw_t||''}</textarea>
       </div>
     </div>`;
 }
@@ -1163,7 +1163,7 @@ function buildFinance(panel) {
     <!-- CHARTS -->
     <div class="charts-row">
       <div class="chart-wrap"><div class="chart-title"><span>📊</span> Umsatz vs. Kosten (3 Jahre)</div><canvas id="chartRevCost" height="180"></canvas></div>
-      <div class="chart-wrap"><div class="chart-title"><span>💰</span> Gewinn/Verlust (3 Jahre)</div><canvas id="chartProfit" height="180"></canvas></div>
+      <div class="chart-wrap"><div class="chart-title"><span>💰</span> Gewinn / Verlust (3 Jahre)</div><canvas id="chartProfit" height="180"></canvas></div>
     </div>
     <div class="charts-row">
       <div class="chart-wrap"><div class="chart-title"><span>🏦</span> Finanzierungsstruktur</div><canvas id="chartFunding" height="180"></canvas></div>
@@ -1172,15 +1172,15 @@ function buildFinance(panel) {
 
     <!-- TEXT FIELDS -->
     <div class="fblock">
-      <div class="ftop"><div class="flabel">Liquiditätsplanung & Anmerkungen</div></div>
-      <div class="fhint">Beschreiben Sie Ihre Liquiditätsplanung. Wie stellen Sie sicher, dass Sie zu jedem Zeitpunkt zahlungsfähig bleiben?</div>
-      <textarea class="fta" id="fin_liquid" rows="4" placeholder="Ihre Liquiditätsplanung…" oninput="onInput('fin_liquid',this)">${window._savedData.fin_liquid||''}</textarea>
+      <div class="ftop"><div class="flabel">Liquiditätsplanung &amp; Anmerkungen</div></div>
+      <div class="fhint">Beschreiben Sie Ihre Liquiditätsplanung. Wie stellen Sie sicher, zu jedem Zeitpunkt zahlungsfähig zu bleiben?</div>
+      <textarea class="fta" id="fin_liquid" rows="4" placeholder="Hier eingeben …" oninput="onInput('fin_liquid',this)">${window._savedData.fin_liquid||''}</textarea>
       <div class="ffoot"><span class="fcc" id="cc_fin_liquid">${(window._savedData.fin_liquid||'').length} Zeichen</span></div>
     </div>
     <div class="fblock">
-      <div class="ftop"><div class="flabel">Rentabilitätsvorschau & Planannahmen</div></div>
-      <div class="fhint">Erläutern Sie die Annahmen hinter Ihren Zahlen. Warum sind diese Zahlen realistisch?</div>
-      <textarea class="fta" id="fin_rent" rows="4" placeholder="Begründung Ihrer Zahlen und Annahmen…" oninput="onInput('fin_rent',this)">${window._savedData.fin_rent||''}</textarea>
+      <div class="ftop"><div class="flabel">Rentabilitätsvorschau &amp; Planannahmen</div></div>
+      <div class="fhint">Erläutern Sie die Annahmen hinter Ihren Zahlen. Warum sind diese realistisch?</div>
+      <textarea class="fta" id="fin_rent" rows="4" placeholder="Hier eingeben …" oninput="onInput('fin_rent',this)">${window._savedData.fin_rent||''}</textarea>
       <div class="ffoot"><span class="fcc" id="cc_fin_rent">${(window._savedData.fin_rent||'').length} Zeichen</span></div>
     </div>`;
 
@@ -1349,7 +1349,7 @@ function dlTXT() {
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([out],{type:'text/plain;charset=utf-8'}));
   a.download = 'Businessplan.txt'; a.click();
-  showToast('✓ Text-Datei heruntergeladen!');
+  showToast('✓ Textdatei wurde heruntergeladen!');
 }
 
 function dlPDF() {
@@ -1451,7 +1451,7 @@ function dlPDF() {
   });
 
   doc.save('Businessplan_'+(p.company||'Mein_Unternehmen').replace(/\s+/g,'_')+'.pdf');
-  showToast('✓ PDF heruntergeladen!');
+  showToast('✓ PDF wurde heruntergeladen!');
 }
 
 /* ═══════════════════════════════════════
