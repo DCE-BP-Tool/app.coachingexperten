@@ -35,6 +35,7 @@ try {
   window._fbFn   = { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, doc, setDoc, getDoc };
   window._firebaseReady = true;
 
+  // Speichere Auth-User temporär, starte App erst nach DOM-Load
   onAuthStateChanged(auth, async user => {
     if (user) {
       window._currentUser = user;
@@ -48,12 +49,7 @@ try {
           if (d.finData)   Object.assign(window._finData, d.finData);
         }
       } catch(e) {}
-      // Warte bis DOM vollständig geladen ist
-      if (document.readyState === 'complete') {
-        launchApp(user);
-      } else {
-        window.addEventListener('load', () => launchApp(user));
-      }
+      window._autoLoginUser = user;
     }
   });
 
@@ -87,6 +83,14 @@ try {
   console.log('Demo-Modus aktiv');
   window._firebaseReady = false;
 }
+</script>
+<script>
+// Auto-Login nach DOM-Load
+document.addEventListener('DOMContentLoaded', function() {
+  if (window._autoLoginUser) {
+    launchApp(window._autoLoginUser);
+  }
+});
 </script>
 <style>
 /* ═══════════════════════════════════════
