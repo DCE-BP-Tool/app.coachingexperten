@@ -1188,6 +1188,17 @@ function obFinish() {
    LAUNCH APP
 ═══════════════════════════════════════ */
 function launchApp(user) {
+  // Sicherheitscheck - warte bis DOM bereit
+  if (!document.getElementById('app')) {
+    setTimeout(() => launchApp(user), 50);
+    return;
+  }
+  // Globale Variablen sicherstellen
+  window._savedData = window._savedData || {};
+  window._doneSet   = window._doneSet   || new Set();
+  window._profile   = window._profile   || {};
+  window._finData   = window._finData   || {rev1:0,rev2:0,rev3:0,fix1:0,fix2:0,fix3:0,var1:0,var2:0,var3:0,invest:0,eigen:0,fremd:0,förder:0};
+
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('app').style.display = 'flex';
   const name = window._profile.first || user.email.split('@')[0];
