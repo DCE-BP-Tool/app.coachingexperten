@@ -7,41 +7,41 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<!-- Firebase -->
+<!-- Keine Firebase - Demo Modus -->
+<script>
+window._firebaseReady = false;
+window._savedData = {};
+window._doneSet = new Set();
+window._profile = {};
+window._finData = {rev1:0,rev2:0,rev3:0,fix1:0,fix2:0,fix3:0,var1:0,var2:0,var3:0,invest:0,eigen:0,fremd:0,förder:0};
+</script>
+<script>
+window._firebaseReady = false;
+</script>
 <script type="module">
 try {
   const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
-  const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, setPersistence, browserSessionPersistence }
+  const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut }
     = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
   const { getFirestore, doc, setDoc, getDoc }
     = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
-
-  const firebaseConfig = {
+  const app = initializeApp({
     apiKey: "AIzaSyANOJHOHAgrbfiQG0H6mseqTgKhGz3mmbI",
     authDomain: "die-coachingexperten-abdfa.firebaseapp.com",
     projectId: "die-coachingexperten-abdfa",
     storageBucket: "die-coachingexperten-abdfa.firebasestorage.app",
     messagingSenderId: "78028063080",
-    appId: "1:78028063080:web:87b621433bc5445c3996dd",
-    measurementId: "G-S1XZFLK3NW"
-  };
-
-  const app  = initializeApp(firebaseConfig);
+    appId: "1:78028063080:web:87b621433bc5445c3996dd"
+  });
   const auth = getAuth(app);
-  const db   = getFirestore(app);
-
-  // Kein Auto-Login – nur Session-basiert
-  await setPersistence(auth, browserSessionPersistence);
-
+  const db = getFirestore(app);
   window._fbAuth = auth;
-  window._fbDb   = db;
-  window._fbFn   = { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, doc, setDoc, getDoc };
+  window._fbDb = db;
+  window._fbFn = { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, doc, setDoc, getDoc };
   window._firebaseReady = true;
-
   console.log('Firebase verbunden ✓');
 } catch(e) {
-  console.log('Demo-Modus aktiv');
-  window._firebaseReady = false;
+  console.log('Demo-Modus:', e.message);
 }
 </script>
 <style>
