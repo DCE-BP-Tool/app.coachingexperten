@@ -25,46 +25,78 @@
   appId: "1:78028063080:web:87b621433bc5445c3996dd",
   measurementId: "G-S1XZFLK3NW"
   };
-  const app = initializeApp(firebaseConfig);
+  <!-- Firebase -->
+<script type="module">
+try {
+  const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
+  const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+    = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
+  const { getFirestore, doc, setDoc, getDoc }
+    = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyANOJHOHAgrbfiQG0H6mseqTgKhGz3mmbI",
+    authDomain: "die-coachingexperten-abdfa.firebaseapp.com",
+    projectId: "die-coachingexperten-abdfa",
+    storageBucket: "die-coachingexperten-abdfa.firebasestorage.app",
+    messagingSenderId: "78028063080",
+    appId: "1:78028063080:web:87b621433bc5445c3996dd",
+    measurementId: "G-S1XZFLK3NW"
+  };
+
+  const app  = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  const db = getFirestore(app);
+  const db   = getFirestore(app);
 
   window._fbAuth = auth;
-  window._fbDb = db;
-  window._fbFn = { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, doc, setDoc, getDoc };
+  window._fbDb   = db;
+  window._fbFn   = { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, doc, setDoc, getDoc };
+  window._firebaseReady = true;
 
-  onAuthStateChanged(auth, user => {
+  onAuthStateChanged(auth, async user => {
     if (user) {
       window._currentUser = user;
-      loadUserData(user.uid).then(() => launchApp(user));
+      try {
+        const snap = await getDoc(doc(db, 'businessplans', user.uid));
+        if (snap.exists()) {
+          const d = snap.data();
+          if (d.savedData) Object.assign(window._savedData, d.savedData);
+          if (d.doneSet)   d.doneSet.forEach(i => window._doneSet.add(i));
+          if (d.profile)   Object.assign(window._profile, d.profile);
+          if (d.finData)   Object.assign(window._finData, d.finData);
+        }
+      } catch(e) {}
+      launchApp(user);
     }
   });
 
-  async function loadUserData(uid) {
+  window._loadUserData = async function(uid) {
     try {
-      const snap = await getDoc(doc(db, "businessplans", uid));
+      const snap = await getDoc(doc(db, 'businessplans', uid));
       if (snap.exists()) {
         const d = snap.data();
         if (d.savedData) Object.assign(window._savedData, d.savedData);
-        if (d.doneSet) d.doneSet.forEach(i => window._doneSet.add(i));
-        if (d.profile) Object.assign(window._profile, d.profile);
-        if (d.finData) Object.assign(window._finData, d.finData);
+        if (d.doneSet)   d.doneSet.forEach(i => window._doneSet.add(i));
+        if (d.profile)   Object.assign(window._profile, d.profile);
+        if (d.finData)   Object.assign(window._finData, d.finData);
       }
-    } catch(e) { console.log("Keine Daten vorhanden"); }
-  }
-  window._loadUserData = loadUserData;
+    } catch(e) {}
+  };
 
   window._saveToFirebase = async function(uid) {
     try {
-      await setDoc(doc(db, "businessplans", uid), {
+      await setDoc(doc(db, 'businessplans', uid), {
         savedData: window._savedData,
-        doneSet: [...window._doneSet],
-        profile: window._profile,
-        finData: window._finData,
+        doneSet:   [...window._doneSet],
+        profile:   window._profile,
+        finData:   window._finData,
         updatedAt: new Date().toISOString()
       });
-    } catch(e) { console.error("Speicherfehler", e); }
+    } catch(e) {}
   };
+} catch(e) {
+  window._firebaseReady = false;
+}
 </script>
 <style>
 /* ═══════════════════════════════════════
