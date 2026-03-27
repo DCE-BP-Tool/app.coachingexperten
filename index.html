@@ -48,7 +48,12 @@ try {
           if (d.finData)   Object.assign(window._finData, d.finData);
         }
       } catch(e) {}
-      launchApp(user);
+      // Warte bis DOM vollständig geladen ist
+      if (document.readyState === 'complete') {
+        launchApp(user);
+      } else {
+        window.addEventListener('load', () => launchApp(user));
+      }
     }
   });
 
