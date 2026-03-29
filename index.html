@@ -1089,65 +1089,6 @@ function buildFinance(panel) {
       <div class="chart-wrap"><div class="chart-title">🏦 Finanzierungsstruktur</div><canvas id="chartFunding" height="180"></canvas></div>
       <div class="chart-wrap"><div class="chart-title">📉 Break-even-Verlauf</div><canvas id="chartBE" height="180"></canvas></div>
     </div>
-    <div class="fin-section-title">📅 Monatliche Liquiditätsplanung</div>
-    <div class="fblock">
-      <div class="ftop" style="cursor:pointer;user-select:none" onclick="toggleLiquid(1)">
-        <div class="flabel">Jahr 1 – Monat 1 bis 12</div>
-        <span id="liq1-arrow" style="margin-left:auto;color:var(--a1);font-size:14px">▼</span>
-      </div>
-      <div id="liq1-body" style="padding:12px 14px;border-top:1px solid var(--bdr)">
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px">
-          <div style="font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.5px">Monat</div>
-          <div style="font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.5px">Einnahmen €</div>
-          <div style="font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.5px">Ausgaben €</div>
-        </div>
-        ${Array.from({length:12},(_,i)=>`
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px;align-items:center">
-          <div style="font-size:12px;font-weight:600;color:var(--p2)">Monat ${i+1}</div>
-          <input class="fi" id="liq1_ein${i+1}" type="number" min="0" placeholder="0" value="${fd['liq1_ein'+(i+1)]||''}" oninput="liqUpdate(1,${i+1})" style="height:32px;font-size:12px">
-          <input class="fi" id="liq1_aus${i+1}" type="number" min="0" placeholder="0" value="${fd['liq1_aus'+(i+1)]||''}" oninput="liqUpdate(1,${i+1})" style="height:32px;font-size:12px">
-        </div>`).join('')}
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;padding-top:8px;border-top:2px solid var(--a1)">
-          <div style="font-size:11px;font-weight:700;color:var(--p1)">Jahressumme</div>
-          <div id="liq1_sum_ein" style="font-size:13px;font-weight:700;color:#1a6b3c">0 €</div>
-          <div id="liq1_sum_aus" style="font-size:13px;font-weight:700;color:#a32d2d">0 €</div>
-        </div>
-        <div style="margin-top:8px;padding:8px 12px;border-radius:6px;background:var(--bg2);display:flex;justify-content:space-between;align-items:center">
-          <span style="font-size:11px;font-weight:700;color:var(--p1)">Liquiditätssaldo Jahr 1</span>
-          <span id="liq1_saldo" style="font-size:14px;font-weight:700;color:var(--p2)">0 €</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="fblock" style="margin-top:8px">
-      <div class="ftop" style="cursor:pointer;user-select:none" onclick="toggleLiquid(2)">
-        <div class="flabel">Jahr 2 – Monat 13 bis 24</div>
-        <span id="liq2-arrow" style="margin-left:auto;color:var(--a1);font-size:14px">▶</span>
-      </div>
-      <div id="liq2-body" style="display:none;padding:12px 14px;border-top:1px solid var(--bdr)">
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px">
-          <div style="font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.5px">Monat</div>
-          <div style="font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.5px">Einnahmen €</div>
-          <div style="font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.5px">Ausgaben €</div>
-        </div>
-        ${Array.from({length:12},(_,i)=>`
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px;align-items:center">
-          <div style="font-size:12px;font-weight:600;color:var(--p2)">Monat ${i+13}</div>
-          <input class="fi" id="liq2_ein${i+1}" type="number" min="0" placeholder="0" value="${fd['liq2_ein'+(i+1)]||''}" oninput="liqUpdate(2,${i+1})" style="height:32px;font-size:12px">
-          <input class="fi" id="liq2_aus${i+1}" type="number" min="0" placeholder="0" value="${fd['liq2_aus'+(i+1)]||''}" oninput="liqUpdate(2,${i+1})" style="height:32px;font-size:12px">
-        </div>`).join('')}
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;padding-top:8px;border-top:2px solid var(--a1)">
-          <div style="font-size:11px;font-weight:700;color:var(--p1)">Jahressumme</div>
-          <div id="liq2_sum_ein" style="font-size:13px;font-weight:700;color:#1a6b3c">0 €</div>
-          <div id="liq2_sum_aus" style="font-size:13px;font-weight:700;color:#a32d2d">0 €</div>
-        </div>
-        <div style="margin-top:8px;padding:8px 12px;border-radius:6px;background:var(--bg2);display:flex;justify-content:space-between;align-items:center">
-          <span style="font-size:11px;font-weight:700;color:var(--p1)">Liquiditätssaldo Jahr 2</span>
-          <span id="liq2_saldo" style="font-size:14px;font-weight:700;color:var(--p2)">0 €</span>
-        </div>
-      </div>
-    </div>
-
     <div class="fblock">
       <div class="ftop"><div class="flabel">Liquiditätsplanung – Erläuterungen</div></div>
       <div class="fhint">Ergänzende Hinweise zu Ihrer Liquiditätsplanung (optional)</div>
@@ -1660,37 +1601,6 @@ function closeAgb(){document.getElementById('agbModal').classList.remove('open')
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeAgb();closeExport();closeMenu();}});
 
 // Mobile Hamburger Menu
-function toggleLiquid(yr){
-  const body=document.getElementById('liq'+yr+'-body');
-  const arrow=document.getElementById('liq'+yr+'-arrow');
-  if(!body||!arrow) return;
-  const open=body.style.display!=='none';
-  body.style.display=open?'none':'block';
-  arrow.textContent=open?'▶':'▼';
-}
-
-function liqUpdate(yr, mon){
-  let sumEin=0, sumAus=0;
-  for(let i=1;i<=12;i++){
-    const ein=parseFloat(document.getElementById('liq'+yr+'_ein'+i)?.value)||0;
-    const aus=parseFloat(document.getElementById('liq'+yr+'_aus'+i)?.value)||0;
-    sumEin+=ein; sumAus+=aus;
-    window._finData['liq'+yr+'_ein'+i]=ein;
-    window._finData['liq'+yr+'_aus'+i]=aus;
-  }
-  const fmt=v=>v.toLocaleString('de-DE',{minimumFractionDigits:0,maximumFractionDigits:0})+' €';
-  const saldo=sumEin-sumAus;
-  const seEl=document.getElementById('liq'+yr+'_sum_ein');
-  const saEl=document.getElementById('liq'+yr+'_sum_aus');
-  const slEl=document.getElementById('liq'+yr+'_saldo');
-  if(seEl) seEl.textContent=fmt(sumEin);
-  if(saEl) saEl.textContent=fmt(sumAus);
-  if(slEl){
-    slEl.textContent=(saldo>=0?'+':'')+fmt(saldo);
-    slEl.style.color=saldo>=0?'#1a6b3c':'#a32d2d';
-  }
-}
-
 function toggleMenu(){
   const btn=document.getElementById('hamburgerBtn');
   const dd=document.getElementById('hdrDropdown');
