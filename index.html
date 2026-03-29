@@ -181,6 +181,7 @@ select.fi{cursor:pointer}
 /* FINANCE */
 .fin-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
 .fin-card{background:var(--sur);border-radius:12px;border:1px solid var(--bdr);padding:20px}
+.fin-section-title{font-size:13px;font-weight:700;color:var(--p1);text-transform:uppercase;letter-spacing:1px;border-bottom:2px solid var(--a1);padding-bottom:6px;margin:20px 0 12px;grid-column:1/-1}
 .fin-card-title{font-size:11px;font-weight:700;color:var(--p1);text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px;display:flex;align-items:center;gap:6px}
 .fin-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .fin-row label{font-size:12px;color:var(--mu);flex:1}
@@ -981,6 +982,7 @@ function buildSwot(panel) {
 ═══════════════════════ */
 function buildFinance(panel) {
   const fd = window._finData;
+  const s  = window._savedData;
   panel.innerHTML = `
     <div class="kpi-strip">
       <div class="kpi-box accent"><div class="kpi-val" id="kpi_rev">0 €</div><div class="kpi-label">Umsatz Jahr 3</div></div>
@@ -988,29 +990,97 @@ function buildFinance(panel) {
       <div class="kpi-box green"><div class="kpi-val" id="kpi_profit">0 €</div><div class="kpi-label">Gewinn Jahr 1</div></div>
       <div class="kpi-box"><div class="kpi-val" id="kpi_be">–</div><div class="kpi-label">Break-even</div></div>
     </div>
+
     <div class="fin-grid">
       <div class="fin-card">
         <div class="fin-card-title">📈 Umsatzplanung</div>
         ${['Jahr 1','Jahr 2','Jahr 3'].map((y,i)=>`<div class="fin-row"><label>${y}</label><input class="fin-input" id="rev${i+1}" type="number" min="0" placeholder="0" value="${fd['rev'+(i+1)]||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>`).join('')}
       </div>
       <div class="fin-card">
-        <div class="fin-card-title">🏗️ Investitionsplanung</div>
-        <div class="fin-row"><label>Investitionen gesamt</label><input class="fin-input" id="invest" type="number" min="0" placeholder="0" value="${fd.invest||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>davon Eigenkapital</label><input class="fin-input" id="eigen" type="number" min="0" placeholder="0" value="${fd.eigen||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>davon Fremdkapital</label><input class="fin-input" id="fremd" type="number" min="0" placeholder="0" value="${fd.fremd||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>davon Fördermittel</label><input class="fin-input" id="förder" type="number" min="0" placeholder="0" value="${fd.förder||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-card-title">🔒 Fixkosten / Monat</div>
+        ${['Jahr 1','Jahr 2','Jahr 3'].map((y,i)=>`<div class="fin-row"><label>${y}</label><input class="fin-input" id="fix${i+1}" type="number" min="0" placeholder="0" value="${fd['fix'+(i+1)]||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>`).join('')}
       </div>
     </div>
     <div class="fin-grid">
       <div class="fin-card">
-        <div class="fin-card-title">🔒 Fixkosten / Monat</div>
-        ${['Jahr 1','Jahr 2','Jahr 3'].map((y,i)=>`<div class="fin-row"><label>${y}</label><input class="fin-input" id="fix${i+1}" type="number" min="0" placeholder="0" value="${fd['fix'+(i+1)]||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>`).join('')}
-      </div>
-      <div class="fin-card">
         <div class="fin-card-title">📦 Variable Kosten / Monat</div>
         ${['Jahr 1','Jahr 2','Jahr 3'].map((y,i)=>`<div class="fin-row"><label>${y}</label><input class="fin-input" id="var${i+1}" type="number" min="0" placeholder="0" value="${fd['var'+(i+1)]||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>`).join('')}
       </div>
+      <div class="fin-card">
+        <div class="fin-card-title">👤 Unternehmerlohn / Privatentnahme</div>
+        <div class="fin-row"><label>Monatliche Entnahme Jahr 1</label><input class="fin-input" id="entnahme1" type="number" min="0" placeholder="0" value="${fd.entnahme1||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row"><label>Monatliche Entnahme Jahr 2</label><input class="fin-input" id="entnahme2" type="number" min="0" placeholder="0" value="${fd.entnahme2||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row"><label>Monatliche Entnahme Jahr 3</label><input class="fin-input" id="entnahme3" type="number" min="0" placeholder="0" value="${fd.entnahme3||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-hint" style="font-size:11px;color:#888;padding:4px 0">Wird in Fixkosten eingerechnet</div>
+      </div>
     </div>
+
+    <div class="fin-section-title">🏗️ Investitionsplan & Gründungskosten</div>
+    <div class="fin-grid">
+      <div class="fin-card">
+        <div class="fin-card-title">Gründungsbedingte Kosten</div>
+        <div class="fin-row"><label>Gründungsberatung</label><input class="fin-input" id="inv_beratung" type="number" min="0" placeholder="0" value="${fd.inv_beratung||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row"><label>Steuerberater (Erstberatung)</label><input class="fin-input" id="inv_steuer" type="number" min="0" placeholder="0" value="${fd.inv_steuer||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row"><label>Gewerbeanmeldung</label><input class="fin-input" id="inv_gewerbe" type="number" min="0" placeholder="0" value="${fd.inv_gewerbe||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row"><label>Notarkosten / Handelsregister</label><input class="fin-input" id="inv_notar" type="number" min="0" placeholder="0" value="${fd.inv_notar||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row"><label>Markenschutz / Patent</label><input class="fin-input" id="inv_marke" type="number" min="0" placeholder="0" value="${fd.inv_marke||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row"><label>Sonstige Gründungskosten</label><input class="fin-input" id="inv_sonst" type="number" min="0" placeholder="0" value="${fd.inv_sonst||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+      </div>
+      <div class="fin-card">
+        <div class="fin-card-title">Sachinvestitionen</div>
+        <div class="fin-row"><label>Maschinen / Geräte</label><input class="fin-input" id="inv_masch" type="number" min="0" placeholder="0" value="${fd.inv_masch||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row"><label>Fahrzeuge</label><input class="fin-input" id="inv_fahr" type="number" min="0" placeholder="0" value="${fd.inv_fahr||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row"><label>Büroausstattung / IT</label><input class="fin-input" id="inv_buero" type="number" min="0" placeholder="0" value="${fd.inv_buero||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row"><label>Ladenausbau / Mietereinbauten</label><input class="fin-input" id="inv_laden" type="number" min="0" placeholder="0" value="${fd.inv_laden||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row"><label>Website / Software</label><input class="fin-input" id="inv_sw" type="number" min="0" placeholder="0" value="${fd.inv_sw||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row"><label>Sonstige Investitionen</label><input class="fin-input" id="inv_rest" type="number" min="0" placeholder="0" value="${fd.inv_rest||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row" style="border-top:1px solid var(--bdr);margin-top:6px;padding-top:6px"><label><strong>Investitionen gesamt</strong></label><span class="fin-input" id="invest_sum" style="background:var(--bg2);display:flex;align-items:center;padding:0 10px;border-radius:6px;font-weight:700;color:var(--p2)">0</span><span class="fin-unit">€</span></div>
+      </div>
+    </div>
+
+    <div class="fin-section-title">📉 Abschreibungen (AfA)</div>
+    <div class="fin-card" style="margin-bottom:16px">
+      <div class="fin-card-title">Lineare Abschreibung – Wirtschaftsgüter</div>
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:6px;margin-bottom:8px;font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.5px">
+        <span>Wirtschaftsgut</span><span>Anschaffung €</span><span>Nutzung (J.)</span><span>AfA/Jahr €</span><span>AfA/Monat €</span>
+      </div>
+      ${[1,2,3,4,5].map(i=>`
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:6px;margin-bottom:6px;align-items:center">
+        <input class="fin-input" style="font-size:12px" id="afa_name${i}" type="text" placeholder="z.B. Laptop" value="${fd['afa_name'+i]||''}" oninput="afaUpdate()">
+        <input class="fin-input" style="font-size:12px" id="afa_wert${i}" type="number" min="0" placeholder="0" value="${fd['afa_wert'+i]||''}" oninput="afaUpdate()">
+        <input class="fin-input" style="font-size:12px" id="afa_nd${i}" type="number" min="1" max="25" placeholder="3" value="${fd['afa_nd'+i]||''}" oninput="afaUpdate()">
+        <span class="fin-input" id="afa_jahr${i}" style="background:var(--bg2);display:flex;align-items:center;padding:0 8px;font-size:12px;color:var(--p2);font-weight:700">0</span>
+        <span class="fin-input" id="afa_mon${i}" style="background:var(--bg2);display:flex;align-items:center;padding:0 8px;font-size:12px;color:var(--mu)">0</span>
+      </div>`).join('')}
+      <div style="display:flex;gap:12px;margin-top:8px;padding-top:8px;border-top:1px solid var(--bdr);font-size:12px;font-weight:700;color:var(--p2)">
+        <span>Gesamt AfA / Jahr: <span id="afa_sum_jahr">0 €</span></span>
+        <span style="margin-left:16px">Gesamt AfA / Monat: <span id="afa_sum_mon">0 €</span></span>
+      </div>
+    </div>
+
+    <div class="fin-section-title">💰 Kapitalbedarf & Finanzierung</div>
+    <div class="fin-grid">
+      <div class="fin-card">
+        <div class="fin-card-title">Eigenkapital-Quellen</div>
+        <div class="fin-row"><label>Barvermögen</label><input class="fin-input" id="ek_bar" type="number" min="0" placeholder="0" value="${fd.ek_bar||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row"><label>Bankguthaben</label><input class="fin-input" id="ek_bank" type="number" min="0" placeholder="0" value="${fd.ek_bank||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row"><label>Betriebsnotwendige Sacheinlagen</label><input class="fin-input" id="ek_sach" type="number" min="0" placeholder="0" value="${fd.ek_sach||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row"><label>Verwandtendarlehen / Schenkungen</label><input class="fin-input" id="ek_verwandt" type="number" min="0" placeholder="0" value="${fd.ek_verwandt||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row"><label>Sonstiges Eigenkapital</label><input class="fin-input" id="ek_sonst" type="number" min="0" placeholder="0" value="${fd.ek_sonst||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row" style="border-top:1px solid var(--bdr);margin-top:6px;padding-top:6px"><label><strong>Eigenkapital gesamt</strong></label><span class="fin-input" id="ek_sum" style="background:var(--bg2);display:flex;align-items:center;padding:0 10px;border-radius:6px;font-weight:700;color:var(--p2)">0</span><span class="fin-unit">€</span></div>
+      </div>
+      <div class="fin-card">
+        <div class="fin-card-title">Fremdkapital & Fördermittel</div>
+        <div class="fin-row"><label>Bankdarlehen</label><input class="fin-input" id="fk_bank" type="number" min="0" placeholder="0" value="${fd.fk_bank||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row"><label>KfW-Kredit</label><input class="fin-input" id="fk_kfw" type="number" min="0" placeholder="0" value="${fd.fk_kfw||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row"><label>Gründungszuschuss (AfA)</label><input class="fin-input" id="fk_gz" type="number" min="0" placeholder="0" value="${fd.fk_gz||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row"><label>Einstiegsgeld / AVGS</label><input class="fin-input" id="fk_avgs" type="number" min="0" placeholder="0" value="${fd.fk_avgs||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row"><label>Sonstige Förderungen</label><input class="fin-input" id="fk_sonst" type="number" min="0" placeholder="0" value="${fd.fk_sonst||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-row" style="border-top:1px solid var(--bdr);margin-top:6px;padding-top:6px"><label><strong>Fremdkapital gesamt</strong></label><span class="fin-input" id="fk_sum" style="background:var(--bg2);display:flex;align-items:center;padding:0 10px;border-radius:6px;font-weight:700;color:var(--p2)">0</span><span class="fin-unit">€</span></div>
+        <div class="fin-row" style="margin-top:6px"><label><strong>Kapitalbedarf gesamt</strong></label><span class="fin-input" id="invest_total" style="background:var(--bdr);display:flex;align-items:center;padding:0 10px;border-radius:6px;font-weight:700;color:var(--p1)">0</span><span class="fin-unit">€</span></div>
+      </div>
+    </div>
+
     <div class="charts-row">
       <div class="chart-wrap"><div class="chart-title">📊 Umsatz vs. Kosten</div><canvas id="chartRevCost" height="180"></canvas></div>
       <div class="chart-wrap"><div class="chart-title">💰 Gewinn / Verlust</div><canvas id="chartProfit" height="180"></canvas></div>
@@ -1019,25 +1089,143 @@ function buildFinance(panel) {
       <div class="chart-wrap"><div class="chart-title">🏦 Finanzierungsstruktur</div><canvas id="chartFunding" height="180"></canvas></div>
       <div class="chart-wrap"><div class="chart-title">📉 Break-even-Verlauf</div><canvas id="chartBE" height="180"></canvas></div>
     </div>
+    <div class="fin-section-title">📅 Monatliche Liquiditätsplanung</div>
     <div class="fblock">
-      <div class="ftop"><div class="flabel">Liquiditätsplanung</div></div>
-      <div class="fhint">Wie stellen Sie sicher, zu jedem Zeitpunkt zahlungsfähig zu bleiben?</div>
-      <textarea class="fta" id="fin_liquid" rows="4" placeholder="Hier eingeben…" oninput="onInput('fin_liquid',this)">${window._savedData.fin_liquid||''}</textarea>
-      <div class="ffoot"><span class="fcc" id="cc_fin_liquid">${(window._savedData.fin_liquid||'').length} Zeichen</span></div>
+      <div class="ftop" style="cursor:pointer;user-select:none" onclick="toggleLiquid(1)">
+        <div class="flabel">Jahr 1 – Monat 1 bis 12</div>
+        <span id="liq1-arrow" style="margin-left:auto;color:var(--a1);font-size:14px">▼</span>
+      </div>
+      <div id="liq1-body" style="padding:12px 14px;border-top:1px solid var(--bdr)">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px">
+          <div style="font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.5px">Monat</div>
+          <div style="font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.5px">Einnahmen €</div>
+          <div style="font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.5px">Ausgaben €</div>
+        </div>
+        ${Array.from({length:12},(_,i)=>`
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px;align-items:center">
+          <div style="font-size:12px;font-weight:600;color:var(--p2)">Monat ${i+1}</div>
+          <input class="fi" id="liq1_ein${i+1}" type="number" min="0" placeholder="0" value="${fd['liq1_ein'+(i+1)]||''}" oninput="liqUpdate(1,${i+1})" style="height:32px;font-size:12px">
+          <input class="fi" id="liq1_aus${i+1}" type="number" min="0" placeholder="0" value="${fd['liq1_aus'+(i+1)]||''}" oninput="liqUpdate(1,${i+1})" style="height:32px;font-size:12px">
+        </div>`).join('')}
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;padding-top:8px;border-top:2px solid var(--a1)">
+          <div style="font-size:11px;font-weight:700;color:var(--p1)">Jahressumme</div>
+          <div id="liq1_sum_ein" style="font-size:13px;font-weight:700;color:#1a6b3c">0 €</div>
+          <div id="liq1_sum_aus" style="font-size:13px;font-weight:700;color:#a32d2d">0 €</div>
+        </div>
+        <div style="margin-top:8px;padding:8px 12px;border-radius:6px;background:var(--bg2);display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:11px;font-weight:700;color:var(--p1)">Liquiditätssaldo Jahr 1</span>
+          <span id="liq1_saldo" style="font-size:14px;font-weight:700;color:var(--p2)">0 €</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fblock" style="margin-top:8px">
+      <div class="ftop" style="cursor:pointer;user-select:none" onclick="toggleLiquid(2)">
+        <div class="flabel">Jahr 2 – Monat 13 bis 24</div>
+        <span id="liq2-arrow" style="margin-left:auto;color:var(--a1);font-size:14px">▶</span>
+      </div>
+      <div id="liq2-body" style="display:none;padding:12px 14px;border-top:1px solid var(--bdr)">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px">
+          <div style="font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.5px">Monat</div>
+          <div style="font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.5px">Einnahmen €</div>
+          <div style="font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.5px">Ausgaben €</div>
+        </div>
+        ${Array.from({length:12},(_,i)=>`
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px;align-items:center">
+          <div style="font-size:12px;font-weight:600;color:var(--p2)">Monat ${i+13}</div>
+          <input class="fi" id="liq2_ein${i+1}" type="number" min="0" placeholder="0" value="${fd['liq2_ein'+(i+1)]||''}" oninput="liqUpdate(2,${i+1})" style="height:32px;font-size:12px">
+          <input class="fi" id="liq2_aus${i+1}" type="number" min="0" placeholder="0" value="${fd['liq2_aus'+(i+1)]||''}" oninput="liqUpdate(2,${i+1})" style="height:32px;font-size:12px">
+        </div>`).join('')}
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;padding-top:8px;border-top:2px solid var(--a1)">
+          <div style="font-size:11px;font-weight:700;color:var(--p1)">Jahressumme</div>
+          <div id="liq2_sum_ein" style="font-size:13px;font-weight:700;color:#1a6b3c">0 €</div>
+          <div id="liq2_sum_aus" style="font-size:13px;font-weight:700;color:#a32d2d">0 €</div>
+        </div>
+        <div style="margin-top:8px;padding:8px 12px;border-radius:6px;background:var(--bg2);display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:11px;font-weight:700;color:var(--p1)">Liquiditätssaldo Jahr 2</span>
+          <span id="liq2_saldo" style="font-size:14px;font-weight:700;color:var(--p2)">0 €</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fblock">
+      <div class="ftop"><div class="flabel">Liquiditätsplanung – Erläuterungen</div></div>
+      <div class="fhint">Ergänzende Hinweise zu Ihrer Liquiditätsplanung (optional)</div>
+      <textarea class="fta" id="fin_liquid" rows="3" placeholder="Hier eingeben…" oninput="onInput('fin_liquid',this)">${s.fin_liquid||''}</textarea>
+      <div class="ffoot"><span class="fcc" id="cc_fin_liquid">${(s.fin_liquid||'').length} Zeichen</span></div>
     </div>
     <div class="fblock">
-      <div class="ftop"><div class="flabel">Rentabilitätsvorschau &amp; Annahmen</div></div>
+      <div class="ftop"><div class="flabel">Rentabilitätsvorschau & Annahmen</div></div>
       <div class="fhint">Erläutern Sie die Annahmen hinter Ihren Zahlen.</div>
-      <textarea class="fta" id="fin_rent" rows="4" placeholder="Hier eingeben…" oninput="onInput('fin_rent',this)">${window._savedData.fin_rent||''}</textarea>
-      <div class="ffoot"><span class="fcc" id="cc_fin_rent">${(window._savedData.fin_rent||'').length} Zeichen</span></div>
+      <textarea class="fta" id="fin_rent" rows="4" placeholder="Hier eingeben…" oninput="onInput('fin_rent',this)">${s.fin_rent||''}</textarea>
+      <div class="ffoot"><span class="fcc" id="cc_fin_rent">${(s.fin_rent||'').length} Zeichen</span></div>
     </div>`;
+  afaUpdate();
   setTimeout(finUpdate,100);
+}
+
+
+function afaUpdate() {
+  let sumJ=0, sumM=0;
+  [1,2,3,4,5].forEach(i=>{
+    const w=parseFloat(document.getElementById('afa_wert'+i)?.value)||0;
+    const n=parseFloat(document.getElementById('afa_nd'+i)?.value)||0;
+    const j=n>0?Math.round(w/n):0;
+    const m=n>0?Math.round(w/n/12):0;
+    const jEl=document.getElementById('afa_jahr'+i);
+    const mEl=document.getElementById('afa_mon'+i);
+    if(jEl) jEl.textContent=j.toLocaleString('de-DE');
+    if(mEl) mEl.textContent=m.toLocaleString('de-DE');
+    sumJ+=j; sumM+=m;
+    // Werte speichern
+    const nd=document.getElementById('afa_nd'+i);
+    const nm=document.getElementById('afa_name'+i);
+    const wv=document.getElementById('afa_wert'+i);
+    if(nd) window._finData['afa_nd'+i]=nd.value;
+    if(nm) window._finData['afa_name'+i]=nm.value;
+    if(wv) window._finData['afa_wert'+i]=wv.value;
+  });
+  const sj=document.getElementById('afa_sum_jahr');
+  const sm=document.getElementById('afa_sum_mon');
+  if(sj) sj.textContent=sumJ.toLocaleString('de-DE')+' €';
+  if(sm) sm.textContent=sumM.toLocaleString('de-DE')+' €';
+  window._finData.afa_total_jahr=sumJ;
+  window._finData.afa_total_mon=sumM;
 }
 
 function finUpdate() {
   const g = id => parseFloat(document.getElementById(id)?.value)||0;
   const fd = window._finData;
-  ['rev1','rev2','rev3','fix1','fix2','fix3','var1','var2','var3','invest','eigen','fremd','förder'].forEach(k=>{fd[k]=g(k);});
+  // Standard-Felder lesen
+  ['rev1','rev2','rev3','fix1','fix2','fix3','var1','var2','var3'].forEach(k=>{fd[k]=g(k);});
+  ['entnahme1','entnahme2','entnahme3'].forEach(k=>{fd[k]=g(k);});
+
+  // Investitionssumme berechnen
+  const invIds=['inv_beratung','inv_steuer','inv_gewerbe','inv_notar','inv_marke','inv_sonst','inv_masch','inv_fahr','inv_buero','inv_laden','inv_sw','inv_rest'];
+  let invSum=0;
+  invIds.forEach(id=>{const el=document.getElementById(id);if(el){fd[id]=parseFloat(el.value)||0;invSum+=fd[id];}});
+  const invEl=document.getElementById('invest_sum');
+  if(invEl) invEl.textContent=invSum.toLocaleString('de-DE');
+  fd.invest=invSum;
+
+  // EK-Summe
+  const ekIds=['ek_bar','ek_bank','ek_sach','ek_verwandt','ek_sonst'];
+  let ekSum=0;
+  ekIds.forEach(id=>{const el=document.getElementById(id);if(el){fd[id]=parseFloat(el.value)||0;ekSum+=fd[id];}});
+  const ekEl=document.getElementById('ek_sum');
+  if(ekEl) ekEl.textContent=ekSum.toLocaleString('de-DE');
+  fd.eigen=ekSum;
+
+  // FK-Summe
+  const fkIds=['fk_bank','fk_kfw','fk_gz','fk_avgs','fk_sonst'];
+  let fkSum=0;
+  fkIds.forEach(id=>{const el=document.getElementById(id);if(el){fd[id]=parseFloat(el.value)||0;fkSum+=fd[id];}});
+  const fkEl=document.getElementById('fk_sum');
+  if(fkEl) fkEl.textContent=fkSum.toLocaleString('de-DE');
+  fd.fremd=fkSum;
+  fd.förder=fd.fk_gz||0;
+  const totalEl=document.getElementById('invest_total');
+  if(totalEl) totalEl.textContent=(ekSum+fkSum).toLocaleString('de-DE');
   const fmt = v => v>=1000000?(v/1000000).toFixed(1)+'M €':v>=1000?(v/1000).toFixed(0)+'T €':v.toFixed(0)+' €';
   const c1=(fd.fix1+fd.var1)*12,c2=(fd.fix2+fd.var2)*12,c3=(fd.fix3+fd.var3)*12;
   const p1=fd.rev1-c1,p2=fd.rev2-c2,p3=fd.rev3-c3;
@@ -1072,7 +1260,22 @@ function saveCurrentFields() {
     return;
   }
   if(!ch.isSwot&&!ch.isFinance&&ch.fields) ch.fields.forEach(f=>{const el=document.getElementById(f.id);if(el)window._savedData[f.id]=el.value;});
-  if(ch.isFinance){['rev1','rev2','rev3','fix1','fix2','fix3','var1','var2','var3','invest','eigen','fremd','förder'].forEach(k=>{const el=document.getElementById(k);if(el)window._finData[k]=parseFloat(el.value)||0;});['fin_liquid','fin_rent'].forEach(k=>{const el=document.getElementById(k);if(el)window._savedData[k]=el.value;});}
+  if(ch.isFinance){
+    const allFinIds=['rev1','rev2','rev3','fix1','fix2','fix3','var1','var2','var3',
+      'entnahme1','entnahme2','entnahme3',
+      'inv_beratung','inv_steuer','inv_gewerbe','inv_notar','inv_marke','inv_sonst',
+      'inv_masch','inv_fahr','inv_buero','inv_laden','inv_sw','inv_rest',
+      'ek_bar','ek_bank','ek_sach','ek_verwandt','ek_sonst',
+      'fk_bank','fk_kfw','fk_gz','fk_avgs','fk_sonst'];
+    allFinIds.forEach(k=>{const el=document.getElementById(k);if(el)window._finData[k]=parseFloat(el.value)||0;});
+    for(let i=1;i<=5;i++){
+      ['afa_name','afa_wert','afa_nd'].forEach(pre=>{const el=document.getElementById(pre+i);if(el)window._finData[pre+i]=el.value;});
+    }
+    afaUpdate();
+    // Liquiditätswerte speichern
+    for(let yr=1;yr<=2;yr++){for(let i=1;i<=12;i++){
+      ['ein','aus'].forEach(t=>{const el=document.getElementById('liq'+yr+'_'+t+i);if(el)window._finData['liq'+yr+'_'+t+i]=parseFloat(el.value)||0;});
+    }}['fin_liquid','fin_rent'].forEach(k=>{const el=document.getElementById(k);if(el)window._savedData[k]=el.value;});}
   const any=ch.isSwot?['sw_s','sw_w','sw_o','sw_t'].some(k=>(window._savedData[k]||'').trim().length>5):ch.isFinance?(window._finData.rev1>0):ch.fields?.some(f=>(window._savedData[f.id]||'').trim().length>5);
   if(any)window._doneSet.add(currentChapter);
 }
@@ -1145,7 +1348,31 @@ function dlTXT() {
       }
     }
     else if(ch.isSwot){['sw_s','sw_w','sw_o','sw_t'].forEach(k=>{const h={sw_s:'Stärken',sw_w:'Schwächen',sw_o:'Chancen',sw_t:'Risiken'};out+=`${h[k]}\n${window._savedData[k]||'–'}\n\n`;});}
-    else if(ch.isFinance){const fd=window._finData;out+=`Umsatz: J1=${fd.rev1}€ J2=${fd.rev2}€ J3=${fd.rev3}€\nFixkosten/Mo: J1=${fd.fix1}€ J2=${fd.fix2}€ J3=${fd.fix3}€\n`;}
+    else if(ch.isFinance){
+      const fd=window._finData;
+      const c1=(fd.fix1+fd.var1+(fd.entnahme1||0))*12, c2=(fd.fix2+fd.var2+(fd.entnahme2||0))*12, c3=(fd.fix3+fd.var3+(fd.entnahme3||0))*12;
+      const fmt=v=>Number(v||0).toLocaleString('de-DE')+'€';
+      out+='UMSATZ- UND ERTRAGSPLANUNG\n';
+      out+=`Umsatz: J1=${fmt(fd.rev1)} | J2=${fmt(fd.rev2)} | J3=${fmt(fd.rev3)}\n`;
+      out+=`Gesamtkosten: J1=${fmt(c1)} | J2=${fmt(c2)} | J3=${fmt(c3)}\n`;
+      out+=`Jahresüberschuss: J1=${fmt(fd.rev1-c1)} | J2=${fmt(fd.rev2-c2)} | J3=${fmt(fd.rev3-c3)}\n`;
+      out+=`Unternehmerlohn/Mo: J1=${fmt(fd.entnahme1||0)} | J2=${fmt(fd.entnahme2||0)} | J3=${fmt(fd.entnahme3||0)}\n\n`;
+      out+='INVESTITIONSPLAN\n';
+      [['Gründungsberatung','inv_beratung'],['Steuerberater','inv_steuer'],['Gewerbeanmeldung','inv_gewerbe'],
+       ['Notarkosten','inv_notar'],['Markenschutz','inv_marke'],['Maschinen/Geräte','inv_masch'],
+       ['Büro/IT','inv_buero'],['Fahrzeuge','inv_fahr'],['Ladenausbau','inv_laden'],['Website/Software','inv_sw'],
+       ['Sonstiges Investition','inv_rest']].forEach(([l,k])=>{if(fd[k])out+=`${l}: ${fmt(fd[k])}\n`;});
+      out+=`Investitionen gesamt: ${fmt(fd.invest||0)}\n\n`;
+      out+='ABSCHREIBUNGEN (AfA)\n';
+      for(let i=1;i<=5;i++){if(fd['afa_wert'+i]&&fd['afa_nd'+i]){const j=Math.round((fd['afa_wert'+i]||0)/(fd['afa_nd'+i]||1));out+=`${fd['afa_name'+i]||'Wirtschaftsgut '+i}: ${fmt(fd['afa_wert'+i])} / ${fd['afa_nd'+i]} Jahre = AfA ${fmt(j)}/Jahr\n`;}}
+      if(fd.afa_total_jahr) out+=`Gesamt AfA/Jahr: ${fmt(fd.afa_total_jahr)}\n\n`;
+      out+='KAPITALBEDARF & FINANZIERUNG\n';
+      out+=`Eigenkapital: ${fmt(fd.eigen||0)} (Bar: ${fmt(fd.ek_bar||0)}, Bank: ${fmt(fd.ek_bank||0)}, Sacheinlagen: ${fmt(fd.ek_sach||0)}, Verwandte: ${fmt(fd.ek_verwandt||0)})\n`;
+      out+=`Fremdkapital: ${fmt(fd.fremd||0)} (Bank: ${fmt(fd.fk_bank||0)}, KfW: ${fmt(fd.fk_kfw||0)}, Gründungszuschuss: ${fmt(fd.fk_gz||0)}, AVGS: ${fmt(fd.fk_avgs||0)})\n`;
+      out+=`Gesamtkapitalbedarf: ${fmt((fd.eigen||0)+(fd.fremd||0))}\n\n`;
+      out+='LIQUIDITÄTSPLANUNG (MONATLICH)\n';
+      for(let yr=1;yr<=2;yr++){out+=`Jahr ${yr}:\n`;for(let i=1;i<=12;i++){const ein=fd['liq'+yr+'_ein'+i]||0;const aus=fd['liq'+yr+'_aus'+i]||0;if(ein||aus)out+=`  Monat ${(yr-1)*12+i}: Einnahmen ${fmt(ein)} | Ausgaben ${fmt(aus)} | Saldo ${fmt(ein-aus)}\n`;}out+='\n';}
+    }
     else ch.fields?.forEach(f=>{out+=`${f.label}\n${window._savedData[f.id]||'–'}\n\n`;});
   });
   const a=document.createElement('a');
@@ -1325,6 +1552,94 @@ function dlPDF() {
         doc.splitTextToSize(s.fin_rent,maxW-4).forEach(line=>{if(y>272){y=newPage();}doc.text(line,mg+2,y);y+=5;});y+=4;
       }
 
+      // Tabelle 3: Investitionsplan
+      const invRows=[['Gründungsbedingte Kosten','Betrag (€)'],
+        ...[['Gründungsberatung','inv_beratung'],['Steuerberater','inv_steuer'],['Gewerbeanmeldung','inv_gewerbe'],
+            ['Notarkosten','inv_notar'],['Markenschutz','inv_marke'],['Sonstige Gründungskosten','inv_sonst']]
+           .filter(([l,k])=>fd[k]>0).map(([l,k])=>[l,Number(fd[k]).toLocaleString('de-DE')]),
+        ...[['Maschinen / Geräte','inv_masch'],['Fahrzeuge','inv_fahr'],['Büroausstattung / IT','inv_buero'],
+            ['Ladenausbau','inv_laden'],['Website / Software','inv_sw'],['Sonstige Investitionen','inv_rest']]
+           .filter(([l,k])=>fd[k]>0).map(([l,k])=>[l,Number(fd[k]).toLocaleString('de-DE')]),
+        ['Investitionen gesamt', Number(fd.invest||0).toLocaleString('de-DE')],
+      ];
+      if(invRows.length>1){
+        doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(...cD);
+        doc.text('INVESTITIONSPLAN & GRÜNDUNGSKOSTEN (IN €)',mg,y);
+        doc.setDrawColor(...cP);doc.setLineWidth(0.3);doc.line(mg,y+1.5,mg+maxW,y+1.5);y+=5;
+        y=drawTable(invRows,[120,50],y);
+      }
+
+      // Tabelle 4: AfA
+      const afaRows=[['Wirtschaftsgut','Anschaffung €','Nutzung','AfA/Jahr €']];
+      let afaTotalJ=0;
+      for(let i=1;i<=5;i++){const w=parseFloat(fd['afa_wert'+i])||0;const n=parseFloat(fd['afa_nd'+i])||0;const j=n>0?Math.round(w/n):0;if(w&&n){afaRows.push([fd['afa_name'+i]||'Wirtschaftsgut '+i,Number(w).toLocaleString('de-DE'),n+' J.',Number(j).toLocaleString('de-DE')]);afaTotalJ+=j;}}
+      if(afaRows.length>1){afaRows.push(['Gesamt AfA','-','-',Number(afaTotalJ).toLocaleString('de-DE')]);
+        doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(...cD);
+        doc.text('ABSCHREIBUNGSPLAN (AfA)',mg,y);
+        doc.setDrawColor(...cP);doc.setLineWidth(0.3);doc.line(mg,y+1.5,mg+maxW,y+1.5);y+=5;
+        y=drawTable(afaRows,[80,30,22,38],y);
+      }
+
+      // Tabelle 5: Unternehmerlohn
+      if((fd.entnahme1||fd.entnahme2||fd.entnahme3)){
+        const entRows=[['Unternehmerlohn / Privatentnahme','Jahr 1','Jahr 2','Jahr 3'],
+          ['Monatliche Entnahme',fmt(fd.entnahme1||0),fmt(fd.entnahme2||0),fmt(fd.entnahme3||0)],
+          ['Jährliche Entnahme',fmt((fd.entnahme1||0)*12),fmt((fd.entnahme2||0)*12),fmt((fd.entnahme3||0)*12)],
+        ];
+        doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(...cD);
+        doc.text('UNTERNEHMERLOHN / PRIVATENTNAHME (IN €)',mg,y);
+        doc.setDrawColor(...cP);doc.setLineWidth(0.3);doc.line(mg,y+1.5,mg+maxW,y+1.5);y+=5;
+        y=drawTable(entRows,[80,28,28,34],y);
+      }
+
+      // Tabelle 6: Kapitalbedarf
+      const kapRows=[['Finanzierungsquelle','Betrag €','Anteil'],
+        ['Eigenkapital gesamt',Number(fd.eigen||0).toLocaleString('de-DE'),totalFin>0?((fd.eigen||0)/totalFin*100).toFixed(1)+' %':'–'],
+        ...(fd.ek_bar>0?[[' davon Barvermögen',Number(fd.ek_bar).toLocaleString('de-DE'),'']]:  []),
+        ...(fd.ek_bank>0?[[' davon Bankguthaben',Number(fd.ek_bank).toLocaleString('de-DE'),'']]:  []),
+        ...(fd.ek_sach>0?[[' davon Sacheinlagen',Number(fd.ek_sach).toLocaleString('de-DE'),'']]:  []),
+        ...(fd.ek_verwandt>0?[[' davon Verwandtendarlehen',Number(fd.ek_verwandt).toLocaleString('de-DE'),'']]:  []),
+        ['Fremdkapital gesamt',Number(fd.fremd||0).toLocaleString('de-DE'),totalFin>0?((fd.fremd||0)/totalFin*100).toFixed(1)+' %':'–'],
+        ...(fd.fk_bank>0?[[' davon Bankdarlehen',Number(fd.fk_bank).toLocaleString('de-DE'),'']]:  []),
+        ...(fd.fk_kfw>0?[[' davon KfW-Kredit',Number(fd.fk_kfw).toLocaleString('de-DE'),'']]:  []),
+        ...(fd.fk_gz>0?[[' davon Gründungszuschuss',Number(fd.fk_gz).toLocaleString('de-DE'),'']]:  []),
+        ...(fd.fk_avgs>0?[[' davon AVGS/Einstiegsgeld',Number(fd.fk_avgs).toLocaleString('de-DE'),'']]:  []),
+        ['Gesamtkapitalbedarf',Number(totalFin).toLocaleString('de-DE'),'100,0 %'],
+      ];
+      doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(...cD);
+      doc.text('KAPITALBEDARF & FINANZIERUNGSSTRUKTUR (IN €)',mg,y);
+      doc.setDrawColor(...cP);doc.setLineWidth(0.3);doc.line(mg,y+1.5,mg+maxW,y+1.5);y+=5;
+      y=drawTable(kapRows,[100,36,34],y);
+
+      // Tabelle 7: Liquidität monatlich (nur wenn Daten vorhanden)
+      let hasLiq=false;
+      for(let i=1;i<=12;i++){if((fd['liq1_ein'+i]||0)+(fd['liq1_aus'+i]||0)>0){hasLiq=true;break;}}
+      if(hasLiq){
+        y=newPage();
+        const liqRows=[['Monat','Einnahmen €','Ausgaben €','Saldo €']];
+        for(let i=1;i<=12;i++){const ein=fd['liq1_ein'+i]||0;const aus=fd['liq1_aus'+i]||0;liqRows.push(['Monat '+i,Number(ein).toLocaleString('de-DE'),Number(aus).toLocaleString('de-DE'),Number(ein-aus).toLocaleString('de-DE')]);}
+        const sumE1=Array.from({length:12},(_,i)=>fd['liq1_ein'+(i+1)]||0).reduce((a,b)=>a+b,0);
+        const sumA1=Array.from({length:12},(_,i)=>fd['liq1_aus'+(i+1)]||0).reduce((a,b)=>a+b,0);
+        liqRows.push(['Jahressumme J1',Number(sumE1).toLocaleString('de-DE'),Number(sumA1).toLocaleString('de-DE'),Number(sumE1-sumA1).toLocaleString('de-DE')]);
+        doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(...cD);
+        doc.text('MONATLICHE LIQUIDITÄTSPLANUNG – JAHR 1 (IN €)',mg,y);
+        doc.setDrawColor(...cP);doc.setLineWidth(0.3);doc.line(mg,y+1.5,mg+maxW,y+1.5);y+=5;
+        y=drawTable(liqRows,[40,42,42,46],y);
+        // Jahr 2
+        let hasLiq2=false;for(let i=1;i<=12;i++){if((fd['liq2_ein'+i]||0)+(fd['liq2_aus'+i]||0)>0){hasLiq2=true;break;}}
+        if(hasLiq2){
+          const liq2Rows=[['Monat','Einnahmen €','Ausgaben €','Saldo €']];
+          for(let i=1;i<=12;i++){const ein=fd['liq2_ein'+i]||0;const aus=fd['liq2_aus'+i]||0;liq2Rows.push(['Monat '+(i+12),Number(ein).toLocaleString('de-DE'),Number(aus).toLocaleString('de-DE'),Number(ein-aus).toLocaleString('de-DE')]);}
+          const sumE2=Array.from({length:12},(_,i)=>fd['liq2_ein'+(i+1)]||0).reduce((a,b)=>a+b,0);
+          const sumA2=Array.from({length:12},(_,i)=>fd['liq2_aus'+(i+1)]||0).reduce((a,b)=>a+b,0);
+          liq2Rows.push(['Jahressumme J2',Number(sumE2).toLocaleString('de-DE'),Number(sumA2).toLocaleString('de-DE'),Number(sumE2-sumA2).toLocaleString('de-DE')]);
+          doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(...cD);
+          doc.text('MONATLICHE LIQUIDITÄTSPLANUNG – JAHR 2 (IN €)',mg,y);
+          doc.setDrawColor(...cP);doc.setLineWidth(0.3);doc.line(mg,y+1.5,mg+maxW,y+1.5);y+=5;
+          y=drawTable(liq2Rows,[40,42,42,46],y);
+        }
+      }
+
       // Hinweis
       doc.setFont('helvetica','italic');doc.setFontSize(7);doc.setTextColor(...cMu);
       const hinweis='Alle Angaben sind Planwerte und stellen keine Garantie für tatsächliche Ergebnisse dar. Die Finanzplanung basiert auf realistischen Marktannahmen.';
@@ -1345,6 +1660,37 @@ function closeAgb(){document.getElementById('agbModal').classList.remove('open')
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeAgb();closeExport();closeMenu();}});
 
 // Mobile Hamburger Menu
+function toggleLiquid(yr){
+  const body=document.getElementById('liq'+yr+'-body');
+  const arrow=document.getElementById('liq'+yr+'-arrow');
+  if(!body||!arrow) return;
+  const open=body.style.display!=='none';
+  body.style.display=open?'none':'block';
+  arrow.textContent=open?'▶':'▼';
+}
+
+function liqUpdate(yr, mon){
+  let sumEin=0, sumAus=0;
+  for(let i=1;i<=12;i++){
+    const ein=parseFloat(document.getElementById('liq'+yr+'_ein'+i)?.value)||0;
+    const aus=parseFloat(document.getElementById('liq'+yr+'_aus'+i)?.value)||0;
+    sumEin+=ein; sumAus+=aus;
+    window._finData['liq'+yr+'_ein'+i]=ein;
+    window._finData['liq'+yr+'_aus'+i]=aus;
+  }
+  const fmt=v=>v.toLocaleString('de-DE',{minimumFractionDigits:0,maximumFractionDigits:0})+' €';
+  const saldo=sumEin-sumAus;
+  const seEl=document.getElementById('liq'+yr+'_sum_ein');
+  const saEl=document.getElementById('liq'+yr+'_sum_aus');
+  const slEl=document.getElementById('liq'+yr+'_saldo');
+  if(seEl) seEl.textContent=fmt(sumEin);
+  if(saEl) saEl.textContent=fmt(sumAus);
+  if(slEl){
+    slEl.textContent=(saldo>=0?'+':'')+fmt(saldo);
+    slEl.style.color=saldo>=0?'#1a6b3c':'#a32d2d';
+  }
+}
+
 function toggleMenu(){
   const btn=document.getElementById('hamburgerBtn');
   const dd=document.getElementById('hdrDropdown');
