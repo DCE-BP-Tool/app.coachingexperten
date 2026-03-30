@@ -237,7 +237,48 @@ select.fi{cursor:pointer}
 .fg{display:flex;flex-direction:column;gap:4px}
 .fl{font-size:11px;font-weight:700;color:var(--p2);text-transform:uppercase;letter-spacing:.5px}
 .fhint{font-size:12px;color:#888;padding:8px 18px;line-height:1.5;border-top:1px solid var(--bdr)}
-@media(max-width:640px){.gr-grid{grid-template-columns:1fr}}
+@media(max-width:640px){
+  .gr-grid{grid-template-columns:1fr}
+  .fin-grid{grid-template-columns:1fr!important}
+  .fin-card{padding:12px 10px}
+  .fin-row{flex-wrap:wrap;gap:4px}
+  .fin-row label{min-width:100%;font-size:12px}
+  .fin-input{font-size:15px}
+  .charts-row,.chart-wrap{min-width:0}
+  .kpi-strip{grid-template-columns:repeat(2,1fr);gap:6px}
+  .kpi-box{padding:10px 8px}
+  .kpi-val{font-size:16px}
+  .fblock{padding:12px 10px}
+  .fin-section-title{font-size:13px;padding:10px 12px}
+  table{font-size:11px}
+  .fta{font-size:15px;-webkit-text-size-adjust:none}
+  .app-body{flex-direction:column}
+  .hdr-planname{display:none}
+  .contact-panel{width:100vw!important}
+  .fblock table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .fin-card>div[style*="display:grid"]{grid-template-columns:1fr 1fr 1fr!important;gap:4px!important}
+  .fin-card>div[style*="display:flex"]{flex-wrap:wrap}
+  .auth-card{width:95vw!important;padding:0}
+}
+
+/* KONTAKT-PANEL */
+.contact-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:900;opacity:0;pointer-events:none;transition:opacity .25s}
+.contact-overlay.open{opacity:1;pointer-events:all}
+.contact-panel{position:fixed;top:0;right:0;width:380px;max-width:100vw;height:100vh;background:var(--bg);z-index:901;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);overflow-y:auto;box-shadow:-4px 0 24px rgba(0,0,0,.18)}
+.contact-panel.open{transform:translateX(0)}
+.cp-header{background:var(--p1);padding:18px 20px;display:flex;align-items:center;justify-content:space-between}
+.cp-title{color:#fff;font-size:15px;font-weight:700}
+.cp-close{background:rgba(255,255,255,.15);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+.cp-body{padding:20px}
+.cp-field{margin-bottom:14px}
+.cp-label{font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px}
+.cp-input{width:100%;padding:9px 12px;border:1px solid var(--bdr);border-radius:8px;font-size:13px;font-family:inherit;background:var(--bg);color:var(--fg);box-sizing:border-box;transition:border-color .2s}
+.cp-input:focus{outline:none;border-color:var(--a1)}
+.cp-btn{width:100%;padding:12px;background:var(--p2);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .2s;margin-top:4px}
+.cp-btn:hover{opacity:.88}
+.cp-success{display:none;text-align:center;padding:20px;background:rgba(26,107,60,.08);border-radius:8px;border:1px solid rgba(26,107,60,.2);color:#1a6b3c;font-size:13px;line-height:1.6;margin-top:8px}
+.cp-info{font-size:11px;color:var(--mu);text-align:center;margin-top:12px;line-height:1.5}
+@media(max-width:640px){.contact-panel{width:100vw}}
 
 /* HAMBURGER MENU */
 .hdr-hamburger{
@@ -319,6 +360,64 @@ select.fi{cursor:pointer}
 </style>
 </head>
 <body>
+<!-- KONTAKT OVERLAY + PANEL -->
+<div class="contact-overlay" id="contactOverlay" onclick="closeContact()"></div>
+<div class="contact-panel" id="contactPanel">
+  <div class="cp-header">
+    <div class="cp-title">💬 Beratung anfragen</div>
+    <button class="cp-close" onclick="closeContact()">✕</button>
+  </div>
+  <div class="cp-body">
+    <div style="font-size:13px;color:var(--mu);margin-bottom:16px;line-height:1.5">
+      Haben Sie Fragen zu Ihrem Businessplan? Wir helfen gerne – kostenlos und unverbindlich.
+    </div>
+    <div class="cp-field">
+      <div class="cp-label">Name</div>
+      <input class="cp-input" id="cp_name" type="text" placeholder="Ihr Name">
+    </div>
+    <div class="cp-field">
+      <div class="cp-label">E-Mail</div>
+      <input class="cp-input" id="cp_email" type="email" placeholder="ihre@email.de">
+    </div>
+    <div class="cp-field">
+      <div class="cp-label">Telefon (optional)</div>
+      <input class="cp-input" id="cp_tel" type="tel" placeholder="+49 ...">
+    </div>
+    <div class="cp-field">
+      <div class="cp-label">Thema</div>
+      <select class="cp-input" id="cp_thema">
+        <option value="">– bitte wählen –</option>
+        <option>AVGS / Gründercoaching</option>
+        <option>Gründungszuschuss (Agentur für Arbeit)</option>
+        <option>Bürgergeld / Jobcenter</option>
+        <option>Bankfinanzierung / KfW</option>
+        <option>Finanzplan – Fragen & Korrekturen</option>
+        <option>Businessplan-Erstellung (vollständig)</option>
+        <option>Sonstiges</option>
+      </select>
+    </div>
+    <div class="cp-field">
+      <div class="cp-label">Ihre Frage / Nachricht</div>
+      <textarea class="cp-input" id="cp_msg" rows="4" placeholder="Beschreiben Sie kurz Ihr Anliegen…" style="resize:vertical"></textarea>
+    </div>
+    <button class="cp-btn" onclick="sendContact()">Anfrage senden →</button>
+    <div class="cp-success" id="cp_success">
+      ✓ Vielen Dank! Wir melden uns in der Regel innerhalb von 24 Stunden bei Ihnen.<br><br>
+      <strong>Die Coachingexperten</strong><br>
+      📱 0176 84318695<br>
+      info@die-coachingexperten.de
+    </div>
+    <div style="background:rgba(46,127,168,0.08);border:1px solid rgba(46,127,168,0.25);border-radius:10px;padding:14px 16px;margin-top:14px;font-size:12px;line-height:1.6;color:var(--p1)">
+      <div style="font-weight:700;font-size:13px;margin-bottom:6px">💡 Wussten Sie das?</div>
+      Mit einem <strong>AVGS-Gutschein</strong> der Agentur für Arbeit oder des Jobcenters ist unsere komplette Businessplanerstellung und das Gründercoaching für Sie <strong>kostenlos</strong>! Fragen Sie uns einfach – wir prüfen die Fördermöglichkeit für Sie.
+    </div>
+    <div class="cp-info" style="margin-top:14px">
+      📱 0176 84318695<br>
+      info@die-coachingexperten.de
+    </div>
+  </div>
+</div>
+
 
 <!-- ═══════════════════════════════════════
   AUTH VIEW (Login / Register / Onboard)
@@ -369,6 +468,11 @@ select.fi{cursor:pointer}
         <div class="fg"><label class="fl">Passwort</label><input class="fi" id="loginPw" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
         <div id="loginErr" class="err-msg"></div>
         <button class="btn-primary" onclick="doLogin()">Anmelden →</button>
+        <div style="text-align:center;margin-top:8px;margin-bottom:4px">
+          <button onclick="doResetPassword()" style="background:none;border:none;color:#2e7fa8;font-size:12px;cursor:pointer;text-decoration:underline;padding:2px 0;font-family:inherit;transition:color .2s" onmouseover="this.style.color='#1a2e4a'" onmouseout="this.style.color='#2e7fa8'">
+            Passwort vergessen?
+          </button>
+        </div>
         <div class="divider-text">Noch kein Konto?</div>
         <button class="btn-ghost" onclick="showPanel('panelReg')">→ Jetzt kostenlos registrieren</button>
         <div class="card-footer-links" style="margin-top:14px">
@@ -456,6 +560,7 @@ select.fi{cursor:pointer}
     <div class="hdr-planname" id="planName"></div>
     <button class="hdr-btn hdr-save hdr-desktop-only" onclick="saveAll()">💾 Speichern</button>
     <button class="hdr-btn hdr-dl hdr-dl-desktop" onclick="openExport()">⬇ Herunterladen</button>
+    <button class="hdr-btn hdr-desktop-only" onclick="openContact()" style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.3)" title="Beratung anfragen">💬 Beratung</button>
     <button class="hdr-btn hdr-out hdr-desktop-only" onclick="doLogout()">↩ Abmelden</button>
     <div class="hdr-avatar" id="hdrAvatar">?</div>
     <button class="hdr-hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Menü">
@@ -466,6 +571,7 @@ select.fi{cursor:pointer}
     <div class="hdr-dropdown-name" id="hdrDropName"></div>
     <button onclick="saveAll();closeMenu()">💾 Speichern</button>
     <button onclick="openExport();closeMenu()">⬇ Herunterladen</button>
+    <button onclick="openContact();closeMenu()" style="color:#2e7fa8;font-weight:700">💬 Beratung anfragen</button>
     <button onclick="doLogout()" class="logout-btn">↩ Abmelden</button>
   </div>
 
@@ -498,7 +604,7 @@ select.fi{cursor:pointer}
   </div>
 
   <footer class="page-foot">
-    <span>© 2025 Die Coachingexperten – Alle Rechte vorbehalten</span>
+    <span>© 2026 Die Coachingexperten – Alle Rechte vorbehalten</span>
     <span>
       <a href="https://die-coachingexperten.de/impressum/" target="_blank">Impressum</a> &nbsp;·&nbsp;
       <a href="https://die-coachingexperten.de/datenschutz/" target="_blank">Datenschutzerklärung</a> &nbsp;·&nbsp;
@@ -594,31 +700,56 @@ window._profile = {};
 window._finData = {rev1:0,rev2:0,rev3:0,fix1:0,fix2:0,fix3:0,var1:0,var2:0,var3:0,invest:0,eigen:0,fremd:0,förder:0};
 window._currentUser = null;
 </script>
-<script type="module">
-try {
-  const {initializeApp} = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
-  const {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut}
-    = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
-  const {getFirestore,doc,setDoc,getDoc}
-    = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
-  const app = initializeApp({
-    apiKey:"AIzaSyANOJHOHAgrbfiQG0H6mseqTgKhGz3mmbI",
-    authDomain:"die-coachingexperten-abdfa.firebaseapp.com",
-    projectId:"die-coachingexperten-abdfa",
-    storageBucket:"die-coachingexperten-abdfa.firebasestorage.app",
-    messagingSenderId:"78028063080",
-    appId:"1:78028063080:web:87b621433bc5445c3996dd"
+<script>
+// Firebase: Scripts sequenziell laden, dann initialisieren
+(function() {
+  const SCRIPTS = [
+    'https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js',
+    'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js',
+    'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js'
+  ];
+  function loadScript(src, cb) {
+    const s = document.createElement('script');
+    s.src = src;
+    s.onload = cb;
+    s.onerror = function() { console.warn('Fehler beim Laden:', src); cb(); };
+    document.head.appendChild(s);
+  }
+  function loadAll(scripts, done) {
+    if(!scripts.length) return done();
+    loadScript(scripts[0], function() { loadAll(scripts.slice(1), done); });
+  }
+  loadAll(SCRIPTS, function() {
+    try {
+      if(typeof firebase === 'undefined') throw new Error('firebase nicht geladen');
+      firebase.initializeApp({
+        apiKey:"AIzaSyANOJHOHAgrbfiQG0H6mseqTgKhGz3mmbI",
+        authDomain:"die-coachingexperten-abdfa.firebaseapp.com",
+        projectId:"die-coachingexperten-abdfa",
+        storageBucket:"die-coachingexperten-abdfa.firebasestorage.app",
+        messagingSenderId:"78028063080",
+        appId:"1:78028063080:web:87b621433bc5445c3996dd"
+      });
+      const auth = firebase.auth();
+      const db   = firebase.firestore();
+      window._fbAuth = auth;
+      window._fbDb   = db;
+      window._fbFn   = {
+        createUserWithEmailAndPassword: (a,e,p) => auth.createUserWithEmailAndPassword(e,p),
+        signInWithEmailAndPassword:     (a,e,p) => auth.signInWithEmailAndPassword(e,p),
+        signOut:                        ()      => auth.signOut(),
+        sendPasswordResetEmail:         (a,e)   => auth.sendPasswordResetEmail(e),
+        doc:    (db,col,id) => db.collection(col).doc(id),
+        setDoc: (ref,data)  => ref.set(data,{merge:true}),
+        getDoc: (ref)       => ref.get().then(s=>({exists:()=>s.exists,data:()=>s.data()})),
+      };
+      window._firebaseReady = true;
+      console.log('Firebase verbunden ✓');
+    } catch(e) {
+      console.warn('Firebase Fehler:', e.message);
+    }
   });
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  window._fbAuth = auth;
-  window._fbDb = db;
-  window._fbFn = {createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,doc,setDoc,getDoc};
-  window._firebaseReady = true;
-  console.log("Firebase verbunden ✓");
-} catch(e) {
-  console.log("Demo-Modus:", e.message);
-}
+})();
 </script>
 
 <script>
@@ -703,7 +834,7 @@ async function doRegister() {
   try {
     const cred = await window._fbFn.createUserWithEmailAndPassword(window._fbAuth,email,pw);
     window._profile = {first,last,email};
-    window._currentUser = cred.user;
+    window._currentUser = cred.user || cred;
     showPanel('panelOnboard');
   } catch(e) {
     const msg = e.code==='auth/email-already-in-use'?'Diese E-Mail ist bereits registriert.':
@@ -727,10 +858,11 @@ async function doLogin() {
   }
   try {
     const cred = await window._fbFn.signInWithEmailAndPassword(window._fbAuth,email,pw);
-    window._currentUser = cred.user;
+    window._currentUser = cred.user || cred;
     // Lade gespeicherte Daten
     try {
-      const snap = await window._fbFn.getDoc(window._fbFn.doc(window._fbDb,'businessplans',cred.user.uid));
+      const uid = (cred.user||cred).uid;
+      const snap = await window._fbFn.getDoc(window._fbFn.doc(window._fbDb,'businessplans',uid));
       if (snap.exists()) {
         const d = snap.data();
         if(d.savedData) Object.assign(window._savedData,d.savedData);
@@ -748,6 +880,41 @@ async function doLogin() {
                 e.code==='auth/invalid-credential'?'E-Mail oder Passwort falsch.':
                 'Fehler beim Anmelden.';
     showErr(err,msg);
+  }
+}
+
+async function doResetPassword() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const err   = document.getElementById('loginErr');
+  if (!email) {
+    showErr(err,'Bitte zuerst E-Mail-Adresse eingeben.');
+    return;
+  }
+  err.style.display='none';
+  if (!window._firebaseReady) {
+    showErr(err,'Verbindung wird aufgebaut – bitte kurz warten und nochmal versuchen.');
+    return;
+  }
+  // Button deaktivieren während Anfrage läuft
+  const btn = document.querySelector('button[onclick="doResetPassword()"]');
+  if(btn) { btn.disabled=true; btn.textContent='Wird gesendet…'; }
+  try {
+    await window._fbFn.sendPasswordResetEmail(window._fbAuth, email);
+    err.style.display='block';
+    err.style.color='#1a6b3c';
+    err.style.background='rgba(26,107,60,0.08)';
+    err.style.borderColor='#1a6b3c';
+    err.textContent='✓ Reset-E-Mail gesendet! Bitte Postfach prüfen (auch Spam-Ordner).';
+  } catch(e) {
+    const codes = {
+      'auth/user-not-found':    'Diese E-Mail ist nicht registriert.',
+      'auth/invalid-email':     'Ungültige E-Mail-Adresse.',
+      'auth/too-many-requests': 'Zu viele Versuche – bitte später nochmal.',
+      'auth/invalid-credential':'Diese E-Mail ist nicht registriert.',
+    };
+    showErr(err, codes[e.code] || 'Fehler: '+e.message);
+  } finally {
+    if(btn) { btn.disabled=false; btn.textContent='Passwort zurücksetzen'; }
   }
 }
 
@@ -884,106 +1051,11 @@ function onInput(id,el) {
 /* ═══════════════════════
    SWOT
 ═══════════════════════ */
-function buildGründer(panel) {
-  const s = window._savedData;
-  panel.innerHTML = `
-    <div class="fblock">
-      <div class="ftop"><div class="flabel">Persönliche Angaben</div></div>
-      <div class="fhint">Diese Angaben erscheinen im Businessplan und sind für Behörden, Banken und Förderstellen erforderlich.</div>
-      <div style="padding:12px 18px 16px;border-top:1px solid var(--bdr)">
-        <div class="gr-grid">
-          <div class="fg"><label class="fl">Vorname</label><input class="fi" id="gr_vorname" type="text" placeholder="Max" value="${s.gr_vorname||''}" oninput="onInput('gr_vorname',this)"></div>
-          <div class="fg"><label class="fl">Nachname</label><input class="fi" id="gr_nachname" type="text" placeholder="Mustermann" value="${s.gr_nachname||''}" oninput="onInput('gr_nachname',this)"></div>
-        </div>
-        <div class="gr-grid">
-          <div class="fg"><label class="fl">Geburtsdatum</label><input class="fi" id="gr_geburt" type="date" value="${s.gr_geburt||''}" oninput="onInput('gr_geburt',this)"></div>
-          <div class="fg"><label class="fl">Geburtsort</label><input class="fi" id="gr_geburtsort" type="text" placeholder="Köln" value="${s.gr_geburtsort||''}" oninput="onInput('gr_geburtsort',this)"></div>
-        </div>
-        <div class="gr-grid">
-          <div class="fg" style="grid-column:1/-1"><label class="fl">Straße & Hausnummer</label><input class="fi" id="gr_strasse" type="text" placeholder="Musterstraße 12" value="${s.gr_strasse||''}" oninput="onInput('gr_strasse',this)"></div>
-        </div>
-        <div class="gr-grid">
-          <div class="fg"><label class="fl">PLZ</label><input class="fi" id="gr_plz" type="text" placeholder="12345" maxlength="5" value="${s.gr_plz||''}" oninput="onInput('gr_plz',this)"></div>
-          <div class="fg"><label class="fl">Wohnort</label><input class="fi" id="gr_ort" type="text" placeholder="Musterstadt" value="${s.gr_ort||''}" oninput="onInput('gr_ort',this)"></div>
-        </div>
-        <div class="gr-grid">
-          <div class="fg"><label class="fl">Telefon</label><input class="fi" id="gr_telefon" type="tel" placeholder="+49 123 456789" value="${s.gr_telefon||''}" oninput="onInput('gr_telefon',this)"></div>
-          <div class="fg"><label class="fl">E-Mail</label><input class="fi" id="gr_email" type="email" placeholder="max@mustermann.de" value="${s.gr_email||''}" oninput="onInput('gr_email',this)"></div>
-        </div>
-        <div class="gr-grid">
-          <div class="fg"><label class="fl">Staatsangehörigkeit</label><input class="fi" id="gr_staats" type="text" placeholder="Deutsch" value="${s.gr_staats||''}" oninput="onInput('gr_staats',this)"></div>
-          <div class="fg"><label class="fl">Familienstand</label><select class="fi" id="gr_familie" oninput="onInput('gr_familie',this)"><option value="">Bitte wählen…</option><option ${s.gr_familie==='ledig'?'selected':''}>ledig</option><option ${s.gr_familie==='verheiratet'?'selected':''}>verheiratet</option><option ${s.gr_familie==='geschieden'?'selected':''}>geschieden</option><option ${s.gr_familie==='verwitwet'?'selected':''}>verwitwet</option><option ${s.gr_familie==='Lebenspartnerschaft'?'selected':''}>Lebenspartnerschaft</option></select></div>
-        </div>
-        <div class="gr-grid">
-          <div class="fg"><label class="fl">Anzahl Kinder</label><input class="fi" id="gr_kinder" type="number" min="0" placeholder="0" value="${s.gr_kinder||''}" oninput="onInput('gr_kinder',this)"></div>
-          <div class="fg"><label class="fl">Krankenversicherung</label><select class="fi" id="gr_kv" oninput="onInput('gr_kv',this)"><option value="">Bitte wählen…</option><option ${s.gr_kv==='Gesetzlich (GKV)'?'selected':''}>Gesetzlich (GKV)</option><option ${s.gr_kv==='Privat (PKV)'?'selected':''}>Privat (PKV)</option></select></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="fblock">
-      <div class="ftop"><div class="flabel">Ausbildung & Qualifikationen</div></div>
-      <div class="fhint">Welche Ausbildungen, Studienabschlüsse oder Zertifikate haben Sie? Listet Ihren Bildungsweg chronologisch auf.</div>
-      <textarea class="fta" id="gr_ausbildung" rows="4" placeholder="z.B. 2010–2013: Ausbildung zum Kaufmann im Einzelhandel&#10;2013–2016: Bachelor Betriebswirtschaft, Universität Koblenz&#10;2018: Zertifizierter Businesscoach (IHK)" oninput="onInput('gr_ausbildung',this)">${s.gr_ausbildung||''}</textarea>
-      <div class="ffoot"><span class="fcc" id="cc_gr_ausbildung">${(s.gr_ausbildung||'').length} Zeichen</span></div>
-    </div>
-
-    <div class="fblock">
-      <div class="ftop"><div class="flabel">Berufliche Erfahrung</div></div>
-      <div class="fhint">Beschreiben Sie Ihren beruflichen Werdegang und relevante Erfahrungen für Ihr Vorhaben.</div>
-      <textarea class="fta" id="gr_erfahrung" rows="5" placeholder="z.B. 2016–2020: Vertriebsleiter bei Firma XY GmbH&#10;2020–heute: Selbständige Beratungstätigkeit im Bereich Marketing" oninput="onInput('gr_erfahrung',this)">${s.gr_erfahrung||''}</textarea>
-      <div class="ffoot"><span class="fcc" id="cc_gr_erfahrung">${(s.gr_erfahrung||'').length} Zeichen</span></div>
-    </div>
-
-    <div class="fblock">
-      <div class="ftop"><div class="flabel">Unternehmerische Kompetenzen</div></div>
-      <div class="fhint">Welche spezifischen Fähigkeiten und Kenntnisse befähigen Sie zur Umsetzung dieses Vorhabens?</div>
-      <textarea class="fta" id="gr_kompetenz" rows="4" placeholder="z.B. Vertriebserfahrung, Branchenkenntnisse, Netzwerk, Sprachkenntnisse, technisches Know-how..." oninput="onInput('gr_kompetenz',this)">${s.gr_kompetenz||''}</textarea>
-      <div class="ffoot"><span class="fcc" id="cc_gr_kompetenz">${(s.gr_kompetenz||'').length} Zeichen</span></div>
-    </div>
-
-    <div class="fblock">
-      <div class="ftop"><div class="flabel">Mitgründer & Schlüsselpersonen</div></div>
-      <div class="fhint">Gibt es weitere Gründer oder wichtige Mitarbeiter? Bitte mit Name, Qualifikation und Rolle im Unternehmen.</div>
-      <textarea class="fta" id="gr_team" rows="4" placeholder="z.B. Maria Muster (Mitgründerin): Diplom-Ingenieurin, verantwortlich für Produktion&#10;Oder: Keine Mitgründer geplant." oninput="onInput('gr_team',this)">${s.gr_team||''}</textarea>
-      <div class="ffoot"><span class="fcc" id="cc_gr_team">${(s.gr_team||'').length} Zeichen</span></div>
-    </div>
-
-    <div class="fblock">
-      <div class="ftop"><div class="flabel">Aktuelle Einkommenssituation</div></div>
-      <div class="fhint">Relevante Angaben für Fördermittel-Anträge (Gründungszuschuss, Einstiegsgeld, AVGS).</div>
-      <div style="padding:12px 18px 16px;border-top:1px solid var(--bdr)">
-        <div class="gr-grid">
-          <div class="fg"><label class="fl">Aktueller Status</label><select class="fi" id="gr_status" oninput="onInput('gr_status',this)"><option value="">Bitte wählen…</option><option ${s.gr_status==='Arbeitslos (ALG I)'?'selected':''}>Arbeitslos (ALG I)</option><option ${s.gr_status==='Arbeitslos (ALG II / Bürgergeld)'?'selected':''}>Arbeitslos (ALG II / Bürgergeld)</option><option ${s.gr_status==='Angestellt'?'selected':''}>Angestellt</option><option ${s.gr_status==='Selbständig'?'selected':''}>Selbständig</option><option ${s.gr_status==='Student/in'?'selected':''}>Student/in</option><option ${s.gr_status==='Sonstiges'?'selected':''}>Sonstiges</option></select></div>
-          <div class="fg"><label class="fl">Verbleibende ALG-Anspruchstage</label><input class="fi" id="gr_alg_tage" type="number" min="0" placeholder="z.B. 180" value="${s.gr_alg_tage||''}" oninput="onInput('gr_alg_tage',this)"></div>
-        </div>
-        <div class="gr-grid">
-          <div class="fg"><label class="fl">Monatliches ALG I / Bürgergeld (€)</label><input class="fi" id="gr_alg_betrag" type="number" min="0" placeholder="z.B. 1200" value="${s.gr_alg_betrag||''}" oninput="onInput('gr_alg_betrag',this)"></div>
-          <div class="fg"><label class="fl">Agentur für Arbeit / Jobcenter</label><input class="fi" id="gr_agentur" type="text" placeholder="z.B. Agentur für Arbeit Koblenz" value="${s.gr_agentur||''}" oninput="onInput('gr_agentur',this)"></div>
-        </div>
-      </div>
-    </div>`;
-}
-
-function buildSwot(panel) {
-  const s = window._savedData;
-  panel.innerHTML = `
-    <div style="margin-bottom:16px;font-size:13px;color:var(--mu);line-height:1.7">Die Stärken-Schwächen-Analyse zeigt <b>Stärken</b>, <b>Schwächen</b>, <b>Chancen</b> und <b>Risiken</b> auf einen Blick.</div>
-    <div class="swot-grid">
-      <div class="swot-cell s"><div class="swot-head">💪 Stärken</div><textarea class="swot-ta" id="sw_s" placeholder="Was können Sie besonders gut?" oninput="onInput('sw_s',this)">${s.sw_s||''}</textarea></div>
-      <div class="swot-cell w"><div class="swot-head">⚠️ Schwächen</div><textarea class="swot-ta" id="sw_w" placeholder="Was müssen Sie verbessern?" oninput="onInput('sw_w',this)">${s.sw_w||''}</textarea></div>
-      <div class="swot-cell o"><div class="swot-head">🚀 Chancen</div><textarea class="swot-ta" id="sw_o" placeholder="Welche Markttrends begünstigen Sie?" oninput="onInput('sw_o',this)">${s.sw_o||''}</textarea></div>
-      <div class="swot-cell t"><div class="swot-head">🛑 Risiken</div><textarea class="swot-ta" id="sw_t" placeholder="Welche externen Risiken drohen?" oninput="onInput('sw_t',this)">${s.sw_t||''}</textarea></div>
-    </div>`;
-}
-
-/* ═══════════════════════
-   FINANCE
-═══════════════════════ */
 function buildFinance(panel) {
   const fd = window._finData;
   const s  = window._savedData;
   panel.innerHTML = `
+    <!-- KPI-Leiste -->
     <div class="kpi-strip">
       <div class="kpi-box accent"><div class="kpi-val" id="kpi_rev">0 €</div><div class="kpi-label">Umsatz Jahr 3</div></div>
       <div class="kpi-box"><div class="kpi-val" id="kpi_cost">0 €</div><div class="kpi-label">Kosten Jahr 1</div></div>
@@ -991,120 +1063,534 @@ function buildFinance(panel) {
       <div class="kpi-box"><div class="kpi-val" id="kpi_be">–</div><div class="kpi-label">Break-even</div></div>
     </div>
 
+    <!-- ═══ SCHRITT 1: UMSATZ & KOSTEN ═══ -->
+    <div class="fin-section-title">① Umsatz & Kosten</div>
     <div class="fin-grid">
       <div class="fin-card">
-        <div class="fin-card-title">📈 Umsatzplanung</div>
-        ${['Jahr 1','Jahr 2','Jahr 3'].map((y,i)=>`<div class="fin-row"><label>${y}</label><input class="fin-input" id="rev${i+1}" type="number" min="0" placeholder="0" value="${fd['rev'+(i+1)]||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>`).join('')}
+        <div class="fin-card-title">📈 Plan-Umsatz (netto)</div>
+        ${['Jahr 1','Jahr 2','Jahr 3'].map((y,i)=>`
+        <div class="fin-row"><label>${y}</label>
+          <input class="fin-input" id="rev${i+1}" type="number" min="0" placeholder="0" value="${fd['rev'+(i+1)]||''}" oninput="finUpdate()">
+          <span class="fin-unit">€</span>
+        </div>`).join('')}
       </div>
-      <div class="fin-card">
-        <div class="fin-card-title">🔒 Fixkosten / Monat</div>
-        ${['Jahr 1','Jahr 2','Jahr 3'].map((y,i)=>`<div class="fin-row"><label>${y}</label><input class="fin-input" id="fix${i+1}" type="number" min="0" placeholder="0" value="${fd['fix'+(i+1)]||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>`).join('')}
-      </div>
-    </div>
-    <div class="fin-grid">
       <div class="fin-card">
         <div class="fin-card-title">📦 Variable Kosten / Monat</div>
-        ${['Jahr 1','Jahr 2','Jahr 3'].map((y,i)=>`<div class="fin-row"><label>${y}</label><input class="fin-input" id="var${i+1}" type="number" min="0" placeholder="0" value="${fd['var'+(i+1)]||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>`).join('')}
-      </div>
-      <div class="fin-card">
-        <div class="fin-card-title">👤 Unternehmerlohn / Privatentnahme</div>
-        <div class="fin-row"><label>Monatliche Entnahme Jahr 1</label><input class="fin-input" id="entnahme1" type="number" min="0" placeholder="0" value="${fd.entnahme1||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>Monatliche Entnahme Jahr 2</label><input class="fin-input" id="entnahme2" type="number" min="0" placeholder="0" value="${fd.entnahme2||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>Monatliche Entnahme Jahr 3</label><input class="fin-input" id="entnahme3" type="number" min="0" placeholder="0" value="${fd.entnahme3||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-hint" style="font-size:11px;color:#888;padding:4px 0">Wird in Fixkosten eingerechnet</div>
+        <div style="font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Wareneinsatz / Material</div>
+        ${['Jahr 1','Jahr 2','Jahr 3'].map((y,i)=>`
+        <div class="fin-row"><label>${y}</label>
+          <input class="fin-input" id="var${i+1}" type="number" min="0" placeholder="0" value="${fd['var'+(i+1)]||''}" oninput="finUpdate()">
+          <span class="fin-unit">€/Mo</span>
+        </div>`).join('')}
+        <div style="font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.4px;margin:10px 0 6px">Provisionen</div>
+        ${['Jahr 1','Jahr 2','Jahr 3'].map((y,i)=>`
+        <div class="fin-row"><label>${y}</label>
+          <input class="fin-input" id="prov${i+1}" type="number" min="0" placeholder="0" value="${fd['prov'+(i+1)]||''}" oninput="finUpdate()">
+          <span class="fin-unit">€/Mo</span>
+        </div>`).join('')}
       </div>
     </div>
 
-    <div class="fin-section-title">🏗️ Investitionsplan & Gründungskosten</div>
     <div class="fin-grid">
       <div class="fin-card">
-        <div class="fin-card-title">Gründungsbedingte Kosten</div>
-        <div class="fin-row"><label>Gründungsberatung</label><input class="fin-input" id="inv_beratung" type="number" min="0" placeholder="0" value="${fd.inv_beratung||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>Steuerberater (Erstberatung)</label><input class="fin-input" id="inv_steuer" type="number" min="0" placeholder="0" value="${fd.inv_steuer||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>Gewerbeanmeldung</label><input class="fin-input" id="inv_gewerbe" type="number" min="0" placeholder="0" value="${fd.inv_gewerbe||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>Notarkosten / Handelsregister</label><input class="fin-input" id="inv_notar" type="number" min="0" placeholder="0" value="${fd.inv_notar||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>Markenschutz / Patent</label><input class="fin-input" id="inv_marke" type="number" min="0" placeholder="0" value="${fd.inv_marke||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>Sonstige Gründungskosten</label><input class="fin-input" id="inv_sonst" type="number" min="0" placeholder="0" value="${fd.inv_sonst||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
+        <div class="fin-card-title">🔒 Fixkosten / Monat – Betrieb & Personal</div>
+        ${[['Personalkosten (Mitarbeiter)','fix_personal'],['Raumkosten (Miete + NK)','fix_raum'],['Fahrzeugkosten','fix_fahr'],['Leasing','fix_leasing'],['Instandhaltung','fix_instand']].map(([l,k])=>`
+        <div style="margin-bottom:8px">
+          <div style="font-size:10px;font-weight:600;color:var(--p1);margin-bottom:3px">${l}</div>
+          <div style="display:flex;gap:6px">
+            ${['J1','J2','J3'].map((y,i)=>`
+            <div style="flex:1;text-align:center">
+              <div style="font-size:9px;color:var(--mu)">${y}</div>
+              <input class="fin-input" style="width:100%;font-size:12px;text-align:right" id="${k}${i+1}" type="number" min="0" placeholder="0" value="${fd[k+(i+1)]||''}" oninput="fixDetailUpdate()">
+            </div>`).join('')}
+          </div>
+        </div>`).join('')}
       </div>
       <div class="fin-card">
-        <div class="fin-card-title">Sachinvestitionen</div>
-        <div class="fin-row"><label>Maschinen / Geräte</label><input class="fin-input" id="inv_masch" type="number" min="0" placeholder="0" value="${fd.inv_masch||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>Fahrzeuge</label><input class="fin-input" id="inv_fahr" type="number" min="0" placeholder="0" value="${fd.inv_fahr||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>Büroausstattung / IT</label><input class="fin-input" id="inv_buero" type="number" min="0" placeholder="0" value="${fd.inv_buero||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>Ladenausbau / Mietereinbauten</label><input class="fin-input" id="inv_laden" type="number" min="0" placeholder="0" value="${fd.inv_laden||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>Website / Software</label><input class="fin-input" id="inv_sw" type="number" min="0" placeholder="0" value="${fd.inv_sw||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>Sonstige Investitionen</label><input class="fin-input" id="inv_rest" type="number" min="0" placeholder="0" value="${fd.inv_rest||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row" style="border-top:1px solid var(--bdr);margin-top:6px;padding-top:6px"><label><strong>Investitionen gesamt</strong></label><span class="fin-input" id="invest_sum" style="background:var(--bg2);display:flex;align-items:center;padding:0 10px;border-radius:6px;font-weight:700;color:var(--p2)">0</span><span class="fin-unit">€</span></div>
+        <div class="fin-card-title">🔒 Fixkosten / Monat – Marketing & Verwaltung</div>
+        ${[['Werbekosten','fix_werbung'],['Reise- / Bewirtungskosten','fix_reise'],['Weiterbildung / Fachzeitschriften','fix_weiterb'],['Buchführung / Beratung','fix_buchf'],['Bürobedarf','fix_buerobed']].map(([l,k])=>`
+        <div style="margin-bottom:8px">
+          <div style="font-size:10px;font-weight:600;color:var(--p1);margin-bottom:3px">${l}</div>
+          <div style="display:flex;gap:6px">
+            ${['J1','J2','J3'].map((y,i)=>`
+            <div style="flex:1;text-align:center">
+              <div style="font-size:9px;color:var(--mu)">${y}</div>
+              <input class="fin-input" style="width:100%;font-size:12px;text-align:right" id="${k}${i+1}" type="number" min="0" placeholder="0" value="${fd[k+(i+1)]||''}" oninput="fixDetailUpdate()">
+            </div>`).join('')}
+          </div>
+        </div>`).join('')}
       </div>
     </div>
 
-    <div class="fin-section-title">📉 Abschreibungen (AfA)</div>
-    <div class="fin-card" style="margin-bottom:16px">
-      <div class="fin-card-title">Lineare Abschreibung – Wirtschaftsgüter</div>
-      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:6px;margin-bottom:8px;font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.5px">
-        <span>Wirtschaftsgut</span><span>Anschaffung €</span><span>Nutzung (J.)</span><span>AfA/Jahr €</span><span>AfA/Monat €</span>
-      </div>
-      ${[1,2,3,4,5].map(i=>`
-      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:6px;margin-bottom:6px;align-items:center">
-        <input class="fin-input" style="font-size:12px" id="afa_name${i}" type="text" placeholder="z.B. Laptop" value="${fd['afa_name'+i]||''}" oninput="afaUpdate()">
-        <input class="fin-input" style="font-size:12px" id="afa_wert${i}" type="number" min="0" placeholder="0" value="${fd['afa_wert'+i]||''}" oninput="afaUpdate()">
-        <input class="fin-input" style="font-size:12px" id="afa_nd${i}" type="number" min="1" max="25" placeholder="3" value="${fd['afa_nd'+i]||''}" oninput="afaUpdate()">
-        <span class="fin-input" id="afa_jahr${i}" style="background:var(--bg2);display:flex;align-items:center;padding:0 8px;font-size:12px;color:var(--p2);font-weight:700">0</span>
-        <span class="fin-input" id="afa_mon${i}" style="background:var(--bg2);display:flex;align-items:center;padding:0 8px;font-size:12px;color:var(--mu)">0</span>
-      </div>`).join('')}
-      <div style="display:flex;gap:12px;margin-top:8px;padding-top:8px;border-top:1px solid var(--bdr);font-size:12px;font-weight:700;color:var(--p2)">
-        <span>Gesamt AfA / Jahr: <span id="afa_sum_jahr">0 €</span></span>
-        <span style="margin-left:16px">Gesamt AfA / Monat: <span id="afa_sum_mon">0 €</span></span>
-      </div>
-    </div>
-
-    <div class="fin-section-title">💰 Kapitalbedarf & Finanzierung</div>
     <div class="fin-grid">
       <div class="fin-card">
-        <div class="fin-card-title">Eigenkapital-Quellen</div>
-        <div class="fin-row"><label>Barvermögen</label><input class="fin-input" id="ek_bar" type="number" min="0" placeholder="0" value="${fd.ek_bar||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>Bankguthaben</label><input class="fin-input" id="ek_bank" type="number" min="0" placeholder="0" value="${fd.ek_bank||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>Betriebsnotwendige Sacheinlagen</label><input class="fin-input" id="ek_sach" type="number" min="0" placeholder="0" value="${fd.ek_sach||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>Verwandtendarlehen / Schenkungen</label><input class="fin-input" id="ek_verwandt" type="number" min="0" placeholder="0" value="${fd.ek_verwandt||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>Sonstiges Eigenkapital</label><input class="fin-input" id="ek_sonst" type="number" min="0" placeholder="0" value="${fd.ek_sonst||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row" style="border-top:1px solid var(--bdr);margin-top:6px;padding-top:6px"><label><strong>Eigenkapital gesamt</strong></label><span class="fin-input" id="ek_sum" style="background:var(--bg2);display:flex;align-items:center;padding:0 10px;border-radius:6px;font-weight:700;color:var(--p2)">0</span><span class="fin-unit">€</span></div>
+        <div class="fin-card-title">🔒 Fixkosten / Monat – Versicherungen & Sonstiges</div>
+        ${[['Telefon / Internet / Porto','fix_telefon'],['Beiträge & Gebühren / Lizenz','fix_beitraege'],['Betriebliche Versicherungen','fix_versich'],['Sonstige Kosten','fix_sonst']].map(([l,k])=>`
+        <div style="margin-bottom:8px">
+          <div style="font-size:10px;font-weight:600;color:var(--p1);margin-bottom:3px">${l}</div>
+          <div style="display:flex;gap:6px">
+            ${['J1','J2','J3'].map((y,i)=>`
+            <div style="flex:1;text-align:center">
+              <div style="font-size:9px;color:var(--mu)">${y}</div>
+              <input class="fin-input" style="width:100%;font-size:12px;text-align:right" id="${k}${i+1}" type="number" min="0" placeholder="0" value="${fd[k+(i+1)]||''}" oninput="fixDetailUpdate()">
+            </div>`).join('')}
+          </div>
+        </div>`).join('')}
       </div>
-      <div class="fin-card">
-        <div class="fin-card-title">Fremdkapital & Fördermittel</div>
-        <div class="fin-row"><label>Bankdarlehen</label><input class="fin-input" id="fk_bank" type="number" min="0" placeholder="0" value="${fd.fk_bank||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>KfW-Kredit</label><input class="fin-input" id="fk_kfw" type="number" min="0" placeholder="0" value="${fd.fk_kfw||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>Gründungszuschuss (AfA)</label><input class="fin-input" id="fk_gz" type="number" min="0" placeholder="0" value="${fd.fk_gz||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>Einstiegsgeld / AVGS</label><input class="fin-input" id="fk_avgs" type="number" min="0" placeholder="0" value="${fd.fk_avgs||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row"><label>Sonstige Förderungen</label><input class="fin-input" id="fk_sonst" type="number" min="0" placeholder="0" value="${fd.fk_sonst||''}" oninput="finUpdate()"><span class="fin-unit">€</span></div>
-        <div class="fin-row" style="border-top:1px solid var(--bdr);margin-top:6px;padding-top:6px"><label><strong>Fremdkapital gesamt</strong></label><span class="fin-input" id="fk_sum" style="background:var(--bg2);display:flex;align-items:center;padding:0 10px;border-radius:6px;font-weight:700;color:var(--p2)">0</span><span class="fin-unit">€</span></div>
-        <div class="fin-row" style="margin-top:6px"><label><strong>Kapitalbedarf gesamt</strong></label><span class="fin-input" id="invest_total" style="background:var(--bdr);display:flex;align-items:center;padding:0 10px;border-radius:6px;font-weight:700;color:var(--p1)">0</span><span class="fin-unit">€</span></div>
+      <div class="fin-card" style="background:var(--bg2)">
+        <div class="fin-card-title">∑ Fixkosten gesamt / Monat</div>
+        ${['Jahr 1','Jahr 2','Jahr 3'].map((y,i)=>`
+        <div class="fin-row" style="${i<2?'border-bottom:1px solid var(--bdr)':''}">
+          <label style="font-weight:700;color:var(--p1)">${y}</label>
+          <div id="fix_sum${i+1}" style="font-size:16px;font-weight:700;color:var(--p2)">0 €</div>
+        </div>`).join('')}
+        <div style="font-size:10px;color:#888;margin-top:10px;line-height:1.5">Automatisch aus allen Fixkosten-Positionen summiert</div>
       </div>
     </div>
 
-    <div class="charts-row">
-      <div class="chart-wrap"><div class="chart-title">📊 Umsatz vs. Kosten</div><canvas id="chartRevCost" height="180"></canvas></div>
-      <div class="chart-wrap"><div class="chart-title">💰 Gewinn / Verlust</div><canvas id="chartProfit" height="180"></canvas></div>
+    <!-- ═══ SCHRITT 2: UNTERNEHMERLOHN & INVESTITIONEN ═══ -->
+    <div class="fin-section-title">② Unternehmerlohn & Investitionen</div>
+    <div class="fin-grid">
+      <div class="fin-card">
+        <div class="fin-card-title">👤 Unternehmerlohn / Privatentnahme (monatlich)</div>
+        ${['Jahr 1','Jahr 2','Jahr 3'].map((y,i)=>`
+        <div class="fin-row"><label>${y}</label>
+          <input class="fin-input" id="entnahme${i+1}" type="number" min="0" placeholder="0" value="${fd['entnahme'+(i+1)]||''}" oninput="finUpdate()">
+          <span class="fin-unit">€/Mo</span>
+        </div>`).join('')}
+      </div>
+      <div class="fin-card">
+        <div class="fin-card-title">💶 Weitere Jahresposten</div>
+        <div style="font-size:10px;font-weight:700;color:var(--mu);margin-bottom:4px">Zinsen (jährlich)</div>
+        ${['Jahr 1','Jahr 2','Jahr 3'].map((y,i)=>`
+        <div class="fin-row"><label>${y}</label>
+          <input class="fin-input" id="zinsen${i+1}" type="number" min="0" placeholder="0" value="${fd['zinsen'+(i+1)]||''}" oninput="finUpdate()">
+          <span class="fin-unit">€</span>
+        </div>`).join('')}
+        <div style="font-size:10px;font-weight:700;color:var(--mu);margin:10px 0 4px">Betriebliche Steuern (jährlich)</div>
+        ${['Jahr 1','Jahr 2','Jahr 3'].map((y,i)=>`
+        <div class="fin-row"><label>${y}</label>
+          <input class="fin-input" id="bsteuern${i+1}" type="number" min="0" placeholder="0" value="${fd['bsteuern'+(i+1)]||''}" oninput="finUpdate()">
+          <span class="fin-unit">€</span>
+        </div>`).join('')}
+        <div style="font-size:10px;font-weight:700;color:var(--mu);margin:10px 0 4px">Einkommenssteuer-Rücklage (jährlich)</div>
+        ${['Jahr 1','Jahr 2','Jahr 3'].map((y,i)=>`
+        <div class="fin-row"><label>${y}</label>
+          <input class="fin-input" id="eststeuer${i+1}" type="number" min="0" placeholder="0" value="${fd['eststeuer'+(i+1)]||''}" oninput="finUpdate()">
+          <span class="fin-unit">€</span>
+        </div>`).join('')}
+      </div>
     </div>
-    <div class="charts-row">
-      <div class="chart-wrap"><div class="chart-title">🏦 Finanzierungsstruktur</div><canvas id="chartFunding" height="180"></canvas></div>
-      <div class="chart-wrap"><div class="chart-title">📉 Break-even-Verlauf</div><canvas id="chartBE" height="180"></canvas></div>
+
+    <div class="fin-grid">
+      <div class="fin-card">
+        <div class="fin-card-title">🏗️ Gründungsbedingte Kosten (einmalig)</div>
+        ${[['Gründungsberatung','inv_beratung'],['Steuerberater','inv_steuer'],['Gewerbeanmeldung','inv_gewerbe'],['Notarkosten','inv_notar'],['Markenschutz','inv_marke'],['Sonstige Gründungskosten','inv_sonst']].map(([l,k])=>`
+        <div class="fin-row"><label>${l}</label>
+          <input class="fin-input" id="${k}" type="number" min="0" placeholder="0" value="${fd[k]||''}" oninput="finUpdate()">
+          <span class="fin-unit">€</span>
+        </div>`).join('')}
+        <div class="fin-row" style="border-top:2px solid var(--a1);margin-top:4px">
+          <label style="font-weight:700;color:var(--p2)">Gründungskosten einmalig (J1)</label>
+          <div style="font-weight:700;color:var(--p2)">
+            <input class="fin-input" id="gruendkosten" type="number" min="0" placeholder="0" value="${fd.gruendkosten||''}" oninput="finUpdate()">
+          </div>
+          <span class="fin-unit">€</span>
+        </div>
+      </div>
+      <div class="fin-card">
+        <div class="fin-card-title">🏭 Sachinvestitionen</div>
+        ${[['Maschinen / Geräte','inv_masch'],['Fahrzeuge','inv_fahr'],['Büro / IT / Ausstattung','inv_buero'],['Ladenausbau / Umbau','inv_laden'],['Website / Software','inv_sw'],['Sonstige Investitionen','inv_rest']].map(([l,k])=>`
+        <div class="fin-row"><label>${l}</label>
+          <input class="fin-input" id="${k}" type="number" min="0" placeholder="0" value="${fd[k]||''}" oninput="finUpdate()">
+          <span class="fin-unit">€</span>
+        </div>`).join('')}
+        <div class="fin-row" style="border-top:2px solid var(--a1);margin-top:4px">
+          <label style="font-weight:700;color:var(--p2)">Investitionen gesamt</label>
+          <div id="kpi_invest" style="font-weight:700;color:var(--p2)">0 €</div>
+        </div>
+      </div>
     </div>
+
+    <div class="fin-grid">
+      <div class="fin-card" style="grid-column:1/-1">
+        <div class="fin-card-title">📉 Abschreibungen (AfA) – Wirtschaftsgüter</div>
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:6px;margin-bottom:6px;font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.4px">
+          <span>Bezeichnung</span><span>Anschaffung (€)</span><span>Nutzung (J.)</span><span>AfA/Jahr (€)</span><span>AfA/Monat (€)</span>
+        </div>
+        ${[1,2,3,4,5].map(i=>`
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:6px;margin-bottom:5px;align-items:center">
+          <input class="fin-input" style="font-size:12px" id="afa_name${i}" type="text" placeholder="z.B. Laptop" value="${fd['afa_name'+i]||''}" oninput="afaUpdate()">
+          <input class="fin-input" style="font-size:12px" id="afa_wert${i}" type="number" min="0" placeholder="0" value="${fd['afa_wert'+i]||''}" oninput="afaUpdate()">
+          <input class="fin-input" style="font-size:12px" id="afa_nd${i}" type="number" min="1" max="30" placeholder="3" value="${fd['afa_nd'+i]||''}" oninput="afaUpdate()">
+          <div id="afa_jahr${i}" style="font-size:12px;color:var(--p2);font-weight:600;padding:4px 8px">–</div>
+          <div id="afa_mon${i}" style="font-size:12px;color:var(--mu);padding:4px 8px">–</div>
+        </div>`).join('')}
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:6px;border-top:2px solid var(--a1);margin-top:6px;padding-top:6px">
+          <span style="font-size:12px;font-weight:700;color:var(--p1)">Summe AfA</span><span></span><span></span>
+          <div id="afa_sum_jahr" style="font-size:13px;font-weight:700;color:var(--p2)">0 €/Jahr</div>
+          <div id="afa_sum_mon" style="font-size:12px;color:var(--mu)">0 €/Monat</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SCHRITT 3: KAPITALBEDARF ═══ -->
+    <div class="fin-section-title">③ Kapitalbedarf & Finanzierung</div>
+    <div class="fin-grid">
+      <div class="fin-card">
+        <div class="fin-card-title">💚 Eigenkapital-Quellen</div>
+        ${[['Barmittel / Erspartes','ek_bar'],['Bankguthaben','ek_bank'],['Sacheinlagen','ek_sach'],['Darlehen Verwandte','ek_verwandt'],['Sonstiges EK','ek_sonst']].map(([l,k])=>`
+        <div class="fin-row"><label>${l}</label>
+          <input class="fin-input" id="${k}" type="number" min="0" placeholder="0" value="${fd[k]||''}" oninput="finUpdate()">
+          <span class="fin-unit">€</span>
+        </div>`).join('')}
+        <div class="fin-row" style="border-top:2px solid #1a6b3c;margin-top:4px">
+          <label style="font-weight:700;color:#1a6b3c">Eigenkapital gesamt</label>
+          <div id="kpi_ek" style="font-weight:700;color:#1a6b3c">0 €</div>
+        </div>
+      </div>
+      <div class="fin-card">
+        <div class="fin-card-title">🏦 Fremdkapital & Fördermittel</div>
+        ${[['Bankkredit','fk_bank'],['KfW-Kredit','fk_kfw'],['Gründungszuschuss','fk_gz'],['AVGS / Förderung','fk_avgs'],['Sonstiges FK','fk_sonst']].map(([l,k])=>`
+        <div class="fin-row"><label>${l}</label>
+          <input class="fin-input" id="${k}" type="number" min="0" placeholder="0" value="${fd[k]||''}" oninput="finUpdate()">
+          <span class="fin-unit">€</span>
+        </div>`).join('')}
+        <div class="fin-row" style="border-top:2px solid var(--p2);margin-top:4px">
+          <label style="font-weight:700;color:var(--p2)">Fremdkapital gesamt</label>
+          <div id="kpi_fk" style="font-weight:700;color:var(--p2)">0 €</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tilgungsplan: nur wenn FK > 0 -->
+    <div id="tilgung-section" style="display:none">
+      <div class="fin-section-title">🏦 Tilgungsplan</div>
+      <div class="fin-grid">
+        <div class="fin-card">
+          <div class="fin-card-title">Kreditparameter</div>
+          <div class="fin-row"><label>Kreditsumme (FK gesamt)</label>
+            <span class="fin-input" id="tilg_summe" style="background:var(--bg2);display:flex;align-items:center;padding:0 10px;font-weight:700;color:var(--p2)">0</span>
+            <span class="fin-unit">€</span>
+          </div>
+          <div class="fin-row"><label>Zinssatz (% p.a.)</label>
+            <input class="fin-input" id="tilg_zins" type="number" min="0" max="20" step="0.1" placeholder="5,0" value="${fd.tilg_zins||''}" oninput="tilgUpdate()">
+            <span class="fin-unit">%</span>
+          </div>
+          <div class="fin-row"><label>Laufzeit (Jahre)</label>
+            <input class="fin-input" id="tilg_laufzeit" type="number" min="1" max="30" placeholder="10" value="${fd.tilg_laufzeit||''}" oninput="tilgUpdate()">
+            <span class="fin-unit">J.</span>
+          </div>
+          <div class="fin-row"><label>Tilgungsfreie Jahre</label>
+            <input class="fin-input" id="tilg_frei" type="number" min="0" max="10" placeholder="0" value="${fd.tilg_frei||''}" oninput="tilgUpdate()">
+            <span class="fin-unit">J.</span>
+          </div>
+        </div>
+        <div class="fin-card">
+          <div class="fin-card-title">Übersicht (Jahre 1–3)</div>
+          <div id="tilg_overview" style="font-size:12px;color:#888">Bitte Kreditparameter eingeben</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SCHRITT 4: AUSWERTUNG ═══ -->
+    <div class="fin-section-title">④ Auswertung (automatisch berechnet)</div>
+
+    <div class="fin-section-title" style="font-size:12px;background:none;padding:4px 0;color:var(--mu)">Gewinn- und Verlustrechnung (GuV)</div>
     <div class="fblock">
-      <div class="ftop"><div class="flabel">Liquiditätsplanung – Erläuterungen</div></div>
-      <div class="fhint">Ergänzende Hinweise zu Ihrer Liquiditätsplanung (optional)</div>
-      <textarea class="fta" id="fin_liquid" rows="3" placeholder="Hier eingeben…" oninput="onInput('fin_liquid',this)">${s.fin_liquid||''}</textarea>
-      <div class="ffoot"><span class="fcc" id="cc_fin_liquid">${(s.fin_liquid||'').length} Zeichen</span></div>
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <thead>
+            <tr style="background:var(--p1)">
+              <th style="padding:7px 12px;text-align:left;color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;min-width:200px">Position</th>
+              <th style="padding:7px 12px;text-align:right;color:#fff;font-size:10px;font-weight:700">Jahr 1</th>
+              <th style="padding:7px 12px;text-align:right;color:#fff;font-size:10px;font-weight:700">Jahr 2</th>
+              <th style="padding:7px 12px;text-align:right;color:#fff;font-size:10px;font-weight:700">Jahr 3</th>
+            </tr>
+          </thead>
+          <tbody id="guv-body">
+            <tr><td colspan="4" style="padding:12px;color:#888;text-align:center;font-size:11px">Bitte zuerst Umsatz und Kosten eingeben…</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+
+    <div class="fin-section-title" style="font-size:12px;background:none;padding:4px 0;margin-top:16px;color:var(--mu)">Liquiditäts- & Cashflow-Übersicht</div>
+    <div class="fblock">
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <thead>
+            <tr style="background:var(--p1)">
+              <th style="padding:7px 12px;text-align:left;color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;min-width:200px">Position</th>
+              <th style="padding:7px 12px;text-align:right;color:#fff;font-size:10px;font-weight:700">Jahr 1</th>
+              <th style="padding:7px 12px;text-align:right;color:#fff;font-size:10px;font-weight:700">Jahr 2</th>
+              <th style="padding:7px 12px;text-align:right;color:#fff;font-size:10px;font-weight:700">Jahr 3</th>
+            </tr>
+          </thead>
+          <tbody id="liq-body">
+            <tr><td colspan="4" style="padding:12px;color:#888;text-align:center;font-size:11px">Bitte zuerst Umsatz und Kosten eingeben…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:16px 0">
+      <div class="chart-wrap"><div class="chart-title">📊 Umsatzplanung J1 – J3</div><canvas id="chartRevCost" height="200"></canvas></div>
+      <div class="chart-wrap"><div class="chart-title">💰 Gewinn / Verlust (3 Jahre)</div><canvas id="chartProfit" height="200"></canvas></div>
+      <div class="chart-wrap"><div class="chart-title">🏦 Finanzierungsstruktur</div><canvas id="chartFunding" height="200"></canvas></div>
+      <div class="chart-wrap"><div class="chart-title">📉 Break-even Jahr 1</div><canvas id="chartBE" height="200"></canvas></div>
+    </div>
+
+
     <div class="fblock">
       <div class="ftop"><div class="flabel">Rentabilitätsvorschau & Annahmen</div></div>
       <div class="fhint">Erläutern Sie die Annahmen hinter Ihren Zahlen.</div>
       <textarea class="fta" id="fin_rent" rows="4" placeholder="Hier eingeben…" oninput="onInput('fin_rent',this)">${s.fin_rent||''}</textarea>
       <div class="ffoot"><span class="fcc" id="cc_fin_rent">${(s.fin_rent||'').length} Zeichen</span></div>
+    </div>
+    <div class="fblock">
+      <div class="ftop"><div class="flabel">Liquiditätsplanung – Erläuterungen & Annahmen</div></div>
+      <div class="fhint">Erläutern Sie Zahlungsziele, saisonale Schwankungen oder besondere Einmalauszahlungen.</div>
+      <textarea class="fta" id="fin_liquid" rows="3" placeholder="z.B. USt-Voranmeldung quartalsweise, höhere Ausgaben im Gründungsmonat…" oninput="onInput('fin_liquid',this)">${s.fin_liquid||''}</textarea>
+      <div class="ffoot"><span class="fcc" id="cc_fin_liquid">${(s.fin_liquid||'').length} Zeichen</span></div>
     </div>`;
+
   afaUpdate();
   setTimeout(finUpdate,100);
 }
 
+
+function fixDetailUpdate() {
+  const fd=window._finData;
+  const fixKeys=['fix_personal', 'fix_raum', 'fix_fahr', 'fix_leasing', 'fix_instand', 'fix_werbung', 'fix_reise', 'fix_weiterb', 'fix_buchf', 'fix_buerobed', 'fix_telefon', 'fix_beitraege', 'fix_versich', 'fix_sonst'];
+  [1,2,3].forEach(yr=>{
+    let sum=0;
+    fixKeys.forEach(k=>{
+      const el=document.getElementById(k+yr);
+      const v=parseFloat(el?.value)||0;
+      fd[k+yr]=v;
+      sum+=v;
+    });
+    // Provisionen auch
+    const prov=parseFloat(document.getElementById('prov'+yr)?.value)||0;
+    fd['prov'+yr]=prov;
+    // var (Wareneinsatz)
+    const varV=parseFloat(document.getElementById('var'+yr)?.value)||0;
+    fd['var'+yr]=varV;
+    // fix gesamt = Summe aller Fixkostenfelder
+    fd['fix'+yr]=sum;
+    const sumEl=document.getElementById('fix_sum'+yr);
+    if(sumEl) sumEl.textContent=sum.toLocaleString('de-DE')+' €';
+  });
+  finUpdate();
+}
+
+
+function guvUpdate(fd) {
+  // Hilfsfunktionen
+  const N  = v => Math.round(Number(v||0));
+  const fE = v => N(v).toLocaleString('de-DE') + ' €';
+  const fS = v => {
+    const n=N(v);
+    const col = n >= 0 ? '#1a6b3c' : '#a32d2d';
+    return `<span style="font-weight:700;color:${col}">${fE(n)}</span>`;
+  };
+
+  // ── Umsatz ──────────────────────────────────────────────────────
+  const rev  = [N(fd.rev1),  N(fd.rev2),  N(fd.rev3)];
+
+  // ── Variable Kosten (monatlich → jährlich) ───────────────────
+  const mat  = [N(fd.var1)*12,  N(fd.var2)*12,  N(fd.var3)*12];
+  const prov = [N(fd.prov1)*12, N(fd.prov2)*12, N(fd.prov3)*12];
+
+  // ── Rohertrag ───────────────────────────────────────────────────
+  const roh  = [0,1,2].map(i => rev[i] - mat[i] - prov[i]);
+
+  // ── Fixkosten (monatlich → jährlich) ────────────────────────────
+  const fk = (k,yr) => N(fd[k+yr])*12;
+  const fp = key => [1,2,3].map(i => fk(key,i));
+  const fpers  = fp('fix_personal');
+  const fraum  = fp('fix_raum');
+  const ffahr  = fp('fix_fahr');
+  const fleas  = fp('fix_leasing');
+  const finst  = fp('fix_instand');
+  const fwerb  = fp('fix_werbung');
+  const freis  = fp('fix_reise');
+  const fweit  = fp('fix_weiterb');
+  const fbuch  = fp('fix_buchf');
+  const fburo  = fp('fix_buerobed');
+  const ftele  = fp('fix_telefon');
+  const fbeit  = fp('fix_beitraege');
+  const fvers  = fp('fix_versich');
+  const fsons  = fp('fix_sonst');
+
+  // ── AfA / Zinsen / Gründungskosten ─────────────────────────────
+  const afa   = [N(fd.afa_total_jahr), N(fd.afa_total_jahr), N(fd.afa_total_jahr)];
+  const zins  = [N(fd.zinsen1), N(fd.zinsen2), N(fd.zinsen3)];
+  const grnd  = [N(fd.gruendkosten), 0, 0];
+
+  // ── Gewinn ───────────────────────────────────────────────────────
+  const gew = [0,1,2].map(i =>
+    roh[i]
+    - fpers[i] - fraum[i] - ffahr[i] - fleas[i] - finst[i]
+    - fwerb[i] - freis[i] - fweit[i] - fbuch[i] - fburo[i]
+    - ftele[i] - fbeit[i] - fvers[i] - fsons[i]
+    - afa[i] - zins[i] - grnd[i]
+  );
+
+  // ── Cash-Flow Posten ─────────────────────────────────────────────
+  // Tilgung aus Tilgungsplan übernehmen
+  const fk_sum = N(fd.fremd);
+  const lj = parseInt(fd.tilg_laufzeit)||0;
+  const fj = parseInt(fd.tilg_frei)||0;
+  const jt = (fk_sum>0&&lj>0) ? Math.round(fk_sum/Math.max(lj-fj,1)) : 0;
+  const tilg = [0,1,2].map(i => (i+1 > fj ? jt : 0));
+
+  const ulohn = [N(fd.entnahme1)*12, N(fd.entnahme2)*12, N(fd.entnahme3)*12];
+  const bst   = [N(fd.bsteuern1),   N(fd.bsteuern2),   N(fd.bsteuern3)];
+  const est   = [N(fd.eststeuer1),  N(fd.eststeuer2),  N(fd.eststeuer3)];
+  const ekfk  = [N(fd.eigen)+N(fd.fremd), 0, 0];
+  const inv   = [N(fd.invest), 0, 0];
+
+  const cfI  = [0,1,2].map(i => gew[i] + afa[i]);
+  const cfII = [0,1,2].map(i => cfI[i] + ekfk[i] - tilg[i] - ulohn[i] - bst[i] - est[i] - inv[i]);
+
+  // ─── Tabellenstruktur exakt nach Bild ────────────────────────────
+  // type: 'head'=Gruppenzeile, 'sub'=Unterzeile eingerückt, 'total'=Summenzeile, 'plain'=normal
+  const ROWS = [
+    { label: 'Plan-Umsatz (ohne Bestandsveränderungen)', v: rev,  type: 'bold' },
+    { label: 'Abzüglich variable Kosten',                v: null, type: 'head' },
+    { label: 'Wareneinsatz',                             v: mat,  type: 'sub', neg: true },
+    { label: 'Provisionen',                              v: prov, type: 'sub', neg: true },
+    { label: '= Rohertrag',                              v: roh,  type: 'total' },
+    { label: 'Abzüglich Personalkosten',                 v: fpers,type: 'plain', neg: true },
+    { label: 'Raumkosten',                               v: fraum, type: 'sub', neg: true },
+    { label: 'Fahrzeugkosten',                           v: ffahr, type: 'sub', neg: true },
+    { label: 'Leasing',                                  v: fleas, type: 'sub', neg: true },
+    { label: 'Instandhaltung',                           v: finst, type: 'sub', neg: true },
+    { label: 'Werbekosten',                              v: fwerb, type: 'sub', neg: true },
+    { label: 'Reise- / Bewirtungskosten',                v: freis, type: 'sub', neg: true },
+    { label: 'Weiterbildung / Fachzeitschriften, Bücher',v: fweit, type: 'sub', neg: true },
+    { label: 'Buchführung, Beratung',                    v: fbuch, type: 'sub', neg: true },
+    { label: 'Bürobedarf',                               v: fburo, type: 'sub', neg: true },
+    { label: 'Telefon / Fax / Internet / Porto',         v: ftele, type: 'sub', neg: true },
+    { label: 'Beiträge, Gebühren (auch Lizenz/Franchiseg.)', v: fbeit, type: 'sub', neg: true },
+    { label: 'Betriebliche Versicherungen',              v: fvers, type: 'sub', neg: true },
+    { label: 'Sonstige Kosten',                          v: fsons, type: 'sub', neg: true },
+    { label: 'Abzüglich AfA',                            v: afa,   type: 'plain', neg: true },
+    { label: 'Abzüglich Zinsen',                         v: zins,  type: 'plain', neg: true },
+    { label: 'Abzüglich gründungsbedingte Kosten',       v: grnd,  type: 'plain', neg: true, col3: false },
+    { label: '= Gewinn',                                 v: gew,   type: 'total' },
+    { label: 'Zuzüglich: AfA',                           v: afa,   type: 'plain' },
+    { label: 'Eigenkapital & Fremdkapital',              v: ekfk,  type: 'sub' },
+    { label: 'Abzüglich: Tilgung',                       v: tilg,  type: 'plain', neg: true },
+    { label: 'Unternehmerlohn (netto)',                  v: ulohn, type: 'sub',   neg: true },
+    { label: 'Betriebliche Steuern',                     v: bst,   type: 'sub',   neg: true },
+    { label: 'Einkommenssteuer (Rücklage)',              v: est,   type: 'sub',   neg: true, highlight_est: true },
+    { label: 'Investitionen',                            v: inv,   type: 'sub',   neg: true, col3: false },
+    { label: '= Cash Flow',                              v: cfII,  type: 'total' },
+  ];
+
+  const tbody = document.getElementById('guv-body');
+  if (!tbody) return;
+
+  tbody.innerHTML = ROWS.map((row, ri) => {
+    // Kopfzeile
+    if (row.type === 'head') {
+      return `<tr style="background:rgba(26,46,74,0.04)">
+        <td colspan="4" style="padding:4px 10px;font-size:11px;font-weight:700;color:var(--p1)">${row.label}</td>
+      </tr>`;
+    }
+    // Werte rendern
+    const cells = row.v ? [0,1,2].map(i => {
+      // gründungsbedingte + Investitionen: nur J1
+      if (row.col3 === false && i > 0) return `<td style="padding:4px 10px;text-align:right;font-size:12px;color:#bbb">–</td>`;
+      const val = row.neg ? -row.v[i] : row.v[i];
+      let html;
+      if (row.type === 'total') html = fS(val);
+      else if (row.highlight_est) html = `<span style="border:1.5px solid #c8a84b;padding:1px 6px;border-radius:3px;font-size:11px">${fE(val)}</span>`;
+      else html = fE(val);
+      return `<td style="padding:4px 10px;text-align:right;font-size:12px">${html}</td>`;
+    }).join('') : '<td></td><td></td><td></td>';
+
+    const styles = {
+      bold:  'font-weight:600;color:var(--p1)',
+      sub:   'padding-left:22px;color:var(--mu)',
+      total: `font-weight:700;color:var(--p1);border-top:2px solid var(--a1);background:rgba(46,127,168,0.06)`,
+      plain: 'font-weight:500;color:var(--p1)',
+    };
+    const bg = (ri%2===0 && row.type!=='total') ? '' : '';
+    return `<tr>
+      <td style="padding:4px 10px;font-size:12px;${styles[row.type]||''}">${row.label}</td>
+      ${cells}
+    </tr>`;
+  }).join('');
+
+  // ── Liquiditätsübersicht ──────────────────────────────────────
+  const vor0 = N(fd.ek_bar);
+  const liqRows = [
+    { label: 'Plan-Umsatz',                     v: rev },
+    { label: '– Variable Kosten (Wareneinsatz)', v: mat,  neg: true },
+    { label: '– Provisionen',                   v: prov, neg: true },
+    { label: '– Fixkosten gesamt',              v: [0,1,2].map(i=>fpers[i]+fraum[i]+ffahr[i]+fleas[i]+finst[i]+fwerb[i]+freis[i]+fweit[i]+fbuch[i]+fburo[i]+ftele[i]+fbeit[i]+fvers[i]+fsons[i]), neg: true },
+    { label: '– Unternehmerlohn',               v: ulohn, neg: true },
+    { label: '– AfA',                           v: afa,   neg: true },
+    { label: '– Zinsen',                         v: zins,  neg: true },
+    { label: '= Jahresergebnis (Gewinn)',        v: gew,   hl: true, bold: true, sep: true },
+    { label: '+ Abschreibungen (AfA)',           v: afa },
+    { label: '= Cashflow I (operativ)',          v: cfI,   hl: true, bold: true, sep: true },
+    { label: '– Tilgung Fremdkapital',           v: tilg,  neg: true },
+    { label: '– Zinsen',                         v: zins,  neg: true },
+    { label: '= Cashflow II (nach Tilgung)',     v: cfII,  hl: true, bold: true, sep: true },
+    { label: 'Liquiditätsvortrag (Anfang)',      v: [vor0, vor0+cfII[0], vor0+cfII[0]+cfII[1]], bg: true },
+    { label: 'Liquiditätsbestand (Ende)',        v: [vor0+cfII[0], vor0+cfII[0]+cfII[1], vor0+cfII[0]+cfII[1]+cfII[2]], hl: true, bold: true, bg: true },
+
+  ];
+  const lbody = document.getElementById('liq-body');
+  if (lbody) {
+    lbody.innerHTML = liqRows.map(row => {
+      const rowStyle = row.sep ? 'border-top:2px solid var(--a1)' : '';
+      const bgStyle  = row.bg  ? 'background:var(--bg2)' : '';
+      return `<tr style="${rowStyle};${bgStyle}">
+        <td style="padding:5px 10px;font-size:12px;font-weight:${row.bold?700:400};color:var(--${row.bold?'p1':'mu'})">${row.label}</td>
+        ${row.v.map(v => {
+          const val = row.neg ? -v : v;
+          return `<td style="padding:5px 10px;text-align:right;font-size:12px">${row.hl ? fS(val) : fE(val)}</td>`;
+        }).join('')}
+      </tr>`;
+    }).join('');
+  }
+}
+
+
+function tilgUpdate() {
+  const fk=window._finData.fremd||0;
+  const z=parseFloat(document.getElementById('tilg_zins')?.value)||0;
+  const lj=parseInt(document.getElementById('tilg_laufzeit')?.value)||0;
+  const fj=parseInt(document.getElementById('tilg_frei')?.value)||0;
+  window._finData.tilg_zins=z;
+  window._finData.tilg_laufzeit=lj;
+  window._finData.tilg_frei=fj;
+  const el=document.getElementById('tilg_overview');
+  if(!el||!fk||!z||!lj) return;
+  const jt=Math.round(fk/(lj-fj||1));
+  const fmt=v=>v.toLocaleString('de-DE')+' €';
+  let html='<table style="width:100%;font-size:11px;border-collapse:collapse">';
+  html+='<tr style="background:var(--bg2)"><td style="padding:4px 6px;font-weight:700">Jahr</td><td style="padding:4px 6px;text-align:right;font-weight:700">Zinsen</td><td style="padding:4px 6px;text-align:right;font-weight:700">Tilgung</td><td style="padding:4px 6px;text-align:right;font-weight:700">Restschuld</td></tr>';
+  let rest=fk;
+  for(let j=1;j<=Math.min(lj,10);j++){
+    const z_j=Math.round(rest*z/100);
+    const t_j=j>fj?jt:0;
+    rest=Math.max(0,rest-t_j);
+    const bg=j%2===0?'background:rgba(0,0,0,0.03)':'';
+    const hl=j<=3?'color:var(--p2);font-weight:700':'';
+    html+=`<tr style="${bg}"><td style="padding:4px 6px;${hl}">Jahr ${j}${j>fj?'':' <span style="font-size:9px;color:var(--mu)">(tilgungsfrei)</span>'}</td><td style="padding:4px 6px;text-align:right">${fmt(z_j)}</td><td style="padding:4px 6px;text-align:right">${fmt(t_j)}</td><td style="padding:4px 6px;text-align:right">${fmt(rest)}</td></tr>`;
+  }
+  if(lj>10) html+=`<tr><td colspan="4" style="padding:4px 6px;color:var(--mu);font-size:10px">… bis Jahr ${lj}</td></tr>`;
+  html+='</table>';
+  el.innerHTML=html;
+  guvUpdate(window._finData);
+}
 
 function afaUpdate() {
   let sumJ=0, sumM=0;
@@ -1137,8 +1623,16 @@ function afaUpdate() {
 function finUpdate() {
   const g = id => parseFloat(document.getElementById(id)?.value)||0;
   const fd = window._finData;
-  // Standard-Felder lesen
-  ['rev1','rev2','rev3','fix1','fix2','fix3','var1','var2','var3'].forEach(k=>{fd[k]=g(k);});
+  // Umsatz lesen
+  ['rev1','rev2','rev3'].forEach(k=>{fd[k]=g(k);});
+  // Provisionen + Wareneinsatz
+  ['prov1','prov2','prov3','var1','var2','var3'].forEach(k=>{fd[k]=g(k);});
+  // Weitere Jahresposten
+  ['zinsen1','zinsen2','zinsen3','bsteuern1','bsteuern2','bsteuern3',
+   'eststeuer1','eststeuer2','eststeuer3'].forEach(k=>{fd[k]=g(k);});
+  fd.gruendkosten=g('gruendkosten');
+  // fix1/2/3 wird von fixDetailUpdate gesetzt; nur als Fallback direkt lesen wenn keine Detail-Felder
+  [1,2,3].forEach(yr=>{if(!fd['fix'+yr])fd['fix'+yr]=g('fix'+yr);});
   ['entnahme1','entnahme2','entnahme3'].forEach(k=>{fd[k]=g(k);});
 
   // Investitionssumme berechnen
@@ -1148,6 +1642,7 @@ function finUpdate() {
   const invEl=document.getElementById('invest_sum');
   if(invEl) invEl.textContent=invSum.toLocaleString('de-DE');
   fd.invest=invSum;
+  {const el=document.getElementById('kpi_invest');if(el)el.textContent=Math.round(invSum).toLocaleString('de-DE')+' €';}
 
   // EK-Summe
   const ekIds=['ek_bar','ek_bank','ek_sach','ek_verwandt','ek_sonst'];
@@ -1156,6 +1651,7 @@ function finUpdate() {
   const ekEl=document.getElementById('ek_sum');
   if(ekEl) ekEl.textContent=ekSum.toLocaleString('de-DE');
   fd.eigen=ekSum;
+  {const el=document.getElementById('kpi_ek');if(el)el.textContent=Math.round(ekSum).toLocaleString('de-DE')+' €';}
 
   // FK-Summe
   const fkIds=['fk_bank','fk_kfw','fk_gz','fk_avgs','fk_sonst'];
@@ -1164,6 +1660,7 @@ function finUpdate() {
   const fkEl=document.getElementById('fk_sum');
   if(fkEl) fkEl.textContent=fkSum.toLocaleString('de-DE');
   fd.fremd=fkSum;
+  {const el=document.getElementById('kpi_fk');if(el)el.textContent=Math.round(fkSum).toLocaleString('de-DE')+' €';}
   fd.förder=fd.fk_gz||0;
   const totalEl=document.getElementById('invest_total');
   if(totalEl) totalEl.textContent=(ekSum+fkSum).toLocaleString('de-DE');
@@ -1178,14 +1675,115 @@ function finUpdate() {
   document.getElementById('kpi_be').textContent=be?'Monat '+be:'–';
   document.getElementById('kpi_profit').closest('.kpi-box').className='kpi-box '+(p1>=0?'green':'');
   const ctx1=document.getElementById('chartRevCost')?.getContext('2d');
-  if(ctx1){if(charts.rc)charts.rc.destroy();charts.rc=new Chart(ctx1,{type:'bar',data:{labels:['Jahr 1','Jahr 2','Jahr 3'],datasets:[{label:'Umsatz',data:[fd.rev1,fd.rev2,fd.rev3],backgroundColor:'rgba(46,127,168,.8)',borderRadius:5},{label:'Kosten',data:[c1,c2,c3],backgroundColor:'rgba(26,46,74,.6)',borderRadius:5}]},options:{responsive:true,plugins:{legend:{labels:{font:{family:'Poppins',size:11}}}},scales:{x:{ticks:{font:{family:'Poppins'}}},y:{ticks:{font:{family:'Poppins'}}}}}})}
+  if(ctx1){if(charts.rc)charts.rc.destroy();
+    const FIX_KEYS=['fix_personal','fix_raum','fix_fahr','fix_leasing','fix_instand','fix_werbung','fix_reise','fix_weiterb','fix_buchf','fix_buerobed','fix_telefon','fix_beitraege','fix_versich','fix_sonst'];
+    const totalFix=[1,2,3].map(yr=>FIX_KEYS.reduce((s,k)=>s+(fd[k+yr]||0),0)*12);
+    const totalVar=[1,2,3].map(yr=>((fd['var'+yr]||0)+(fd['prov'+yr]||0))*12);
+    charts.rc=new Chart(ctx1,{type:'bar',data:{labels:['Jahr 1','Jahr 2','Jahr 3'],datasets:[
+      {label:'Umsatz',data:[fd.rev1||0,fd.rev2||0,fd.rev3||0],backgroundColor:'rgba(46,127,168,.85)',borderRadius:5},
+      {label:'Variable Kosten',data:totalVar,backgroundColor:'rgba(168,46,60,.6)',borderRadius:5},
+      {label:'Fixkosten',data:totalFix,backgroundColor:'rgba(26,46,74,.55)',borderRadius:5}
+    ]},options:{responsive:true,plugins:{legend:{labels:{font:{family:'Poppins',size:10},boxWidth:12}}},scales:{x:{ticks:{font:{family:'Poppins',size:10}}},y:{ticks:{font:{family:'Poppins',size:10},callback:v=>(v>=1000?(v/1000).toFixed(0)+'k':v)+' €'}}}}})
+  }
   const ctx2=document.getElementById('chartProfit')?.getContext('2d');
   if(ctx2){if(charts.pr)charts.pr.destroy();charts.pr=new Chart(ctx2,{type:'bar',data:{labels:['Jahr 1','Jahr 2','Jahr 3'],datasets:[{label:'Gewinn/Verlust',data:[p1,p2,p3],backgroundColor:[p1>=0?'rgba(42,157,92,.8)':'rgba(231,76,60,.7)',p2>=0?'rgba(42,157,92,.8)':'rgba(231,76,60,.7)',p3>=0?'rgba(42,157,92,.8)':'rgba(231,76,60,.7)'],borderRadius:5}]},options:{responsive:true,plugins:{legend:{labels:{font:{family:'Poppins',size:11}}}},scales:{x:{ticks:{font:{family:'Poppins'}}},y:{ticks:{font:{family:'Poppins'}}}}}})}
   const ctx3=document.getElementById('chartFunding')?.getContext('2d');
   if(ctx3){if(charts.fu)charts.fu.destroy();const tot=fd.eigen+fd.fremd+fd.förder;if(tot>0)charts.fu=new Chart(ctx3,{type:'doughnut',data:{labels:['Eigenkapital','Fremdkapital','Fördermittel'],datasets:[{data:[fd.eigen,fd.fremd,fd.förder],backgroundColor:['rgba(42,157,92,.8)','rgba(26,46,74,.8)','rgba(46,127,168,.8)'],borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{family:'Poppins',size:11}}}}}})}
   const ctx4=document.getElementById('chartBE')?.getContext('2d');
   if(ctx4){if(charts.be)charts.be.destroy();const ms=Array.from({length:12},(_,i)=>i+1);charts.be=new Chart(ctx4,{type:'line',data:{labels:ms.map(m=>'M'+m),datasets:[{label:'Einnahmen',data:ms.map(m=>(fd.rev1/12)*m),borderColor:'rgba(42,157,92,1)',backgroundColor:'rgba(42,157,92,.1)',fill:true,tension:.3,pointRadius:3},{label:'Kosten',data:ms.map(m=>fd.invest+(fd.fix1+fd.var1)*m),borderColor:'rgba(46,127,168,1)',backgroundColor:'rgba(46,127,168,.1)',fill:true,tension:.3,pointRadius:3}]},options:{responsive:true,plugins:{legend:{labels:{font:{family:'Poppins',size:11}}}},scores:{x:{ticks:{font:{family:'Poppins'}}},y:{ticks:{font:{family:'Poppins'}}}}}})}
+  // Tilgungsplan nur anzeigen wenn Fremdkapital vorhanden
+  const tilgSec=document.getElementById('tilgung-section');
+  if(tilgSec){
+    const hasFk=(fd.fremd||0)>0;
+    tilgSec.style.display=hasFk?'block':'none';
+    const tsEl=document.getElementById('tilg_summe');
+    if(tsEl) tsEl.textContent=(fd.fremd||0).toLocaleString('de-DE');
+    if(hasFk) tilgUpdate();
+  }
+  // GuV und Liquiditätsübersicht aktualisieren
+  guvUpdate(fd);
 }
+
+/* ═══════════════════════
+   GRÜNDERPROFIL
+═══════════════════════ */
+function buildGründer(panel) {
+  const s = window._savedData;
+  panel.innerHTML = `
+    <div class="fblock">
+      <div class="ftop"><div class="flabel">Persönliche Angaben</div></div>
+      <div class="fin-grid">
+        <div class="fin-card">
+          <div class="fin-card-title">Name & Geburt</div>
+          <div class="fin-row"><label>Vorname</label><input class="fin-input" id="gr_vorname" placeholder="Max" value="${s.gr_vorname||''}"></div>
+          <div class="fin-row"><label>Nachname</label><input class="fin-input" id="gr_nachname" placeholder="Mustermann" value="${s.gr_nachname||''}"></div>
+          <div class="fin-row"><label>Geburtsdatum</label><input class="fin-input" id="gr_geburt" type="date" value="${s.gr_geburt||''}"></div>
+          <div class="fin-row"><label>Geburtsort</label><input class="fin-input" id="gr_geburtsort" placeholder="Berlin" value="${s.gr_geburtsort||''}"></div>
+          <div class="fin-row"><label>Staatsangehörigkeit</label><input class="fin-input" id="gr_staats" placeholder="deutsch" value="${s.gr_staats||''}"></div>
+          <div class="fin-row"><label>Familienstand</label>
+            <select class="fin-input" id="gr_familie">
+              <option value="">– bitte wählen –</option>
+              ${['ledig','verheiratet','geschieden','verwitwet'].map(v=>`<option value="${v}" ${s.gr_familie===v?'selected':''}>${v}</option>`).join('')}
+            </select>
+          </div>
+          <div class="fin-row"><label>Kinder</label><input class="fin-input" id="gr_kinder" type="number" min="0" placeholder="0" value="${s.gr_kinder||''}"></div>
+          <div class="fin-row"><label>Krankenversicherung</label>
+            <select class="fin-input" id="gr_kv">
+              <option value="">– bitte wählen –</option>
+              ${['Gesetzlich (GKV)','Privat (PKV)','Familienversichert'].map(v=>`<option value="${v}" ${s.gr_kv===v?'selected':''}>${v}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+        <div class="fin-card">
+          <div class="fin-card-title">Adresse & Kontakt</div>
+          <div class="fin-row"><label>Straße & Nr.</label><input class="fin-input" id="gr_strasse" placeholder="Musterstraße 1" value="${s.gr_strasse||''}"></div>
+          <div class="fin-row"><label>PLZ</label><input class="fin-input" id="gr_plz" placeholder="12345" value="${s.gr_plz||''}"></div>
+          <div class="fin-row"><label>Ort</label><input class="fin-input" id="gr_ort" placeholder="Musterstadt" value="${s.gr_ort||''}"></div>
+          <div class="fin-row"><label>Telefon</label><input class="fin-input" id="gr_telefon" placeholder="+49 123 456789" value="${s.gr_telefon||''}"></div>
+          <div class="fin-row"><label>E-Mail</label><input class="fin-input" id="gr_email" placeholder="max@beispiel.de" value="${s.gr_email||''}"></div>
+        </div>
+      </div>
+    </div>
+    <div class="fblock">
+      <div class="ftop"><div class="flabel">Ausbildung & Qualifikationen</div></div>
+      <div class="fhint">Schulabschlüsse, Berufsausbildung, Studium, Weiterbildungen</div>
+      <textarea class="fta" id="gr_ausbildung" rows="4" placeholder="z.B. Ausbildung zum Kaufmann, IHK-Abschluss 2015…" oninput="onInput('gr_ausbildung',this)">${s.gr_ausbildung||''}</textarea>
+      <div class="ffoot"><span class="fcc" id="cc_gr_ausbildung">${(s.gr_ausbildung||'').length} Zeichen</span></div>
+    </div>
+    <div class="fblock">
+      <div class="ftop"><div class="flabel">Berufliche Erfahrung</div></div>
+      <div class="fhint">Relevante Berufsstationen und Branchenkenntnisse</div>
+      <textarea class="fta" id="gr_erfahrung" rows="4" placeholder="z.B. 5 Jahre Vertriebsleiter bei Firma XY…" oninput="onInput('gr_erfahrung',this)">${s.gr_erfahrung||''}</textarea>
+      <div class="ffoot"><span class="fcc" id="cc_gr_erfahrung">${(s.gr_erfahrung||'').length} Zeichen</span></div>
+    </div>
+    <div class="fblock">
+      <div class="ftop"><div class="flabel">Unternehmerische Kompetenzen</div></div>
+      <textarea class="fta" id="gr_kompetenz" rows="3" placeholder="Was macht Sie als Gründer besonders geeignet?" oninput="onInput('gr_kompetenz',this)">${s.gr_kompetenz||''}</textarea>
+      <div class="ffoot"><span class="fcc" id="cc_gr_kompetenz">${(s.gr_kompetenz||'').length} Zeichen</span></div>
+    </div>
+    <div class="fblock">
+      <div class="ftop"><div class="flabel">Mitgründer & Schlüsselpersonen (optional)</div></div>
+      <textarea class="fta" id="gr_team" rows="2" placeholder="Falls Sie mit weiteren Personen gründen…" oninput="onInput('gr_team',this)">${s.gr_team||''}</textarea>
+      <div class="ffoot"><span class="fcc" id="cc_gr_team">${(s.gr_team||'').length} Zeichen</span></div>
+    </div>
+    <div class="fin-grid">
+      <div class="fin-card">
+        <div class="fin-card-title">📋 ALG-Status & Förderung</div>
+        <div class="fin-row"><label>Status</label>
+          <select class="fin-input" id="gr_status">
+            <option value="">– bitte wählen –</option>
+            ${['ALG I Empfänger','ALG II / Bürgergeld','Beschäftigt','Selbständig','Sonstiges'].map(v=>`<option value="${v}" ${s.gr_status===v?'selected':''}>${v}</option>`).join('')}
+          </select>
+        </div>
+        <div class="fin-row"><label>Verbleibende ALG-Tage</label><input class="fin-input" id="gr_alg_tage" type="number" min="0" placeholder="0" value="${s.gr_alg_tage||''}"></div>
+        <div class="fin-row"><label>Monatlicher ALG-Betrag</label><input class="fin-input" id="gr_alg_betrag" type="number" min="0" placeholder="0" value="${s.gr_alg_betrag||''}"><span class="fin-unit">€</span></div>
+        <div class="fin-row"><label>Agentur für Arbeit</label><input class="fin-input" id="gr_agentur" placeholder="z.B. Kaiserslautern" value="${s.gr_agentur||''}"></div>
+      </div>
+    </div>
+  `;
+}
+
+
 
 /* ═══════════════════════
    NAVIGATION
@@ -1209,14 +1807,24 @@ function saveCurrentFields() {
       'ek_bar','ek_bank','ek_sach','ek_verwandt','ek_sonst',
       'fk_bank','fk_kfw','fk_gz','fk_avgs','fk_sonst'];
     allFinIds.forEach(k=>{const el=document.getElementById(k);if(el)window._finData[k]=parseFloat(el.value)||0;});
+
+    // Tilgungsplan
+    ['tilg_zins','tilg_laufzeit','tilg_frei'].forEach(k=>{const el=document.getElementById(k);if(el)window._finData[k]=parseFloat(el.value)||0;});
     for(let i=1;i<=5;i++){
       ['afa_name','afa_wert','afa_nd'].forEach(pre=>{const el=document.getElementById(pre+i);if(el)window._finData[pre+i]=el.value;});
     }
     afaUpdate();
-    // Liquiditätswerte speichern
-    for(let yr=1;yr<=2;yr++){for(let i=1;i<=12;i++){
-      ['ein','aus'].forEach(t=>{const el=document.getElementById('liq'+yr+'_'+t+i);if(el)window._finData['liq'+yr+'_'+t+i]=parseFloat(el.value)||0;});
-    }}['fin_liquid','fin_rent'].forEach(k=>{const el=document.getElementById(k);if(el)window._savedData[k]=el.value;});}
+    fixDetailUpdate();
+    // Weitere Jahresposten
+    ['zinsen1','zinsen2','zinsen3','bsteuern1','bsteuern2','bsteuern3','eststeuer1','eststeuer2','eststeuer3'].forEach(k=>{const el=document.getElementById(k);if(el)window._finData[k]=parseFloat(el.value)||0;});
+    window._finData.gruendkosten=parseFloat(document.getElementById('gruendkosten')?.value)||0;
+    // Manuelle Liquiditäts-Eingaben speichern
+    ['kredit','sonst_ein','privat_ein','bareinkauf','bst_m','invest_m','sonst_aus'].forEach(key=>{
+      for(let m=1;m<=24;m++){
+        const el=document.getElementById('liqm_'+key+'_'+m);
+        if(el) window._finData['liqm_'+key+'_'+m]=parseFloat(el.value)||0;
+      }
+    });['fin_liquid','fin_rent'].forEach(k=>{const el=document.getElementById(k);if(el)window._savedData[k]=el.value;});}
   const any=ch.isSwot?['sw_s','sw_w','sw_o','sw_t'].some(k=>(window._savedData[k]||'').trim().length>5):ch.isFinance?(window._finData.rev1>0):ch.fields?.some(f=>(window._savedData[f.id]||'').trim().length>5);
   if(any)window._doneSet.add(currentChapter);
 }
@@ -1581,6 +2189,116 @@ function dlPDF() {
         }
       }
 
+      // Gewinn- und Verlustrechnung (vollständig nach Bild)
+      const mat1=(fd.var1||0)*12, mat2=(fd.var2||0)*12, mat3=(fd.var3||0)*12;
+      const roh1=(fd.rev1||0)-mat1, roh2=(fd.rev2||0)-mat2, roh3=(fd.rev3||0)-mat3;
+      const pers1=(fd.entnahme1||0)*12, pers2=(fd.entnahme2||0)*12, pers3=(fd.entnahme3||0)*12;
+      const afa_j=fd.afa_total_jahr||0;
+      const prov1_j=(fd.prov1||0)*12,prov2_j=(fd.prov2||0)*12,prov3_j=(fd.prov3||0)*12;
+      const roh1g=r1-mat1-prov1_j, roh2g=r2-mat2-prov2_j, roh3g=r3-mat3-prov3_j;
+      const fp=k=>[1,2,3].map(i=>(fd[k+i]||0)*12);
+      const fp_pers=fp('fix_personal'),fp_raum=fp('fix_raum'),fp_fahr=fp('fix_fahr'),fp_leas=fp('fix_leasing'),fp_inst=fp('fix_instand');
+      const fp_werb=fp('fix_werbung'),fp_reis=fp('fix_reise'),fp_weit=fp('fix_weiterb'),fp_buch=fp('fix_buchf'),fp_buro=fp('fix_buerobed');
+      const fp_tele=fp('fix_telefon'),fp_beit=fp('fix_beitraege'),fp_vers=fp('fix_versich'),fp_sons=fp('fix_sonst');
+      const pers1_j=(fd.entnahme1||0)*12,pers2_j=(fd.entnahme2||0)*12,pers3_j=(fd.entnahme3||0)*12;
+      const zins1_j=fd.zinsen1||0,zins2_j=fd.zinsen2||0,zins3_j=fd.zinsen3||0;
+      const grnd_j=fd.gruendkosten||0;
+      const gew1=roh1g-fp_pers[0]-fp_raum[0]-fp_fahr[0]-fp_leas[0]-fp_inst[0]-fp_werb[0]-fp_reis[0]-fp_weit[0]-fp_buch[0]-fp_buro[0]-fp_tele[0]-fp_beit[0]-fp_vers[0]-fp_sons[0]-afa_j-zins1_j-grnd_j;
+      const gew2=roh2g-fp_pers[1]-fp_raum[1]-fp_fahr[1]-fp_leas[1]-fp_inst[1]-fp_werb[1]-fp_reis[1]-fp_weit[1]-fp_buch[1]-fp_buro[1]-fp_tele[1]-fp_beit[1]-fp_vers[1]-fp_sons[1]-afa_j-zins2_j;
+      const gew3=roh3g-fp_pers[2]-fp_raum[2]-fp_fahr[2]-fp_leas[2]-fp_inst[2]-fp_werb[2]-fp_reis[2]-fp_weit[2]-fp_buch[2]-fp_buro[2]-fp_tele[2]-fp_beit[2]-fp_vers[2]-fp_sons[2]-afa_j-zins3_j;
+      const cfI1=gew1+afa_j,cfI2=gew2+afa_j,cfI3=gew3+afa_j;
+      const bst1=fd.bsteuern1||0,bst2=fd.bsteuern2||0,bst3=fd.bsteuern3||0;
+      const est1=fd.eststeuer1||0,est2=fd.eststeuer2||0,est3=fd.eststeuer3||0;
+      const ebt1_g=gew1,ebt2_g=gew2,ebt3_g=gew3;
+      const guvData=[['Position','Jahr 1 €','Jahr 2 €','Jahr 3 €'],
+        ['Plan-Umsatz (ohne Bestandsveränderungen)',fmt(r1),fmt(r2),fmt(r3)],
+        ['Abzüglich variable Kosten','','',''],
+        ['  Wareneinsatz',fmt(mat1),fmt(mat2),fmt(mat3)],
+        ['  Provisionen',fmt(prov1_j),fmt(prov2_j),fmt(prov3_j)],
+        ['= Rohertrag',fmt(roh1g),fmt(roh2g),fmt(roh3g)],
+        ['Abzüglich Personalkosten',fmt(fp_pers[0]),fmt(fp_pers[1]),fmt(fp_pers[2])],
+        ['  Raumkosten',fmt(fp_raum[0]),fmt(fp_raum[1]),fmt(fp_raum[2])],
+        ['  Fahrzeugkosten',fmt(fp_fahr[0]),fmt(fp_fahr[1]),fmt(fp_fahr[2])],
+        ['  Leasing',fmt(fp_leas[0]),fmt(fp_leas[1]),fmt(fp_leas[2])],
+        ['  Instandhaltung',fmt(fp_inst[0]),fmt(fp_inst[1]),fmt(fp_inst[2])],
+        ['  Werbekosten',fmt(fp_werb[0]),fmt(fp_werb[1]),fmt(fp_werb[2])],
+        ['  Reise- / Bewirtungskosten',fmt(fp_reis[0]),fmt(fp_reis[1]),fmt(fp_reis[2])],
+        ['  Weiterbildung / Fachzeitschriften',fmt(fp_weit[0]),fmt(fp_weit[1]),fmt(fp_weit[2])],
+        ['  Buchführung, Beratung',fmt(fp_buch[0]),fmt(fp_buch[1]),fmt(fp_buch[2])],
+        ['  Bürobedarf',fmt(fp_buro[0]),fmt(fp_buro[1]),fmt(fp_buro[2])],
+        ['  Telefon / Fax / Internet / Porto',fmt(fp_tele[0]),fmt(fp_tele[1]),fmt(fp_tele[2])],
+        ['  Beiträge & Gebühren (Lizenz)',fmt(fp_beit[0]),fmt(fp_beit[1]),fmt(fp_beit[2])],
+        ['  Betriebliche Versicherungen',fmt(fp_vers[0]),fmt(fp_vers[1]),fmt(fp_vers[2])],
+        ['  Sonstige Kosten',fmt(fp_sons[0]),fmt(fp_sons[1]),fmt(fp_sons[2])],
+        ['Abzüglich AfA',fmt(afa_j),fmt(afa_j),fmt(afa_j)],
+        ['Abzüglich Zinsen',fmt(zins1_j),fmt(zins2_j),fmt(zins3_j)],
+        ['Abzüglich gründungsbedingte Kosten',fmt(grnd_j),'–','–'],
+        ['= Gewinn',fmt(gew1),fmt(gew2),fmt(gew3)],
+        ['Zuzüglich: AfA',fmt(afa_j),fmt(afa_j),fmt(afa_j)],
+        ['  Eigenkapital & Fremdkapital',fmt((fd.eigen||0)+(fd.fremd||0)),'–','–'],
+        ['Abzüglich: Tilgung',fmt(t1),fmt(t2),fmt(t3)],
+        ['  Unternehmerlohn (netto)',fmt(pers1_j),fmt(pers2_j),fmt(pers3_j)],
+        ['  Betriebliche Steuern',fmt(bst1),fmt(bst2),fmt(bst3)],
+        ['  Einkommenssteuer (Rücklage)',fmt(est1),fmt(est2),fmt(est3)],
+        ['  Investitionen',fmt(fd.invest||0),'–','–'],
+        ['= Cash Flow',fmt(gew1+afa_j+(fd.eigen||0)+(fd.fremd||0)-t1-pers1_j-bst1-est1-(fd.invest||0)),
+                       fmt(gew2+afa_j-t2-pers2_j-bst2-est2),
+                       fmt(gew3+afa_j-t3-pers3_j-bst3-est3)],
+      ];
+      if(y>240){y=newPage();}
+      doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(...cD);
+      doc.text('GEWINN- UND VERLUSTRECHNUNG / GuV (IN €)',mg,y);
+      doc.setDrawColor(...cP);doc.setLineWidth(0.3);doc.line(mg,y+1.5,mg+maxW,y+1.5);y+=5;
+      y=drawTable(guvData,[75,25,25,25],y);
+
+      // Liquiditätsübersicht
+      const cf1_p=ebt1_g+afa_j, cf2_p=ebt2_g+afa_j, cf3_p=ebt3_g+afa_j;
+      const fk_p=fd.fremd||0;
+      const z_p=(fd.tilg_zins||0)/100;
+      const lj_p=parseInt(fd.tilg_laufzeit)||0;
+      const fj_p=parseInt(fd.tilg_frei)||0;
+      let t1=0,t2=0,t3=0,z1_l=0,z2_l=0,z3_l=0;
+      if(fk_p>0&&lj_p>0){
+        const jt=Math.round(fk_p/(lj_p-fj_p||1));
+        z1_l=Math.round(fk_p*z_p); t1=1>fj_p?jt:0;
+        z2_l=Math.round((fk_p-t1)*z_p); t2=2>fj_p?jt:0;
+        z3_l=Math.round((fk_p-t1-t2)*z_p); t3=3>fj_p?jt:0;
+      }
+      const vor0_p=fd.ek_bar||0;
+      const liq1_p=cf1_p-t1-z1_l, liq2_p=cf2_p-t2-z2_l, liq3_p=cf3_p-t3-z3_l;
+      const liqData=[['Position','Jahr 1 €','Jahr 2 €','Jahr 3 €'],
+        ['Jahresergebnis vor Steuern',fmt(ebt1_g),fmt(ebt2_g),fmt(ebt3_g)],
+        ['+ Abschreibungen',fmt(afa_j),fmt(afa_j),fmt(afa_j)],
+        ['= Cashflow I (operativ)',fmt(cf1_p),fmt(cf2_p),fmt(cf3_p)],
+        ['– Tilgung / Zinsen',fmt(t1+z1_l),fmt(t2+z2_l),fmt(t3+z3_l)],
+        ['= Cashflow II (nach Tilgung)',fmt(liq1_p),fmt(liq2_p),fmt(liq3_p)],
+        ['Liquiditätsbestand (kum.)',fmt(vor0_p+liq1_p),fmt(vor0_p+liq1_p+liq2_p),fmt(vor0_p+liq1_p+liq2_p+liq3_p)],
+      ];
+      if(y>240){y=newPage();}
+      doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(...cD);
+      doc.text('LIQUIDITÄTSÜBERSICHT / CASHFLOW (IN €)',mg,y);
+      doc.setDrawColor(...cP);doc.setLineWidth(0.3);doc.line(mg,y+1.5,mg+maxW,y+1.5);y+=5;
+      y=drawTable(liqData,[75,25,25,25],y);
+
+      // Tilgungsplan (nur wenn Fremdkapital und Parameter vorhanden)
+      if(fk_p>0&&lj_p>0&&z_p>0){
+        if(y>200){y=newPage();}
+        doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(...cD);
+        doc.text('TILGUNGSPLAN (IN €)',mg,y);
+        doc.setDrawColor(...cP);doc.setLineWidth(0.3);doc.line(mg,y+1.5,mg+maxW,y+1.5);y+=5;
+        const tilgData=[['Jahr','Restschuld','Zinsen','Tilgung','Zahllast']];
+        let rest_t=fk_p;
+        const jt_t=Math.round(fk_p/(lj_p-fj_p||1));
+        for(let j=1;j<=Math.min(lj_p,10);j++){
+          const z_t=Math.round(rest_t*z_p);
+          const t_t=j>fj_p?jt_t:0;
+          rest_t=Math.max(0,rest_t-t_t);
+          tilgData.push(['Jahr '+j,Number(rest_t).toLocaleString('de-DE'),Number(z_t).toLocaleString('de-DE'),Number(t_t).toLocaleString('de-DE'),Number(z_t+t_t).toLocaleString('de-DE')]);
+        }
+        if(lj_p>10) tilgData.push(['…','','','','']);
+        y=drawTable(tilgData,[20,35,25,25,25],y);
+      }
+
       // Hinweis
       doc.setFont('helvetica','italic');doc.setFontSize(7);doc.setTextColor(...cMu);
       const hinweis='Alle Angaben sind Planwerte und stellen keine Garantie für tatsächliche Ergebnisse dar. Die Finanzplanung basiert auf realistischen Marktannahmen.';
@@ -1640,6 +2358,61 @@ document.addEventListener('focusin', function(e) {
     }, 300);
   }
 });
+/* ═══ KONTAKT ═══ */
+function openContact() {
+  document.getElementById('contactOverlay').classList.add('open');
+  document.getElementById('contactPanel').classList.add('open');
+  // Vorausfüllen falls angemeldet
+  const p = window._profile || {};
+  if(p.first || p.last) {
+    const nameEl = document.getElementById('cp_name');
+    if(nameEl && !nameEl.value) nameEl.value = [p.first,p.last].filter(Boolean).join(' ');
+  }
+  if(p.email) {
+    const emailEl = document.getElementById('cp_email');
+    if(emailEl && !emailEl.value) emailEl.value = p.email;
+  }
+}
+
+function closeContact() {
+  document.getElementById('contactOverlay').classList.remove('open');
+  document.getElementById('contactPanel').classList.remove('open');
+}
+
+function sendContact() {
+  const name  = document.getElementById('cp_name').value.trim();
+  const email = document.getElementById('cp_email').value.trim();
+  const tel   = document.getElementById('cp_tel').value.trim();
+  const thema = document.getElementById('cp_thema').value;
+  const msg   = document.getElementById('cp_msg').value.trim();
+
+  if(!name || !email) { alert('Bitte Name und E-Mail ausfüllen.'); return; }
+  if(!msg)            { alert('Bitte eine kurze Nachricht eingeben.'); return; }
+
+  // Mailto-Fallback (funktioniert immer, kein Server nötig)
+  const subject = encodeURIComponent(`Businessplan-Anfrage: ${thema||'Allgemein'} – ${name}`);
+  const body = encodeURIComponent(
+    `Name: ${name}
+E-Mail: ${email}
+Telefon: ${tel||'–'}
+Thema: ${thema||'–'}
+
+Nachricht:
+${msg}
+
+---
+Gesendet über das DCE Businessplan-Tool`
+  );
+  const mailto = `mailto:info@die-coachingexperten.de?subject=${subject}&body=${body}`;
+  window.open(mailto, '_blank');
+
+  // Erfolgsmeldung
+  document.getElementById('cp_success').style.display = 'block';
+  document.querySelector('.cp-btn').style.display = 'none';
+  setTimeout(closeContact, 6000);
+}
+
+
 </script>
 </body>
 </html>
