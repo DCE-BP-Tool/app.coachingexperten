@@ -50,7 +50,7 @@ html,body{height:100%;font-family:'Poppins',sans-serif;color:#1a1d2e;background:
    AUTH CARD
 ═══════════════════════════════════════ */
 .auth-card{background:#fff;border-radius:20px;width:420px;max-width:95vw;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.35)}
-.card-header{background:#fff;padding:28px 28px 0}
+.card-header{background:#fff;padding:32px 28px 0;border-radius:20px 20px 0 0}
 .brand-row{display:flex;align-items:center;gap:8px;margin-bottom:4px}
 .brand-dot{width:9px;height:9px;border-radius:50%;background:var(--a1)}
 .brand-name{font-size:14px;font-weight:800;color:var(--p1)}
@@ -62,7 +62,7 @@ html,body{height:100%;font-family:'Poppins',sans-serif;color:#1a1d2e;background:
 .card-body{padding:22px 28px}
 .fg{margin-bottom:14px}
 .fl{display:block;font-size:11px;font-weight:600;color:var(--p1);text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}
-.fi{width:100%;padding:11px 14px;border:1.5px solid var(--bdr);border-radius:8px;font-size:14px;font-family:'Poppins',sans-serif;font-weight:400;color:var(--tx);background:var(--bg);outline:none;transition:border-color .2s}
+.fi{width:100%;padding:11px 14px;border:1.5px solid var(--bdr);border-radius:8px;font-size:14px;font-family:'Poppins',sans-serif;color:var(--tx);background:var(--bg);outline:none;transition:border-color .2s}
 .fi:focus{border-color:var(--a1);background:#fff}
 .fi-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .btn-primary{width:100%;padding:13px;border:none;border-radius:9px;background:linear-gradient(135deg,var(--a1),var(--a2));color:#fff;font-size:14px;font-weight:700;font-family:'Poppins',sans-serif;cursor:pointer;box-shadow:0 4px 16px rgba(46,127,168,.35)}
@@ -95,7 +95,11 @@ html,body{height:100%;font-family:'Poppins',sans-serif;color:#1a1d2e;background:
 .purpose-title{font-size:13px;font-weight:700;color:var(--p1)}
 .purpose-desc{font-size:11px;color:var(--mu);margin-top:2px;line-height:1.4}
 select.fi{cursor:pointer}
-select.fin-input{flex:1;min-width:0;text-align:left;cursor:pointer}
+.btn-google{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:11px 16px;border:1.5px solid #dadce0;border-radius:12px;background:#fff;color:#3c4043;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .15s,box-shadow .15s;box-shadow:0 1px 3px rgba(0,0,0,.08);margin-bottom:4px}
+.btn-google:hover{background:#f8f9fa;box-shadow:0 2px 6px rgba(0,0,0,.13)}
+.btn-google svg{flex-shrink:0}
+.or-divider{display:flex;align-items:center;gap:10px;margin:14px 0;color:var(--mu);font-size:12px;font-weight:600}
+.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--bdr)}
 
 /* ═══════════════════════════════════════
    APP LAYOUT
@@ -149,7 +153,7 @@ select.fin-input{flex:1;min-width:0;text-align:left;cursor:pointer}
 .ftop{padding:14px 18px 0}
 .flabel{font-size:11px;font-weight:700;color:var(--p1);text-transform:uppercase;letter-spacing:.8px}
 .fhint{padding:4px 18px 10px;font-size:12px;color:var(--mu);line-height:1.6}
-.fta{display:block;width:100%;padding:12px 18px;border:none;border-top:1px solid var(--bdr);font-size:13px;font-weight:400;font-family:'Poppins',sans-serif;color:var(--tx);background:transparent;resize:vertical;line-height:1.75;outline:none;min-height:100px}
+.fta{display:block;width:100%;padding:12px 18px;border:none;border-top:1px solid var(--bdr);font-size:13px;font-family:'Poppins',sans-serif;color:var(--tx);background:transparent;resize:vertical;line-height:1.75;outline:none;min-height:100px}
 .fta::placeholder{color:#b8c0d0}
 .ffoot{padding:8px 18px;border-top:1px solid var(--bdr);background:rgba(244,246,251,.8);display:flex}
 .fcc{font-size:11px;color:var(--mu);margin-left:auto}
@@ -165,15 +169,19 @@ select.fin-input{flex:1;min-width:0;text-align:left;cursor:pointer}
 .page-foot a:hover{color:#fff}
 
 /* SWOT */
-.swot-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
-.swot-cell{border-radius:8px;padding:14px 16px;border:1px solid var(--bdr);background:#fff}
-.swot-cell.s{border-left:3px solid #66bb6a}
-.swot-cell.w{border-left:3px solid #ffa726}
-.swot-cell.o{border-left:3px solid #42a5f5}
-.swot-cell.t{border-left:3px solid #ef5350}
-.swot-head{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;color:var(--mu)}
-.swot-ta{width:100%;border:none;background:transparent;font-size:13px;font-weight:400;font-family:'Poppins',sans-serif;color:var(--tx);resize:none;outline:none;line-height:1.7;min-height:90px}
-.swot-ta::placeholder{color:#c0c4cc;font-weight:400}
+.swot-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.swot-cell{border-radius:11px;padding:16px;border:1px solid var(--bdr)}
+.swot-cell.s{background:#e8f5e9;border-color:#a5d6a7}
+.swot-cell.w{background:#fff8e1;border-color:#ffe082}
+.swot-cell.o{background:#e3f2fd;border-color:#90caf9}
+.swot-cell.t{background:#fce4ec;border-color:#f48fb1}
+.swot-head{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.swot-cell.s .swot-head{color:#2e7d32}
+.swot-cell.w .swot-head{color:#f57f17}
+.swot-cell.o .swot-head{color:#1565c0}
+.swot-cell.t .swot-head{color:#c62828}
+.swot-ta{width:100%;border:none;background:transparent;font-size:12px;font-family:'Poppins',sans-serif;color:var(--tx);resize:none;outline:none;line-height:1.65;min-height:80px}
+.swot-ta::placeholder{color:#bbb}
 
 /* FINANCE */
 .fin-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
@@ -181,10 +189,8 @@ select.fin-input{flex:1;min-width:0;text-align:left;cursor:pointer}
 .fin-section-title{font-size:13px;font-weight:700;color:var(--p1);text-transform:uppercase;letter-spacing:1px;border-bottom:2px solid var(--a1);padding-bottom:6px;margin:20px 0 12px;grid-column:1/-1}
 .fin-card-title{font-size:11px;font-weight:700;color:var(--p1);text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px;display:flex;align-items:center;gap:6px}
 .fin-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.fin-row label{font-size:12px;color:var(--mu);flex:1;min-width:100px}
-.fin-input{flex:1;min-width:0;width:auto;padding:8px 10px;border:1.5px solid var(--bdr);border-radius:7px;font-size:13px;font-family:'Poppins',sans-serif;font-weight:400;color:var(--tx);text-align:left;outline:none;background:#fff}
-.fin-input[type="number"]{flex:0 0 110px;width:110px;text-align:right;min-width:0}
-.fin-input[type="date"]{flex:1;text-align:left}
+.fin-row label{font-size:12px;color:var(--mu);flex:1}
+.fin-input{width:120px;padding:8px 10px;border:1.5px solid var(--bdr);border-radius:7px;font-size:13px;font-family:'Poppins',sans-serif;font-weight:600;color:var(--tx);text-align:right;outline:none}
 .fin-input:focus{border-color:var(--a1)}
 .fin-unit{font-size:12px;color:var(--mu);min-width:20px}
 .charts-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
@@ -242,8 +248,7 @@ select.fin-input{flex:1;min-width:0;text-align:left;cursor:pointer}
   .fin-card{padding:12px 10px}
   .fin-row{flex-wrap:wrap;gap:4px}
   .fin-row label{min-width:100%;font-size:12px}
-  .fin-input{flex:1;width:100%;text-align:left;font-size:15px}
-  .fin-input[type="number"]{flex:1;width:100%;text-align:right}
+  .fin-input{font-size:15px}
   .charts-row,.chart-wrap{min-width:0}
   .kpi-strip{grid-template-columns:repeat(2,1fr);gap:6px}
   .kpi-box{padding:10px 8px}
@@ -331,7 +336,7 @@ select.fin-input{flex:1;min-width:0;text-align:left;cursor:pointer}
 }
 @media(max-width:640px){
   #authView{align-items:flex-start;overflow-y:auto;-webkit-overflow-scrolling:touch}
-  .auth-card{width:100%;max-width:100vw;border-radius:20px;min-height:100vh;min-height:100dvh;box-shadow:none;flex-shrink:0}
+  .auth-card{width:100%;max-width:100vw;border-radius:0;min-height:100vh;min-height:100dvh;box-shadow:none;flex-shrink:0}
   .swot-grid{grid-template-columns:1fr}
   .fin-grid{grid-template-columns:1fr}
   .charts-row{grid-template-columns:1fr}
@@ -446,6 +451,11 @@ select.fin-input{flex:1;min-width:0;text-align:left;cursor:pointer}
           <label for="regAgb">Ich akzeptiere die <a href="#" onclick="openAgb(event)">AGB</a> und habe die <a href="https://die-coachingexperten.de/datenschutz/" target="_blank">Datenschutzerklärung</a> gelesen.</label>
         </div>
         <button class="btn-primary" onclick="doRegister()">Jetzt kostenlos registrieren →</button>
+        <div class="or-divider">oder</div>
+        <button class="btn-google" onclick="doGoogleSignIn()">
+          <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+          Mit Google registrieren
+        </button>
         <div class="divider-text">Bereits registriert?</div>
         <button class="btn-ghost" onclick="showPanel('panelLogin')">→ Jetzt anmelden</button>
         <div class="card-footer-links" style="margin-top:14px">
@@ -473,6 +483,11 @@ select.fin-input{flex:1;min-width:0;text-align:left;cursor:pointer}
             Passwort vergessen?
           </button>
         </div>
+        <div class="or-divider">oder</div>
+        <button class="btn-google" onclick="doGoogleSignIn()">
+          <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+          Mit Google anmelden
+        </button>
         <div class="divider-text">Noch kein Konto?</div>
         <button class="btn-ghost" onclick="showPanel('panelReg')">→ Jetzt kostenlos registrieren</button>
         <div class="card-footer-links" style="margin-top:14px">
@@ -739,6 +754,7 @@ window._currentUser = null;
         signInWithEmailAndPassword:     (a,e,p) => auth.signInWithEmailAndPassword(e,p),
         signOut:                        ()      => auth.signOut(),
         sendPasswordResetEmail:         (a,e)   => auth.sendPasswordResetEmail(e),
+        signInWithGoogle:               ()      => { const provider = new firebase.auth.GoogleAuthProvider(); return auth.signInWithPopup(provider); },
         doc:    (db,col,id) => db.collection(col).doc(id),
         setDoc: (ref,data)  => ref.set(data,{merge:true}),
         getDoc: (ref)       => ref.get().then(s=>({exists:()=>s.exists,data:()=>s.data()})),
@@ -809,6 +825,47 @@ function showPanel(id) {
   ['panelReg','panelLogin','panelOnboard'].forEach(p => {
     document.getElementById(p).style.display = p === id ? 'block' : 'none';
   });
+}
+
+async function doGoogleSignIn() {
+  if (!window._firebaseReady) { alert('Firebase wird noch geladen…'); return; }
+  try {
+    const cred = await window._fbFn.signInWithGoogle();
+    const user = cred.user;
+    window._currentUser = user;
+    // Versuche gespeicherte Daten zu laden
+    let hasData = false;
+    try {
+      const uid = user.uid;
+      const snap = await window._fbFn.getDoc(window._fbFn.doc(window._fbDb,'businessplans',uid));
+      if (snap.exists()) {
+        const d = snap.data();
+        if(d.savedData) Object.assign(window._savedData, d.savedData);
+        if(d.doneSet) d.doneSet.forEach(i => window._doneSet.add(i));
+        if(d.profile) Object.assign(window._profile, d.profile);
+        if(d.finData) Object.assign(window._finData, d.finData);
+        if(d.profile && d.profile.onboarded) hasData = true;
+      }
+    } catch(e2){}
+    if (!window._profile.email) window._profile.email = user.email;
+    if (hasData) {
+      launchApp();
+    } else {
+      // Neuer Google-Nutzer → Onboarding mit vorausgefülltem Namen
+      const displayName = user.displayName || '';
+      const parts = displayName.split(' ');
+      if (!window._profile.first) window._profile.first = parts[0] || '';
+      if (!window._profile.last) window._profile.last = parts.slice(1).join(' ') || '';
+      window._profile.email = user.email || '';
+      showPanel('panelOnboard');
+    }
+  } catch(e) {
+    if (e.code === 'auth/popup-closed-by-user') return; // still cancelled
+    const msg = e.code === 'auth/popup-blocked'
+      ? 'Popup wurde blockiert. Bitte Popups für diese Seite erlauben.'
+      : 'Google-Anmeldung fehlgeschlagen: ' + e.message;
+    alert(msg);
+  }
 }
 
 async function doRegister() {
@@ -955,7 +1012,7 @@ function obFinish() {
   window._profile.rechtsform = document.getElementById('obRechtsform').value;
   window._profile.gründung = document.getElementById('obGründung').value;
   window._profile.kapital  = document.getElementById('obKapital').value;
-  window._profile.idea     = document.getElementById('obIdea').value;
+  window._profile.onboarded = true;
   launchApp();
 }
 
@@ -1784,36 +1841,6 @@ function buildGründer(panel) {
 }
 
 
-
-/* ═══════════════════════
-   SWOT
-═══════════════════════ */
-function buildSwot(panel) {
-  const s = window._savedData;
-  panel.innerHTML = `
-    <div class="swot-grid">
-      <div class="swot-cell s">
-        <div class="swot-head">💪 Stärken (Strengths)</div>
-        <textarea class="swot-ta" id="sw_s" placeholder="Was macht Ihr Unternehmen besonders gut? Welche Vorteile haben Sie gegenüber Wettbewerbern?">${s.sw_s||''}</textarea>
-      </div>
-      <div class="swot-cell w">
-        <div class="swot-head">⚠️ Schwächen (Weaknesses)</div>
-        <textarea class="swot-ta" id="sw_w" placeholder="Wo gibt es Verbesserungspotenzial? Welche Ressourcen oder Fähigkeiten fehlen noch?">${s.sw_w||''}</textarea>
-      </div>
-      <div class="swot-cell o">
-        <div class="swot-head">🚀 Chancen (Opportunities)</div>
-        <textarea class="swot-ta" id="sw_o" placeholder="Welche Marktchancen können Sie nutzen? Welche Trends begünstigen Ihr Vorhaben?">${s.sw_o||''}</textarea>
-      </div>
-      <div class="swot-cell t">
-        <div class="swot-head">🔻 Risiken (Threats)</div>
-        <textarea class="swot-ta" id="sw_t" placeholder="Welche externen Risiken bedrohen Ihr Vorhaben? Wie reagieren Sie auf Wettbewerb oder Marktveränderungen?">${s.sw_t||''}</textarea>
-      </div>
-    </div>`;
-  ['sw_s','sw_w','sw_o','sw_t'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el) el.addEventListener('input',()=>{window._savedData[id]=el.value;});
-  });
-}
 
 /* ═══════════════════════
    NAVIGATION
