@@ -14,6 +14,9 @@
 ═══════════════════════════════════════ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;font-family:'Poppins',sans-serif;color:#1a1d2e;background:#f4f6fb;font-size:14px;overflow:hidden}
+@media(max-width:640px){
+  html,body{overflow:auto;height:auto;min-height:100%}
+}
 :root{
   --p1:#1a2e4a;--p2:#243d62;--p3:#2f4f7e;
   --a1:#2e7fa8;--a2:#256e94;--a3:#5ba3c4;
