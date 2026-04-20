@@ -1549,9 +1549,9 @@ textarea.fi { background:#f8fafc !important; color:#1e293b !important; }
   width: 48% !important;
   background: #ffffff !important;
   display: flex !important;
-  align-items: center !important;
+  align-items: flex-start !important;
   justify-content: center !important;
-  padding: 48px 56px !important;
+  padding: 32px 56px !important;
   min-height: 100% !important;
   overflow-y: auto !important;
 }
@@ -1757,6 +1757,7 @@ textarea.fi { background:#f8fafc !important; color:#1e293b !important; }
 .auth-footer a:hover { color: #252a3a !important; }
 .auth-footer span[style*="opacity:.3"] { color: #d1d5db !important; opacity: 1 !important; }
 
+
 /* 13. MOBILE — full white */
 @media(max-width:960px) {
   .auth-left-panel { display: none !important; }
@@ -1784,9 +1785,9 @@ textarea.fi { background:#f8fafc !important; color:#1e293b !important; }
   #authView .card-title { font-size: 22px !important; }
 }
 
-/* ── Value Proposition Banner ───────────────────────────────── */
+/* ── Value Proposition Banner (Mobile only) ───────────────────────────────── */
 .auth-mobile-banner {
-  display: block;
+  display: none;
   background: linear-gradient(135deg,#f0f5fa,#e8eef5);
   border: 1px solid #cdd8e8;
   border-radius: 14px;
@@ -1836,6 +1837,7 @@ textarea.fi { background:#f8fafc !important; color:#1e293b !important; }
     align-items: flex-start !important;
     padding: 0 !important;
   }
+  .auth-mobile-banner { display: block !important; }
 }
 
 /* ══════════════════════════════════════════════════
