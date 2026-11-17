@@ -812,6 +812,171 @@ textarea.cp-input{resize:vertical;line-height:1.55}
 .pro-steps li:nth-child(1)::after{background:linear-gradient(#fff,#ffe3a8)}
 .pro-steps li:nth-child(2)::after{background:linear-gradient(#ffe3a8,#ffcb6b)}
 .pro-steps li:nth-child(3)::after{background:linear-gradient(#ffcb6b,#FFB430)}
+@media (min-width:981px){.final-box{grid-template-columns:minmax(0,1fr) 400px}.final h2{font-size:clamp(26px,2.4vw,34px)}}
+@media (min-width:1100px){.final h2 .nw{white-space:nowrap}}
+
+/* ═══ Finanzteil 2.0 ═══ */
+.fz{--fzr:14px}
+.fz .fx-ic{width:42px;height:42px;border-radius:11px;margin:0;flex:0 0 42px}
+.fz .fx-ic svg{width:21px;height:21px}
+.fx-ic.am{background:linear-gradient(135deg,#f2a516,#FFB430);box-shadow:0 8px 18px -8px rgba(255,180,48,.8)}
+.fz-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.fz-kpi{display:flex;align-items:center;gap:12px;padding:16px;background:#fff;border:1px solid #e9eef3;border-radius:var(--fzr);box-shadow:0 1px 2px rgba(16,42,67,.04),0 14px 30px -22px rgba(16,42,67,.3)}
+.fz-kpi b{display:block;font-size:17px;font-weight:700;color:var(--ink);letter-spacing:-.01em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fz-kpi span:not(.fx-ic){font-size:12px;color:var(--mu)}
+.fz .neg{color:#b42828!important}
+.fz-nav{position:sticky;top:0;z-index:5;background:var(--bg,#f5f8fb);padding:10px 0 12px;margin-bottom:6px}
+.fz-bar{height:4px;border-radius:99px;background:#e6edf3;overflow:hidden;margin-bottom:10px}
+.fz-bar span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--amber));transition:width .4s cubic-bezier(.2,.7,.2,1)}
+.fz-pills{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.fz-pills::-webkit-scrollbar{display:none}
+.fz-pill{flex:0 0 auto;display:flex;align-items:center;gap:8px;height:38px;padding:0 14px 0 6px;border:1px solid #e3eaf0;border-radius:5px;background:#fff;font:inherit;font-size:13px;font-weight:600;color:var(--tx);cursor:pointer;transition:border-color .2s,background .2s,color .2s}
+.fz-pill b{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:#eef3f7;color:var(--mu);font-size:12px;transition:background .2s,color .2s}
+.fz-pill:hover{border-color:#c9dbe6}
+.fz-pill.done b{background:#e3f1f8;color:var(--blue)}
+.fz-pill.on{border-color:var(--blue);color:var(--blue);background:#f4f9fc}
+.fz-pill.on b{background:linear-gradient(135deg,#1881B0,#2a9bcc);color:#fff}
+.fz-head{margin:8px 0 14px}
+.fz-step{font-size:12px;font-weight:600;color:var(--blue)}
+.fz-head h2{margin:2px 0 0;font-size:24px;font-weight:700;color:var(--ink);letter-spacing:-.015em}
+.fz-card{background:#fff;border:1px solid #e9eef3;border-radius:var(--fzr);padding:22px 22px 20px;margin-bottom:14px;box-shadow:0 1px 2px rgba(16,42,67,.04),0 18px 40px -30px rgba(16,42,67,.3)}
+.fz-ch{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px}
+.fz-ch>div:not(.fz-sum){flex:1;min-width:0}
+.fz-ch h3{margin:2px 0 3px;font-size:16.5px;font-weight:600;color:var(--ink);line-height:1.3}
+.fz-ch p{margin:0;font-size:13px;line-height:1.5;color:var(--mu)}
+.fz-sum{flex:none;align-self:center;font-size:13px;font-weight:600;color:var(--blue);background:#e8f3f8;padding:6px 10px;border-radius:5px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.fz-sum:empty{display:none}
+.fz-list{display:grid;gap:0}
+.fz-list.cols2{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px}
+.fz-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:7px 0;border-bottom:1px solid #f0f4f7;font-size:14px;color:var(--tx)}
+.fz-row:last-child{border-bottom:0}
+.fz-row>span{flex:1;min-width:0}
+.fz-inw{display:inline-flex;align-items:center;gap:6px;flex:0 0 auto}
+.fz-inw .fz-in{width:120px}
+.fz-inw.sm .fz-in{width:58px}
+.fz-in{width:100%;height:38px;padding:0 10px;border:1px solid #dbe4ec;border-radius:5px;background:#fff;font:inherit;font-size:14px;color:var(--ink);text-align:right;font-variant-numeric:tabular-nums;transition:border-color .15s,box-shadow .15s}
+.fz-inw.sm .fz-in{padding:0 6px;text-align:center;height:34px;font-size:13px}
+.fz-in:focus{outline:0;border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,129,176,.15)}
+.fz-in::placeholder{color:#b3bec9}
+.fz-in.txt{text-align:left;padding:0 10px;height:36px}
+.fz-in.date,.fz-in.sel{flex:0 0 200px;width:200px;text-align:left;padding:0 10px}
+.fz-u{font-size:12px;color:var(--mu);white-space:nowrap;min-width:14px}
+.fz-u:empty{display:none}
+.fz-tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px;padding:0 4px}
+.fz-it{width:100%;border-collapse:collapse;font-size:13.5px}
+.fz-it th,.fz-it td{padding:5px 6px;border-bottom:1px solid #f0f4f7;text-align:left;vertical-align:middle}
+.fz-it thead th{font-size:11.5px;font-weight:600;color:var(--mu);white-space:nowrap;border-bottom:1px solid #e3eaf0}
+.fz-it tbody th{font-weight:500;color:var(--tx);min-width:200px}
+.fz-it td .fz-in{width:110px}
+.fz-it td .fz-inw.sm .fz-in{width:56px}
+.fz-it.cal tbody th,.fz-it.mon tbody th{min-width:190px}
+.fz-it .o{font-weight:600;color:var(--blue);font-variant-numeric:tabular-nums;white-space:nowrap}
+.fz-it tr.sum th,.fz-it tr.sum td{border-top:1px solid #dbe4ec}
+.fz-it .mu{color:var(--mu);font-size:12.5px}
+.fz-it.mq tr.pr td{padding-top:0}
+.fz-it thead.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.fz-sub{margin:18px 0 8px;font-size:13px;font-weight:600;color:var(--ink)}
+.fz-note{margin-top:10px;font-size:12.5px;color:var(--mu)}
+.fz-note:empty{display:none}
+.fz-note b{color:var(--ink)}
+.fz-ta{width:100%;padding:10px 12px;border:1px solid #dbe4ec;border-radius:5px;font:inherit;font-size:14px;line-height:1.55;resize:vertical}
+.fz-ta:focus{outline:0;border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,129,176,.15)}
+.fz-opts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.fz-opt{position:relative;display:flex;flex-direction:column;gap:3px;padding:14px;border:1px solid #dbe4ec;border-radius:10px;cursor:pointer;transition:border-color .2s,background .2s,box-shadow .2s}
+.fz-opt input{position:absolute;opacity:0;pointer-events:none}
+.fz-opt b{font-size:14.5px;color:var(--ink)}
+.fz-opt span{font-size:12.5px;line-height:1.45;color:var(--mu)}
+.fz-opt:hover{border-color:#b9d3e2}
+.fz-opt.on{border-color:var(--blue);background:#f4f9fc;box-shadow:0 0 0 3px rgba(24,129,176,.12)}
+.fz-opt:has(input:focus-visible){outline:2px solid var(--blue);outline-offset:2px}
+.fz-det>summary{list-style:none;cursor:pointer}
+.fz-det>summary::-webkit-details-marker{display:none}
+.fz-det>summary .fz-ch{margin-bottom:0}
+.fz-det>summary .fz-ch::after{content:"";width:9px;height:9px;margin:14px 6px 0 auto;border-right:2px solid var(--mu);border-bottom:2px solid var(--mu);transform:rotate(45deg);transition:transform .2s;flex:none}
+.fz-det[open]>summary .fz-ch{margin-bottom:14px}
+.fz-det[open]>summary .fz-ch::after{transform:rotate(-135deg)}
+.fz-more{margin-top:12px}
+.fz-more>summary{cursor:pointer;font-size:13.5px;font-weight:600;color:var(--blue)}
+.fz-tool{margin-top:14px;padding:16px;border-radius:10px;background:#f7fafc;border:1px dashed #cfe0ea}
+.fz-tg{display:inline-flex;align-items:center;gap:10px;margin-top:14px;font-size:14px;font-weight:500;color:var(--ink);cursor:pointer}
+.fz-tg input{position:absolute;opacity:0}
+.fz-tgk{position:relative;width:38px;height:22px;border-radius:99px;background:#d5dee6;transition:background .2s;flex:none}
+.fz-tgk::after{content:"";position:absolute;left:3px;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .2s}
+.fz-tg input:checked+.fz-tgk{background:var(--blue)}
+.fz-tg input:checked+.fz-tgk::after{transform:translateX(16px)}
+.fz-tg input:focus-visible+.fz-tgk{outline:2px solid var(--blue);outline-offset:2px}
+.fz-total{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 20px;margin:4px 0 14px;border-radius:var(--fzr);background:linear-gradient(135deg,#1881B0,#136b93);color:#fff;font-size:14px}
+.fz-total b{font-size:17px;font-variant-numeric:tabular-nums;text-align:right}
+.fz-res{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.fz-res>div{padding:16px;border-radius:var(--fzr);background:linear-gradient(135deg,#1881B0,#136b93);color:#fff}
+.fz-res span{display:block;font-size:12.5px;opacity:.85;margin-bottom:4px}
+.fz-res b{font-size:17px;font-variant-numeric:tabular-nums}
+.fz-foot{display:flex;justify-content:space-between;gap:12px;margin:18px 0 6px}
+.fz-checks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.fz-chk{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;font-size:13.5px;font-weight:500;line-height:1.4}
+.fz-chk span{display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;flex:none;font-weight:700;color:#fff;font-size:13px}
+.fz-chk.ok{background:#eef7fb;color:#145d7f}.fz-chk.ok span{background:var(--blue)}
+.fz-chk.no{background:#fff6e6;color:#7a4d00}.fz-chk.no span{background:var(--amber);color:var(--ink)}
+.fz-at{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+.fz-at th,.fz-at td{padding:7px 8px;border-bottom:1px solid #eef2f6;white-space:nowrap}
+.fz-at td{text-align:right}
+.fz-at thead th{font-size:11.5px;font-weight:600;color:var(--mu);text-align:right;background:#f7fafc}
+.fz-at thead th:first-child{text-align:left}
+.fz-at tbody th{text-align:left;font-weight:500;color:var(--tx)}
+.fz-at tr.i th{padding-left:18px;color:var(--mu);font-weight:400}
+.fz-at tr.b th,.fz-at tr.b td{font-weight:600;color:var(--ink)}
+.fz-at tr.m th,.fz-at tr.m td{color:var(--mu)}
+.fz-at tr.t th,.fz-at tr.t td{font-weight:700;color:var(--ink);background:#eef6fa;border-top:1px solid var(--blue)}
+.fz-at.y1 td{width:140px}
+.fz-at.liq th:first-child{position:sticky;left:0;background:#fff;z-index:1;min-width:210px;box-shadow:1px 0 0 #eef2f6}
+.fz-at.liq thead th:first-child{background:#f7fafc}
+.fz-at.liq tr.t th:first-child{background:#eef6fa}
+.fz-liqw{max-height:none}
+.fz-g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:1100px){.fz-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.fz-opts{grid-template-columns:repeat(2,minmax(0,1fr))}.fz-g2{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:640px){
+  .fz-card{padding:16px 14px}
+  .fz-ch{gap:12px}
+  .fz .fx-ic{width:36px;height:36px;flex-basis:36px;border-radius:9px}
+  .fz .fx-ic svg{width:18px;height:18px}
+  .fz-ch{flex-wrap:wrap}
+  .fz-sum{order:3;margin-left:48px}
+  .fz-kpi{padding:12px;gap:10px}
+  .fz-kpi b{font-size:15px}
+  .fz-list.cols2{grid-template-columns:minmax(0,1fr)}
+  .fz-row{font-size:13.5px}
+  .fz-inw .fz-in{width:104px}
+  .fz-in.date,.fz-in.sel{flex-basis:150px;width:150px}
+  .fz-opts{grid-template-columns:minmax(0,1fr)}
+  .fz-checks,.fz-res{grid-template-columns:minmax(0,1fr)}
+  .fz-head h2{font-size:21px}
+  .fz-it tbody th{min-width:150px}
+  .fz-total{flex-direction:column;align-items:flex-start;gap:4px}
+  .fz-total b{text-align:left}
+}
+.fz table thead th,.fz table thead{background:transparent!important;color:var(--mu)!important}
+.fz .fz-at thead th{background:#f7fafc!important}
+.fz-it.k td .fz-u{display:none}
+.fz-it.k td .fz-in{width:92px}
+.fz-it.k tbody th{min-width:150px;font-size:13px;line-height:1.35}
+.fz-it.k th,.fz-it.k td{padding:5px 4px}
+.epanel .fz table thead tr,.fz table thead tr{background:transparent!important}
+.fz-it.k td .fz-in.sm2{width:70px}
+.fz-at.y1 th{white-space:normal;line-height:1.35}
+.fz-at.y1 td{width:auto;padding-left:12px}
+@media (max-width:640px){
+  .fz-ch>div:not(.fz-sum){flex:1 1 calc(100% - 60px)}
+  .fz-sum{margin-left:48px}
+  .fz-it.k thead{display:none}
+  .fz-it.k,.fz-it.k tbody{display:block}
+  .fz-it.k tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 10px;padding:12px 0;border-bottom:1px solid #eef2f6}
+  .fz-it.k th,.fz-it.k td{display:block;padding:0;border:0}
+  .fz-it.k tbody th{grid-column:1/-1;min-width:0;font-weight:600;color:var(--ink)}
+  .fz-it.k td[data-l]::before{content:attr(data-l);display:block;font-size:11px;color:var(--mu);margin-bottom:3px}
+  .fz-it.k td .fz-inw,.fz-it.k td .fz-in{width:100%}
+  .fz-it.k td .fz-inw .fz-in{width:100%}
+  .fz-it.k td.mu{grid-column:1/-1}
+}
 
 </style>
 </head>
@@ -1194,7 +1359,7 @@ textarea.cp-input{resize:vertical;line-height:1.55}
     <section class="final">
       <div class="final-box">
         <div class="final-copy">
-          <h2>Dein Businessplan wartet auf Dich. <br>Fang jetzt an.</h2>
+          <h2><span class="nw">Dein Businessplan wartet auf Dich.</span> <br>Fang jetzt an.</h2>
           <p>In wenigen Minuten steht das Gerüst. Den Rest füllst Du in Deinem Tempo – jede Eingabe wird automatisch gespeichert.</p>
           <ul class="final-usp">
             <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Kostenlos, ohne Abo</li>
@@ -1297,7 +1462,7 @@ textarea.cp-input{resize:vertical;line-height:1.55}
       <button class="agb-close" onclick="closeAgb()">✕</button>
     </div>
     <div class="agb-body">
-        <p><em>Stand: März 2025 · Gültig für: app.die-coachingexperten.de</em></p>
+        <p><em>Stand: November 2026 · Gültig für: app.die-coachingexperten.de</em></p>
 
         <h3>§ 1 Begriffsbestimmungen und Geltungsbereich</h3>
         <p>Diese Allgemeinen Geschäftsbedingungen (nachfolgend „AGB") gelten für die Nutzung des Businessplan-Tools, welches unter der URL <strong>app.die-coachingexperten.de</strong> betrieben wird, sowie für alle darüber angebotenen Dienste.</p>
@@ -1305,12 +1470,12 @@ textarea.cp-input{resize:vertical;line-height:1.55}
         <p><strong>Nutzer</strong> ist jede volljährige natürliche oder juristische Person, die das Tool zur Erstellung eines Businessplans nutzt – insbesondere Gründerinnen und Gründer sowie Personen, die Fördermittel wie den Gründungszuschuss, das Einstiegsgeld oder einen AVGS-Gutschein beantragen möchten. Mit der Registrierung bestätigt der Nutzer die vollständige Einbeziehung dieser AGB. Vertragssprache ist Deutsch.</p>
 
         <h3>§ 2 Zustandekommen des Nutzungsverhältnisses</h3>
-        <p>Das Nutzungsverhältnis kommt mit der erfolgreichen Registrierung auf der Plattform zustande. Mit der Bestätigung seiner Registrierungsdaten gibt der Nutzer ein Angebot auf Eingehung eines Nutzungsverhältnisses ab, welches der Betreiber durch Freischaltung des Zugangs annimmt. Ein Rechtsanspruch auf Registrierung besteht nicht. Anmeldungen sind ausschließlich für volljährige, unbeschränkt geschäftsfähige Personen zulässig.</p>
+        <p>Das Nutzungsverhältnis kommt mit der erfolgreichen Registrierung auf der Plattform zustande. Mit der Bestätigung seiner Registrierungsdaten gibt der Nutzer ein Angebot auf Eingehung eines Nutzungsverhältnisses ab, welches der Betreiber durch Freischaltung des Zugangs annimmt. Ein Rechtsanspruch auf Registrierung besteht nicht. Anmeldungen sind ausschließlich für volljährige, unbeschränkt geschäftsfähige Personen zulässig. Die Registrierung ist mit E-Mail-Adresse und Passwort oder über ein Google-Konto möglich.</p>
 
         <h3>§ 3 Leistungsgegenstand</h3>
         <p>Das Businessplan-Tool der Coachingexperten ist eine digitale Plattform zur professionellen Erstellung von Businessplänen. Sie richtet sich an Personen, die einen Businessplan für den Gründungszuschuss der Agentur für Arbeit, eine fachkundige Stellungnahme, Banken, Investoren oder Förderstellen benötigen oder ihren Businessplan als strategischen Leitfaden entwickeln möchten.</p>
-        <p>Der Funktionsumfang umfasst: Erstellung eines neunteiligen Businessplans (Zusammenfassung, Gründerprofil, Geschäftsidee & Konzept, Markt & Wettbewerb, Marketing & Vertrieb, Organisation, Stärken-Schwächen-Analyse, Finanzplan mit Diagrammen und Kennzahlen-Übersicht sowie Risikoanalyse), Export als PDF- und Textdatei sowie sichere Datenspeicherung über Google Firebase in Frankfurt, Deutschland.</p>
-        <p>Das Tool ersetzt keine professionelle Gründungsberatung. Für individuelle Unterstützung – AVGS-Gründercoaching, Gründungszuschuss-Beratung, Businessplan-Coaching und Jobcoaching – stehen die Coaches der Coachingexperten unter <a href="https://die-coachingexperten.de" target="_blank" style="color:var(--a1)">die-coachingexperten.de</a> zur Verfügung. Der Betreiber behält sich vor, den Funktionsumfang jederzeit anzupassen. Eine unterbrechungsfreie Verfügbarkeit wird nicht garantiert.</p>
+        <p>Der Funktionsumfang umfasst: die Erstellung eines Businessplans nach der Businessplan-Vorlage der Coachingexperten mit den Kapiteln Zusammenfassung, Geschäftsidee (Produkt, Kunden und Markt, Standort, Preispolitik, Marketing und Vertrieb, Zukunftsprognose und Risiken, Stärken-Schwächen-Analyse), Unternehmen (Gründer/in und Team, Rechtliches und Organisation), Finanzen und Anhang; einen Finanzteil mit Investitions- und Gründungskosten, Umsatz- und Kostenplanung, Unternehmerlohn, Rentabilitätsplan, Liquiditätsplan für 24 Monate, Kapitalbedarfs- und Finanzierungsplan; das Hochladen eines eigenen Logos; den Export als PDF- und Textdatei sowie die Speicherung der Daten über Google Firebase in Frankfurt, Deutschland.</p>
+        <p>Das Tool ersetzt keine professionelle Gründungsberatung. Für individuelle Unterstützung – AVGS-Gründercoaching, Gründungszuschuss-Beratung inklusive fachkundiger Stellungnahme und Businessplan-Coaching – stehen die Coaches der Coachingexperten unter <a href="https://die-coachingexperten.de" target="_blank" style="color:var(--a1)">die-coachingexperten.de</a> zur Verfügung. Der Betreiber behält sich vor, den Funktionsumfang jederzeit anzupassen. Eine unterbrechungsfreie Verfügbarkeit wird nicht garantiert.</p>
 
         <h3>§ 4 Kostenfreiheit und Datenspeicherung</h3>
         <p>Die Registrierung und Grundnutzung des Tools ist kostenlos. Der Betreiber behält sich vor, zukünftig kostenpflichtige Zusatzfunktionen einzuführen; der Nutzer wird hierüber vorab klar informiert. Alle eingegebenen Daten werden über Google Firebase auf Servern in Frankfurt (EU) gespeichert. Näheres regelt die Datenschutzerklärung unter <a href="https://die-coachingexperten.de/datenschutz/" target="_blank" style="color:var(--a1)">die-coachingexperten.de/datenschutz/</a>.</p>
@@ -1916,10 +2081,11 @@ function renderLivePreview(){
   } else if(ch.isSwot){
     [['sw_s','Stärken'],['sw_w','Schwächen'],['sw_o','Chancen'],['sw_t','Risiken']].forEach(([id,l])=>{const t=val(id).trim();h+=`<div class="pl-h">${l}</div>`+(t?`<div class="pl-t">${esc(t)}</div>`:ph);});
   } else if(ch.isFinance){
-    const fd=window._finData,f=v=>Math.round(Number(v||0)).toLocaleString('de-DE')+' €';
-    h+='<div class="pl-h">Plan-Umsatz</div><div class="pl-kv">'+[1,2,3].map(y=>`<span>Jahr ${y}</span><span>${f(fd['rev'+y])}</span>`).join('')+'</div>';
-    h+='<div class="pl-h">Kapitalbedarf & Finanzierung</div><div class="pl-kv"><span>Investitionen</span><span>'+f(fd.invest)+'</span><span>Eigenkapital</span><span>'+f(fd.eigen)+'</span><span>Fremdkapital</span><span>'+f(fd.fremd)+'</span></div>';
-    h+='<div class="pl-h">Auswertung</div><div class="pl-t">GuV, Liquiditätsplan, Break-even und Diagramme werden automatisch berechnet und im PDF ausgegeben.</div>';
+    const R=finCalc2(window._finData),f=v=>Math.round(Number(v||0)).toLocaleString('de-DE')+' €';
+    h+='<div class="pl-h">Plan-Umsatz</div><div class="pl-kv">'+[0,1,2].map(i=>`<span>Jahr ${i+1}</span><span>${f(R.rev[i])}</span>`).join('')+'</div>';
+    h+='<div class="pl-h">Gewinn</div><div class="pl-kv">'+[0,1,2].map(i=>`<span>Jahr ${i+1}</span><span>${f(R.gew[i])}</span>`).join('')+'</div>';
+    h+='<div class="pl-h">Kapitalbedarf und Finanzierung</div><div class="pl-kv"><span>Kapitalbedarf</span><span>'+f(R.kbGesamt)+'</span><span>Eigenkapital</span><span>'+f(R.ekSum)+'</span><span>Fremdkapital</span><span>'+f(R.finFk)+'</span></div>';
+    h+='<div class="pl-h">Auswertung</div><div class="pl-t">Rentabilität, Liquidität für 24 Monate, Kapitalbedarf und Finanzierung werden automatisch berechnet und im PDF ausgegeben.</div>';
   }
   h+=`<div class="paper-foot"><span></span><span>${currentChapter+2}</span></div>`;
   box.innerHTML=h;
@@ -2721,33 +2887,8 @@ function saveCurrentFields() {
     return;
   }
   if(!ch.isSwot&&!ch.isFinance&&ch.fields) ch.fields.forEach(f=>{const el=document.getElementById(f.id);if(el)window._savedData[f.id]=el.value;});
-  if(ch.isFinance){
-    const allFinIds=['rev1','rev2','rev3','fix1','fix2','fix3','var1','var2','var3',
-      'entnahme1','entnahme2','entnahme3',
-      'inv_beratung','inv_steuer','inv_gewerbe','inv_notar','inv_marke','inv_sonst',
-      'inv_masch','inv_fahr','inv_buero','inv_laden','inv_sw','inv_rest',
-      'ek_bar','ek_bank','ek_sach','ek_verwandt','ek_sonst',
-      'fk_bank','fk_kfw','fk_gz','fk_avgs','fk_sonst'];
-    allFinIds.forEach(k=>{const el=document.getElementById(k);if(el)window._finData[k]=parseFloat(el.value)||0;});
 
-    // Tilgungsplan
-    ['tilg_zins','tilg_laufzeit','tilg_frei'].forEach(k=>{const el=document.getElementById(k);if(el)window._finData[k]=parseFloat(el.value)||0;});
-    for(let i=1;i<=5;i++){
-      ['afa_name','afa_wert','afa_nd'].forEach(pre=>{const el=document.getElementById(pre+i);if(el)window._finData[pre+i]=el.value;});
-    }
-    afaUpdate();
-    fixDetailUpdate();
-    // Weitere Jahresposten
-    ['zinsen1','zinsen2','zinsen3','bsteuern1','bsteuern2','bsteuern3','eststeuer1','eststeuer2','eststeuer3'].forEach(k=>{const el=document.getElementById(k);if(el)window._finData[k]=parseFloat(el.value)||0;});
-    window._finData.gruendkosten=parseFloat(document.getElementById('gruendkosten')?.value)||0;
-    // Manuelle Liquiditäts-Eingaben speichern
-    ['kredit','sonst_ein','privat_ein','bareinkauf','bst_m','invest_m','sonst_aus'].forEach(key=>{
-      for(let m=1;m<=24;m++){
-        const el=document.getElementById('liqm_'+key+'_'+m);
-        if(el) window._finData['liqm_'+key+'_'+m]=parseFloat(el.value)||0;
-      }
-    });['fin_liquid','fin_rent'].forEach(k=>{const el=document.getElementById(k);if(el)window._savedData[k]=el.value;});}
-  const any=ch.isSwot?['sw_s','sw_w','sw_o','sw_t'].some(k=>(window._savedData[k]||'').trim().length>5):ch.isFinance?(window._finData.rev1>0):ch.fields?.some(f=>(window._savedData[f.id]||'').trim().length>5);
+  const any=ch.isSwot?['sw_s','sw_w','sw_o','sw_t'].some(k=>(window._savedData[k]||'').trim().length>5):ch.isFinance?(finCalc2(window._finData).filled):ch.fields?.some(f=>(window._savedData[f.id]||'').trim().length>5);
   if(any)window._doneSet.add(currentChapter);
 }
 
@@ -2926,6 +3067,527 @@ function finCalc(fd){
   return {amort,rev,mat,prov,roh,fix,fixSum,afa,afaJ,zins,grnd,grSum,sach,gew,ek,fk,fkKredit,tilg,ulohn,bst,est,zufluss,invAus,cfOp,cf,liqStart,liqEnd,kapital,be,kostenJ,tilgPlan,lz,tf,zs};
 }
 
+/* ═══════════════════════════════════════════════════════════
+   FINANZTEIL 2.0 – Rechenkern nach der Excel-Vorlage
+   „Finanzteil_Businessplan.xlsm" (5 Schritte + 4 Hilfsrechner)
+   Eine Quelle für Oberfläche, Kennzahlen und PDF.
+═══════════════════════════════════════════════════════════ */
+const F2 = {
+  GK: [['gk_beratung','Gründungsberatung'],['gk_steuer','Erstberatung Steuerberater'],['gk_hr','Eintragung ins Handelsregister und Notarkosten'],['gk_gewerbe','Gewerbeanmeldung'],['gk_marke','Markenschutz'],['gk_lizenz','Einmalige Patent-, Lizenz-, Franchisegebühren'],['gk_sonst','Sonstiges']],
+  INV_RAUM: [['ir_buero','Investitionen Büro, Halle, Laden'],['ir_grund','Anschaffung Grundstück, Gebäude'],['ir_gerwerb','Grunderwerbskosten (Notar, Grunderwerbsteuer)'],['ir_makler','Maklerprovision'],['ir_bau','Baukosten'],['ir_umbau','Bauliche Änderungen, Renovierung'],['ir_anteile','Übernahme, Kauf von Unternehmensanteilen'],['ir_kaution','Mietkaution'],['ir_sonst','Sonstiges']],
+  INV_BGA: [['ib_masch','Maschinen, Geräte, Werkzeuge'],['ib_moebel','Büromöbel, Ladeneinrichtung'],['ib_lager','Warenlager'],['ib_fahrzeug','Fuhrpark, Betriebsfahrzeug'],['ib_pc','PC, Laptop, Drucker'],['ib_kasse','Kasse, Kopierer'],['ib_software','Software'],['ib_netz','Telefon, Internet-Anschluss, Netzwerk'],['ib_marketing','Erstausstattung Marketing'],['ib_markt','Kosten der Markterschließung'],['ib_sonst','Sonstiges']],
+  /* Posten ohne Vorsteuer (keine Umsatzsteuer beim Kauf) */
+  NO_VST: ['ir_grund','ir_gerwerb','ir_anteile','ir_kaution'],
+  PERS: [['kp_lohn','Löhne und Gehälter einschl. Sozialabgaben'],['kp_mini','Minijobs, Aushilfen'],['kp_frei','Freie Mitarbeiter'],['kp_sonst','Sonstiges']],
+  MAT: [['km_rhb','Roh-, Hilfs- und Betriebsstoffe'],['km_waren','Halbfertige Produkte, Fertigprodukte, Waren'],['km_fremd','Fremdleistungen'],['km_sonst','Sonstiges']],
+  SBA: [['ks_miete','Miete, Pacht für Büro, Laden, Halle'],['ks_nk','Mietnebenkosten'],['ks_lizenz','Laufende Lizenz- und Franchisegebühren'],['ks_leasing','Leasingraten'],['ks_kfz','Laufende Fahrzeugkosten'],['ks_kfz2','Sonstige Fahrzeugkosten'],['ks_reise','Reisekosten'],['ks_instand','Instandhaltung für Geräte, Maschinen'],['ks_werbung','Werbung, PR'],['ks_bewirt','Bewirtungskosten'],['ks_weiterb','Weiterbildung'],['ks_buero','Bürobedarf, Kopien'],['ks_tel','Telefon, Handy'],['ks_internet','Internetzugang, Hosting'],['ks_porto','Porto, Kurierdienste'],['ks_verpack','Verpackung'],['ks_fachlit','Fachzeitschriften und -bücher'],['ks_buchh','Buchhaltung, Steuer- und Rechtsberatung'],['ks_geld','Nebenkosten des Geldverkehrs'],['ks_kammer','Beiträge für Kammern und Verbände'],['ks_gebuehr','Gebühren'],['ks_vers','Betriebliche Versicherungen'],['ks_gwg','Sonstiges, GWG']],
+  BST: [['ks_steuer','Betriebssteuern (Gewerbesteuer u. a.)']],
+  /* Gruppierung wie im Rentabilitätsplan der Vorlage */
+  RENT_GROUPS: [['Raumkosten',['ks_miete','ks_nk']],['Fahrzeugkosten',['ks_kfz','ks_kfz2']],['Leasing',['ks_leasing']],['Instandhaltung',['ks_instand']],['Werbekosten',['ks_werbung']],['Reise- und Bewirtungskosten',['ks_reise','ks_bewirt']],['Weiterbildung, Fachliteratur',['ks_weiterb','ks_fachlit']],['Buchführung, Beratung',['ks_buchh']],['Bürobedarf',['ks_buero']],['Telefon, Internet, Porto',['ks_tel','ks_internet','ks_porto','ks_verpack']],['Beiträge, Gebühren, Lizenzen',['ks_lizenz','ks_kammer','ks_gebuehr']],['Betriebliche Versicherungen',['ks_vers']],['Sonstige Kosten',['ks_gwg','ks_geld']]],
+  PT_ROWS: [['leitung','Leitung'],['verkauf','Verkauf'],['produktion','Produktion'],['verwaltung','Verwaltung'],['technik','Technik']],
+  PT_SV: [['pt_kv','Krankenversicherung (durchschnittlich)',7.3],['pt_pv','Pflegeversicherung',1.8],['pt_uml','Umlagen U1/U2, Insolvenzgeldumlage',2.5],['pt_rv','Rentenversicherung',9.35],['pt_av','Arbeitslosenversicherung',1.5],['pt_bg','Berufsgenossenschaft',0],['pt_zvk','Zusatzversorgungskasse',0],['pt_zus','Zusatzkosten',0]],
+  EX: [['ex_kfz','Privat-Kfz inkl. Steuer, Versicherung, Reparaturen, Benzin'],['ex_oepnv','Öffentliche Verkehrsmittel'],['ex_tel','Telefon, Handy privat'],['ex_internet','Internet, Rundfunkbeitrag'],['ex_bedarf','Täglicher Bedarf (Lebensmittel, Hygiene u. a.)'],['ex_kleidung','Bekleidung, Schuhe'],['ex_haushalt','Haushalt (Einrichtung, Geräte)'],['ex_gesund','Gesundheit (Arzt, Arzneimittel)'],['ex_freizeit','Freizeit und Hobby'],['ex_weiterb','Weiterbildung'],['ex_miete','Miete und Nebenkosten'],['ex_raten','Ratenzahlungen, Sparverträge'],['ex_kredit','Zinsen, Tilgung für Privatkredit'],['ex_unterhalt','Unterhaltszahlungen'],['ex_verpfl','Sonstige regelmäßige Verpflichtungen'],['ex_kv','Kranken- und Pflegeversicherung'],['ex_rv','Rentenversicherung'],['ex_lv','Lebensversicherung'],['ex_vers','Sonstige Versicherungen'],['ex_sonst','Sonstige Ausgaben']],
+  INC: [['in_gz','Gründungszuschuss (monatlich, erste 6 Monate)'],['in_kindergeld','Kindergeld'],['in_unterhalt','Unterhalt'],['in_elterngeld','Elterngeld'],['in_miete','Einkommen aus Vermietung und Verpachtung'],['in_kapital','Einkommen aus Kapitalerträgen'],['in_partner','Nettogehalt Lebenspartner/in'],['in_sonst','Sonstige Einkünfte']],
+  EK: [['ek_bar','Barvermögen'],['ek_bank','Bankguthaben'],['ek_sach','Betriebsnotwendige Sacheinlagen'],['ek_eigenl','Eigenleistungen (nur wenn aktivierungsfähig)'],['ek_bauspar','Bausparverträge'],['ek_verwandt','Verwandtendarlehen'],['ek_schenk','Schenkungen'],['ek_dritte','Finanzmittel von privaten Dritten'],['ek_sonst','Sonstiges']],
+  KR: [['kr1','Fördermittel (vergünstigter Kredit) 1'],['kr2','Fördermittel (vergünstigter Kredit) 2'],['kr3','Kredit der Hausbank'],['kr4','Sonstiges Fremdkapital']],
+  SI: [['si_haus','Haus- und Grundbesitz'],['si_lv','Lebensversicherungen'],['si_buerg','Bürgschaften Dritter']],
+  MONTHS: ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez']
+};
+
+/* Startmonat: „JJJJ-MM" – Standard: nächster Monat */
+F2.startOf = function(fd){
+  const s = String(fd.f_start||'');
+  if(/^\d{4}-\d{2}$/.test(s)) return {y:+s.slice(0,4), m:+s.slice(5,7)-1};
+  const d = new Date(); d.setDate(1); d.setMonth(d.getMonth()+1);
+  return {y:d.getFullYear(), m:d.getMonth()};
+};
+/* Arbeitstage Mo–Fr eines Monats (Feiertage nicht berücksichtigt, bearbeitbar) */
+F2.workdays = function(y,m){ let n=0; const d=new Date(y,m,1); while(d.getMonth()===m){ const w=d.getDay(); if(w>0&&w<6) n++; d.setDate(d.getDate()+1);} return n; };
+F2.monthLabel = function(fd,i){ const s=F2.startOf(fd); const t=s.m+i; const y=s.y+Math.floor(t/12); return F2.MONTHS[t%12]+' '+String(y).slice(2); };
+F2.defaultDays = function(fd,i){ const s=F2.startOf(fd); const t=s.m+i; return F2.workdays(s.y+Math.floor(t/12), t%12); };
+
+function finCalc2(fd){
+  fd = fd||{};
+  const N = v => { const n = Number(String(v===undefined||v===null?'':v).replace(',','.')); return isFinite(n)?n:0; };
+  const g = k => N(fd[k]);
+  const sum = a => a.reduce((s,x)=>s+x,0);
+  const r = {};
+  const M = [...Array(24).keys()];
+  r.ust = (fd.f_ust===undefined||fd.f_ust==='') ? 0.19 : N(fd.f_ust)/100;
+
+  /* ── Schritt 1: Gründungskosten & Investitionen ── */
+  r.gk = F2.GK.map(([k,l])=>({k,l,v:g(k)})); r.gkSum = sum(r.gk.map(x=>x.v));
+  r.ir = F2.INV_RAUM.map(([k,l])=>({k,l,v:g(k)})); r.irSum = sum(r.ir.map(x=>x.v));
+  r.ib = F2.INV_BGA.map(([k,l])=>({k,l,v:g(k)})); r.ibSum = sum(r.ib.map(x=>x.v));
+  r.invSum = r.irSum + r.ibSum;
+  r.vorGr = r.invSum + r.gkSum;
+  const vstBaseInv = r.vorGr - sum(F2.NO_VST.map(g));
+
+  /* ── Schritt 2: Umsätze ── */
+  const days = M.map(i=>{
+    const wt = (fd['u_wt_'+i]===undefined||fd['u_wt_'+i]==='') ? F2.defaultDays(fd,i) : g('u_wt_'+i);
+    return Math.max(0,(wt - g('u_ur_'+i) - g('u_nf_'+i)) * (1 - g('u_an_'+i)/100));
+  });
+  r.days = days;
+  const D1 = sum(days.slice(0,12)) || 0.001, D2 = sum(days.slice(12)) || 0.001;
+  r.D = [D1, D2];
+  const alt = String(fd.u_alt||'2');
+  r.alt = alt;
+  const rev = M.map(()=>0);
+  r.products = [];
+  let rev3 = 0;
+  if(alt==='1'){
+    M.forEach(i=>{ rev[i] = (i<12?g('u_tag1'):g('u_tag2')) * days[i]; });
+    const t3 = (fd.u_tage3===undefined||fd.u_tage3==='') ? D2 : g('u_tage3');
+    rev3 = t3 * g('u_tag3');
+  } else if(alt==='2'){
+    for(let p=1;p<=5;p++){
+      const y=[g('u_p'+p+'_j1'),g('u_p'+p+'_j2'),g('u_p'+p+'_j3')];
+      if(y.some(v=>v)) r.products.push({name:fd['u_p'+p+'_name']||('Produkt '+p), y});
+      M.forEach(i=>{ rev[i] += i<12 ? y[0]/D1*days[i] : y[1]/D2*days[i]; });
+      rev3 += y[2];
+    }
+  } else if(alt==='3'){
+    for(let p=1;p<=5;p++){
+      const q=[g('u_q'+p+'_j1'),g('u_q'+p+'_j2'),g('u_q'+p+'_j3')], pr=[g('u_pr'+p+'_j1'),g('u_pr'+p+'_j2'),g('u_pr'+p+'_j3')];
+      if(q.some(v=>v)) r.products.push({name:fd['u_p'+p+'_name']||('Produkt '+p), q, pr, y:[0,0,q[2]*pr[2]]});
+      [0,1].forEach(yy=>{
+        const Q=q[yy], Dd=yy?D2:D1; let acc=0;
+        for(let k=0;k<12;k++){
+          const i=yy*12+k;
+          const qty = k<11 ? Math.round(Q/Dd*days[i]) : Q-acc;
+          acc += qty; rev[i] += qty*pr[yy];
+        }
+      });
+      const P=r.products[r.products.length-1]; if(P&&q.some(v=>v)){ P.y[0]=q[0]*pr[0]; P.y[1]=q[1]*pr[1]; }
+      rev3 += q[2]*pr[2];
+    }
+  } else { // 4: manuell
+    M.forEach(i=>{ rev[i] = g('u_man_'+i); });
+    rev3 = g('u_man_y3');
+  }
+  r.revM = rev;
+  r.rev = [sum(rev.slice(0,12)), sum(rev.slice(12)), rev3];
+
+  /* Zahlungseingang */
+  const zA = (fd.z_anz===undefined||fd.z_anz==='')?0:g('z_anz'), zS = (fd.z_same===undefined||fd.z_same==='')?100:g('z_same'), zN=g('z_next'), zT=g('z_two');
+  r.zahl = [zA,zS,zN,zT];
+  r.cashIn = M.map(i => rev[i]*(zA+zS)/100 + (i>0?rev[i-1]*zN/100:0) + (i>1?rev[i-2]*zT/100:0));
+
+  /* ── Schritt 3: Kosten ── */
+  const item = k => { const y1=g(k+'_m')*12+g(k+'_j'); const y2=y1+g(k+'_d2'); const y3=y2+g(k+'_d3'); return [y1,y2,y3]; };
+  // Personal-Rechner
+  const svSum = sum(F2.PT_SV.map(([k,l,d])=> (fd[k]===undefined||fd[k]==='')?d:g(k)));
+  r.ptSv = svSum;
+  r.ptRows = F2.PT_ROWS.map(([k,l])=>{ const n=g('pt_'+k+'_n'), gh=g('pt_'+k+'_g'), b=g('pt_'+k+'_b'), o=g('pt_'+k+'_o'); const brutto=n*gh*12+(b+o)*n; return {k,l,n,brutto,total:brutto*(1+svSum/100)}; });
+  const miniN=g('pt_mini_n'), miniG=(fd.pt_mini_g===undefined||fd.pt_mini_g==='')?603:g('pt_mini_g'), miniP=(fd.pt_mini_p===undefined||fd.pt_mini_p==='')?31.47:g('pt_mini_p');
+  r.ptMini = {n:miniN, brutto:miniN*miniG*12, total:miniN*miniG*12*(1+miniP/100)};
+  r.ptOn = fd.pt_on==='1'||fd.pt_on===true;
+  r.ptTotal = sum(r.ptRows.map(x=>x.total));
+  r.pers = F2.PERS.map(([k,l])=>{ const y=item(k); if(r.ptOn){ const add = k==='kp_lohn'?r.ptTotal : k==='kp_mini'?r.ptMini.total : 0; return {k,l,y:y.map(v=>v+add)}; } return {k,l,y}; });
+  r.persY = [0,1,2].map(i=>sum(r.pers.map(x=>x.y[i])));
+  // Material-Rechner
+  r.mtMode = String(fd.mt_mode||'0');
+  r.mtY = [0,0,0];
+  if(r.mtMode==='pct'){ const p=[g('mt_pct1'),g('mt_pct2'),g('mt_pct3')]; r.mtY = r.rev.map((v,i)=>v*p[i]/100); }
+  else if(r.mtMode==='stk'){ for(let p=1;p<=5;p++){ [0,1,2].forEach(i=>{ r.mtY[i] += g('mt_q'+p+'_j'+(i+1))*g('mt_c'+p); }); } }
+  r.mat = F2.MAT.map(([k,l])=>({k,l,y:item(k)}));
+  const matManual = [0,1,2].map(i=>sum(r.mat.map(x=>x.y[i])));
+  r.matY = [0,1,2].map(i=>matManual[i] + r.mtY[i]);
+  // Provisionen
+  r.provPct = [g('prov_pct1'),g('prov_pct2'),g('prov_pct3')];
+  r.provY = r.rev.map((v,i)=>v*r.provPct[i]/100);
+  // Sonstige Betriebsausgaben
+  r.sba = F2.SBA.map(([k,l])=>({k,l,y:item(k)}));
+  r.sbaY = [0,1,2].map(i=>sum(r.sba.map(x=>x.y[i])));
+  r.bstY = item('ks_steuer');
+  // AfA
+  r.afaLin = []; r.afaDeg = []; r.afaMan = [];
+  for(let i=1;i<=10;i++){
+    const w=g('al_w'+i), nd=g('al_n'+i);
+    if(w>0&&nd>0){ const a=w/nd; let cum=0; const y=[0,1,2].map(()=>{ const v = (cum+a>w+0.0001)?0:a; cum+=v; return v; }); r.afaLin.push({name:fd['al_name'+i]||('Wirtschaftsgut '+i),w,nd,y}); }
+    const wd=g('ad_w'+i), ndd=Math.round(g('ad_n'+i));
+    if(wd>0&&ndd>0){ const S=ndd*(ndd+1)/2; const y=[1,2,3].map(k=>k<=ndd?(ndd-k+1)/S*wd:0); r.afaDeg.push({name:fd['ad_name'+i]||('Wirtschaftsgut '+i),w:wd,nd:ndd,y}); }
+  }
+  for(let i=1;i<=4;i++){ const y=[g('am_j1_'+i),g('am_j2_'+i),g('am_j3_'+i)]; if(y.some(v=>v)) r.afaMan.push({name:fd['am_name'+i]||('Weitere AfA '+i),y}); }
+  r.afaY = [0,1,2].map(i=> sum(r.afaLin.map(x=>x.y[i])) + sum(r.afaDeg.map(x=>x.y[i])) + sum(r.afaMan.map(x=>x.y[i])));
+
+  /* Unternehmerlohn / Privatentnahme */
+  r.ulTool = fd.ul_tool==='1'||fd.ul_tool===true;
+  const ex = sum(F2.EX.map(([k])=>g(k))), inc = sum(F2.INC.map(([k])=>g(k))), gz = g('in_gz');
+  r.ulEx = ex; r.ulInc = inc; r.ulGz = gz;
+  const taxP = g('ul_tax_pct')/100, taxE = g('ul_tax_eur');
+  if(r.ulTool){
+    const e1 = Math.max(0, ex-inc), e2 = Math.max(0, ex-(inc-gz));
+    const net1 = 6*e1+6*e2;
+    const tax1 = taxE>0 ? taxE : (taxP>0&&taxP<1 ? net1/(1-taxP)-net1 : 0);
+    let m1 = e1, m2 = e2;
+    if(e1>0){ m1 += tax1/12; m2 += tax1/12; } else { m2 += tax1/6; }
+    const net2 = 12*Math.max(0, ex-(inc-gz));
+    const tax2 = taxE>0 ? taxE : (taxP>0&&taxP<1 ? net2/(1-taxP)-net2 : 0);
+    r.ulM = {first:m1, last:m2};
+    r.ulY = [6*m1+6*m2, net2+tax2, net2+tax2];
+    r.ulNet = [net1, net2, net2]; r.ulTax = [tax1, tax2, tax2];
+  } else {
+    const m1=g('ul_m1'), m2=(fd.ul_m2===undefined||fd.ul_m2==='')?m1:g('ul_m2'), m3=(fd.ul_m3===undefined||fd.ul_m3==='')?m2:g('ul_m3');
+    r.ulM = {first:m1, last:m1};
+    r.ulY = [m1*12, m2*12, m3*12];
+  }
+  const ulMonth = M.map(i => i<6 ? r.ulM.first : i<12 ? r.ulM.last : r.ulY[1]/12);
+
+  /* ── Schritt 4: Kapital ── */
+  r.ek = F2.EK.map(([k,l])=>({k,l,v:g(k)})); r.ekSum = sum(r.ek.map(x=>x.v));
+  r.kr = F2.KR.map(([k,l],idx)=>{
+    const betrag=g(k+'_b'), ausz=betrag*((fd[k+'_a']===undefined||fd[k+'_a']==='')?100:g(k+'_a'))/100;
+    const zins=g(k+'_z')/100, tf=Math.max(0,Math.round(g(k+'_tf'))), lz=Math.max(0,Math.round(g(k+'_lz')));
+    const plan=[]; let rest=betrag;
+    if(idx<3 && betrag>0 && lz>0){
+      const half = lz>tf ? betrag/(lz-tf)/2 : 0;
+      for(let y=1;y<=lz;y++){
+        let zy=0, ty=0;
+        for(let q=1;q<=4;q++){
+          zy += rest*zins/4;
+          if(y>tf && (q===2||q===3)){ const t=Math.min(half,rest); ty+=t; rest-=t; }
+        }
+        if(y===lz && rest>0.5){ ty+=rest; rest=0; }
+        plan.push({y,z:zy,t:ty,rest:Math.max(0,rest)});
+      }
+    }
+    const yr = i => plan[i]||{z:0,t:0};
+    return {k,l,betrag,ausz,zins:zins*100,tf,lz,plan,zY:[0,1,2].map(i=>yr(i).z),tY:[0,1,2].map(i=>yr(i).t)};
+  });
+  r.fkSum = sum(r.kr.map(x=>x.betrag)); r.fkAusz = sum(r.kr.map(x=>x.ausz));
+  r.zinsY = [0,1,2].map(i=>sum(r.kr.map(x=>x.zY[i])));
+  r.tilgY = [0,1,2].map(i=>sum(r.kr.map(x=>x.tY[i])));
+  r.kk = g('kk');
+  r.si = F2.SI.map(([k,l])=>({k,l,v:g(k)})); r.siSum = sum(r.si.map(x=>x.v));
+  r.estY = [g('est1'),g('est2'),g('est3')];
+  const liSE=[g('li_sonstE1'),g('li_sonstE2')], liEin=[g('li_einlage1'),g('li_einlage2')], liBar=[g('li_bar1'),g('li_bar2')], liSA=[g('li_sonstA1'),g('li_sonstA2')];
+
+  /* ── Liquiditätsplan 24 Monate ── */
+  const L = []; let bestand = r.ekSum;
+  M.forEach(i=>{
+    const y = i<12?0:1;
+    const revY = r.rev[y];
+    const share = revY>0 ? rev[i]/revY : 1/12;
+    const o = {};
+    o.bestand = bestand;
+    o.kredit = i===0 ? r.fkAusz : 0;
+    o.umsatz = r.cashIn[i];
+    o.ustEin = o.umsatz * r.ust;
+    o.vstErst = i>0 ? L[i-1].vst : 0;
+    o.sonstE = liSE[y]; o.einlage = liEin[y];
+    o.einSum = o.kredit+o.umsatz+o.ustEin+o.vstErst+o.sonstE+o.einlage;
+    o.verf = o.bestand + o.einSum;
+    o.lohn = r.persY[y]/12;
+    o.lief = r.matY[y]*share;
+    o.bar = liBar[y];
+    o.prov = rev[i]*r.provPct[y]/100;
+    o.sba = r.sbaY[y]/12;
+    o.inv = i===0 ? r.vorGr : 0;
+    o.sonstA = liSA[y];
+    o.vst = (o.lief+o.bar+o.prov+o.sba+o.sonstA + (i===0?vstBaseInv:0)) * r.ust;
+    o.ustAus = i>0 ? L[i-1].umsatz*r.ust : 0;
+    o.zins = r.zinsY[y]/12;
+    o.tilg = r.tilgY[y]/12;
+    o.bst = r.bstY[y]/12;
+    o.entn = ulMonth[i];
+    o.ausSum = o.lohn+o.lief+o.bar+o.prov+o.sba+o.vst+o.ustAus+o.zins+o.tilg+o.bst+o.inv+o.sonstA+o.entn;
+    o.ergebnis = o.einSum - o.ausSum;
+    o.liq = o.verf - o.ausSum;
+    bestand = o.liq;
+    L.push(o);
+  });
+  r.liq = L;
+  r.liqMinY1 = Math.min(...L.slice(0,12).map(o=>o.liq));
+  r.liqMinY2 = Math.min(...L.slice(12).map(o=>o.liq));
+  r.kkOkY1 = r.liqMinY1 >= -r.kk; r.kkOkY2 = r.liqMinY2 >= -r.kk;
+  let mi=0; L.forEach((o,i)=>{ if(o.liq<L[mi].liq) mi=i; });
+  r.gapMonth = mi+1;
+  let cA=0,cE=0; for(let i=0;i<=mi;i++){ cA += L[i].ausSum - L[i].inv; cE += L[i].einSum - L[i].kredit; }
+  r.gapOut = cA; r.gapIn = cE; r.gap = cA - cE;
+
+  /* ── Rentabilitätsplan 3 Jahre ── */
+  r.roh = [0,1,2].map(i=>r.rev[i]-r.matY[i]-r.provY[i]);
+  r.rentGroups = F2.RENT_GROUPS.map(([l,ks])=>({l, y:[0,1,2].map(i=>sum(ks.map(k=>{ const it=r.sba.find(x=>x.k===k); return it?it.y[i]:0; })))}));
+  r.gkY = [r.gkSum,0,0];
+  r.kostenY = [0,1,2].map(i=>r.persY[i]+r.sbaY[i]+r.afaY[i]+r.zinsY[i]+r.gkY[i]);
+  r.gew = [0,1,2].map(i=>r.roh[i]-r.kostenY[i]);
+  r.kapZufluss = r.ekSum - g('ek_sach') - g('ek_eigenl') + r.fkAusz;
+  r.cf = [0,1,2].map(i=> r.gew[i] + r.afaY[i] + (i===0?r.kapZufluss:0) - r.tilgY[i] - r.ulY[i] - r.bstY[i] - r.estY[i] - (i===0?r.invSum:0));
+  r.cfOk = r.cf.map((v,i)=> i===0 ? v>0 : v>-1);
+
+  /* ── Kapitalbedarf & Finanzierung ── */
+  r.kbVor = r.vorGr;
+  r.kbGesamt = r.gap>0 ? r.kbVor + r.gap : r.kbVor;
+  r.finFoerder = r.kr[0].ausz + r.kr[1].ausz;
+  r.finBank = r.kr[2].betrag; r.finSonst = r.kr[3].betrag;
+  r.finFk = r.finFoerder + r.finBank + r.finSonst;
+  r.finGesamt = r.ekSum + r.finFk;
+  r.deckVor = r.finGesamt - r.kbVor;
+  r.deckGesamt = r.finGesamt + r.gapIn - r.kbVor - r.gapOut;
+
+  /* Kennzahlen */
+  r.varY = [0,1,2].map(i=>r.matY[i]+r.provY[i]);
+  r.fixY = [0,1,2].map(i=>r.persY[i]+r.sbaY[i]+r.afaY[i]+r.zinsY[i]);
+  r.kostenJ = [0,1,2].map(i=>r.varY[i]+r.fixY[i]+r.gkY[i]);
+  // Break-even: erster Monat, ab dem der Monatsumsatz die laufenden Kosten deckt
+  r.be = null;
+  for(let i=0;i<24;i++){ const y=i<12?0:1; const db = rev[i] - (r.revM[i]>0&&r.rev[y]>0? r.matY[y]*rev[i]/r.rev[y] : r.matY[y]/12) - rev[i]*r.provPct[y]/100; const fixM = (r.persY[y]+r.sbaY[y]+r.afaY[y]+r.zinsY[y])/12; if(rev[i]>0 && db>=fixM){ r.be=i+1; break; } }
+  r.filled = r.rev.some(v=>v>0) || r.vorGr>0 || r.ekSum>0;
+  return r;
+}
+if(typeof module!=='undefined') module.exports={F2,finCalc2};
+/* ═══════════════════════════════════════════════════════════
+   FINANZTEIL 2.0 – Oberfläche (5 Schritte + Auswertung)
+═══════════════════════════════════════════════════════════ */
+const FZ_STEPS=[
+  {t:'Investitionen',s:'Gründungskosten und Anschaffungen'},
+  {t:'Umsätze',s:'Wie viel Du verkaufst'},
+  {t:'Kosten',s:'Personal, Material, Betrieb'},
+  {t:'Unternehmerlohn',s:'Was Du zum Leben brauchst'},
+  {t:'Kapital',s:'Eigen- und Fremdkapital'},
+  {t:'Auswertung',s:'Rentabilität, Liquidität, Bedarf'}
+];
+const FZ_IC={
+  start:'<path d="M8 2v4M16 2v4M3 10h18"/><rect x="3" y="4" width="18" height="18" rx="2"/>',
+  gk:'<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>',
+  raum:'<path d="M3 21h18M5 21V8l7-5 7 5v13"/><path d="M10 21v-6h4v6"/>',
+  bga:'<rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>',
+  umsatz:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  kal:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h2M14 14h2M8 18h2"/>',
+  zahl:'<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/>',
+  pers:'<circle cx="9" cy="8" r="4"/><path d="M2 21c1-4 4-6 7-6s6 2 7 6M17 11a3 3 0 1 0 0-6M22 21c-.5-2.5-2-4-4-4.7"/>',
+  mat:'<path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8M12 13v8"/>',
+  prov:'<path d="M19 5L5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/>',
+  sba:'<path d="M3 3h18v4H3zM5 7v14h14V7M9 12h6"/>',
+  afa:'<path d="M3 3v18h18"/><path d="M7 7l4 4 3-3 6 6"/>',
+  ul:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>',
+  ek:'<path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/>',
+  kr:'<path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/>',
+  si:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+  tool:'<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/>',
+  rent:'<path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/>',
+  liq:'<path d="M12 2.7l5.7 5.7a8 8 0 1 1-11.4 0z"/>',
+  kb:'<circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 10h4.5a1.5 1.5 0 0 1 0 3h-3a1.5 1.5 0 0 0 0 3H15"/>'
+};
+function fzIc(k,amber){ return `<span class="fx-ic${amber?' am':''}"><svg viewBox="0 0 24 24" aria-hidden="true">${FZ_IC[k]||FZ_IC.gk}</svg></span>`; }
+const fzE=v=>Math.round(Number(v||0)).toLocaleString('de-DE')+' €';
+const fzV=k=>{const v=window._finData[k];return v===undefined||v===null?'':esc(String(v));};
+function fzNum(k,o={}){ return `<span class="fz-inw${o.small?' sm':''}"><input class="fz-in" data-k="${k}" inputmode="decimal" autocomplete="off" value="${fzV(k)}" placeholder="${o.ph!==undefined?o.ph:'0'}" aria-label="${esc(o.aria||'')}"><span class="fz-u">${o.u!==undefined?o.u:'€'}</span></span>`; }
+function fzTxt(k,ph,aria){ return `<input class="fz-in txt" data-k="${k}" value="${fzV(k)}" placeholder="${esc(ph||'')}" aria-label="${esc(aria||ph||'')}">`; }
+function fzCard(ic,title,hint,body,o={}){ return `<section class="fz-card${o.cls?' '+o.cls:''}"><div class="fz-ch">${fzIc(ic,o.amber)}<div><h3>${title}</h3>${hint?`<p>${hint}</p>`:''}</div>${o.out?`<div class="fz-sum" data-o="${o.out}"></div>`:''}</div>${body}</section>`; }
+function fzList(items){ return `<div class="fz-list">${items.map(([k,l])=>`<label class="fz-row"><span>${l}</span>${fzNum(k,{aria:l})}</label>`).join('')}</div>`; }
+function fzItems(items){ // Kostenposten: Monat | Jahr | Änderung J2 | Änderung J3
+  return `<div class="fz-tw"><table class="fz-it k"><thead><tr><th>Position</th><th>€ pro Monat</th><th>oder € pro Jahr</th><th>± Jahr 2</th><th>± Jahr 3</th></tr></thead><tbody>${items.map(([k,l])=>`<tr><th scope="row">${l}</th><td data-l="€ pro Monat">${fzNum(k+'_m',{aria:l+' pro Monat'})}</td><td data-l="oder € pro Jahr">${fzNum(k+'_j',{aria:l+' pro Jahr'})}</td><td data-l="± Jahr 2">${fzNum(k+'_d2',{aria:l+' Änderung Jahr 2',ph:'±0'})}</td><td data-l="± Jahr 3">${fzNum(k+'_d3',{aria:l+' Änderung Jahr 3',ph:'±0'})}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function fzToggle(k,label,on){ return `<label class="fz-tg"><input type="checkbox" data-tg="${k}" ${on?'checked':''}><span class="fz-tgk"></span><span>${label}</span></label>`; }
+
+function buildFinance(panel){
+  window._finData=window._finData||{};
+  if(window._fzStep===undefined) window._fzStep=0;
+  panel.innerHTML=`<div class="fz" id="fz">
+    <div class="fz-kpis" id="fzKpis"></div>
+    <nav class="fz-nav" aria-label="Schritte im Finanzteil">
+      <div class="fz-bar"><span id="fzBar"></span></div>
+      <div class="fz-pills">${FZ_STEPS.map((st,i)=>`<button type="button" class="fz-pill" data-step="${i}"><b>${i<5?i+1:'✓'}</b><span>${st.t}</span></button>`).join('')}</div>
+    </nav>
+    <div id="fzBody"></div>
+  </div>`;
+  const root=panel.querySelector('#fz');
+  root.addEventListener('click',e=>{
+    const p=e.target.closest('[data-step]'); if(p){ fzGo(+p.dataset.step); return; }
+    const a=e.target.closest('[data-act]'); if(a){ fzAct(a.dataset.act,a); }
+  });
+  root.addEventListener('input',e=>{
+    const el=e.target;
+    if(el.dataset.k){ window._finData[el.dataset.k]=el.value; fzChanged(); }
+  });
+  root.addEventListener('change',e=>{
+    const el=e.target;
+    if(el.dataset.tg){ window._finData[el.dataset.tg]=el.checked?'1':''; fzChanged(); fzRender(); }
+    if(el.dataset.radio){ window._finData[el.dataset.radio]=el.value; fzChanged(); fzRender(); }
+    if(el.dataset.sel){ window._finData[el.dataset.sel]=el.value; fzChanged(); fzRender(); }
+    if(el.dataset.k==='f_start'){ fzRender(); }
+  });
+  fzRender();
+}
+let _fzT=null;
+function fzChanged(){
+  if(typeof scheduleSave==='function') scheduleSave();
+  clearTimeout(_fzT); _fzT=setTimeout(fzUpdate,120);
+}
+function fzGo(i){
+  window._fzStep=Math.max(0,Math.min(5,i));
+  fzRender();
+  const top=document.getElementById('fz'); const sc=document.getElementById('eScroll');
+  if(top&&sc){ sc.scrollTo({top:Math.max(0,top.offsetTop-12),behavior:'smooth'}); }
+}
+function fzAct(act,el){
+  const fd=window._finData;
+  if(act==='next') fzGo(window._fzStep+1);
+  if(act==='prev') fzGo(window._fzStep-1);
+  if(act==='days-reset'){ for(let i=0;i<24;i++){ delete fd['u_wt_'+i]; } fzChanged(); fzRender(); }
+}
+function fzRender(){
+  const body=document.getElementById('fzBody'); if(!body) return;
+  const st=window._fzStep;
+  document.querySelectorAll('.fz-pill').forEach((p,i)=>{ p.classList.toggle('on',i===st); p.setAttribute('aria-current',i===st?'step':'false'); });
+  const bar=document.getElementById('fzBar'); if(bar) bar.style.width=((st+1)/6*100)+'%';
+  const html=[fzS1,fzS2,fzS3,fzS4,fzS5,fzS6][st]();
+  const navB=`<div class="fz-foot">${st>0?`<button type="button" class="btn btn-ghost" data-act="prev">Zurück</button>`:'<span></span>'}${st<5?`<button type="button" class="btn btn-primary" data-act="next">Weiter: ${FZ_STEPS[st+1].t}</button>`:''}</div>`;
+  body.innerHTML=`<div class="fz-head"><span class="fz-step">Schritt ${st+1} von 6</span><h2>${FZ_STEPS[st].t}</h2></div>`+html+navB;
+  fzUpdate();
+}
+
+/* ── Schritt 1: Start & Investitionen ── */
+function fzS1(){
+  const fd=window._finData; const s=F2.startOf(fd); const sv=`${s.y}-${String(s.m+1).padStart(2,'0')}`;
+  const ust=fd.f_ust===undefined||fd.f_ust===''?'19':String(fd.f_ust);
+  return fzCard('start','Start Deiner Selbstständigkeit','Ab diesem Monat rechnet die Planung. Die Umsatzsteuer wird in der Liquidität berücksichtigt.',
+    `<div class="fz-list"><label class="fz-row"><span>Beginn der Selbstständigkeit</span><input class="fz-in date" type="month" data-k="f_start" value="${sv}"></label>
+     <label class="fz-row"><span>Umsatzsteuersatz auf Deine Leistungen</span><select class="fz-in sel" data-sel="f_ust"><option value="19"${ust==='19'?' selected':''}>19 %</option><option value="7"${ust==='7'?' selected':''}>7 %</option><option value="0"${ust==='0'?' selected':''}>0 % (Kleinunternehmer)</option></select></label></div>`)
+  + fzCard('gk','Gründungsbedingte Kosten','Einmalige Kosten rund um die Gründung.',fzList(F2.GK),{out:'gkSum'})
+  + fzCard('raum','Investitionen Büro, Halle, Laden','Räume, Umbau, Kaution und Übernahmen.',fzList(F2.INV_RAUM),{out:'irSum'})
+  + fzCard('bga','Investitionen Geschäfts- und Betriebsausstattung','Maschinen, Einrichtung, Technik, Fahrzeuge und Erstausstattung.',fzList(F2.INV_BGA),{out:'ibSum'})
+  + `<div class="fz-total"><span>Summe gründungsbedingte Kosten und Investitionen</span><b data-o="vorGr"></b></div>`;
+}
+
+/* ── Schritt 2: Umsätze ── */
+function fzS2(){
+  const fd=window._finData; const alt=String(fd.u_alt||'2');
+  const opts=[['1','Tagesumsatz','Durchschnittlicher Umsatz pro Arbeitstag'],['2','Jahresumsatz','Umsatz pro Jahr, bis zu 5 Produkte'],['3','Menge × Preis','Absatzmenge und Verkaufspreis je Produkt'],['4','Monatlich','Jeden Monat selbst eintragen']];
+  let h=fzCard('umsatz','Wie möchtest Du Deinen Umsatz planen?','Wähle eine Methode. Die Umsätze werden automatisch auf die Monate verteilt.',
+    `<div class="fz-opts">${opts.map(([v,t,d])=>`<label class="fz-opt${alt===v?' on':''}"><input type="radio" name="u_alt" data-radio="u_alt" value="${v}"${alt===v?' checked':''}><b>${t}</b><span>${d}</span></label>`).join('')}</div>`);
+  const prodName=p=>fzTxt('u_p'+p+'_name','Produkt '+p,'Name Produkt '+p);
+  if(alt==='1'){
+    h+=fzCard('umsatz','Umsatz pro Arbeitstag','Netto, ohne Umsatzsteuer.',`<div class="fz-tw"><table class="fz-it y3"><thead><tr><th></th><th>Jahr 1</th><th>Jahr 2</th><th>Jahr 3</th></tr></thead><tbody>
+      <tr><th scope="row">Umsatz pro Tag</th><td>${fzNum('u_tag1')}</td><td>${fzNum('u_tag2')}</td><td>${fzNum('u_tag3')}</td></tr>
+      <tr><th scope="row">Umsatztage</th><td class="o" data-o="D0"></td><td class="o" data-o="D1"></td><td>${fzNum('u_tage3',{u:'Tage',ph:'wie J2'})}</td></tr></tbody></table></div>`);
+  } else if(alt==='2'){
+    h+=fzCard('umsatz','Jahresumsatz je Produkt','Netto, ohne Umsatzsteuer. Verteilt nach Umsatztagen.',`<div class="fz-tw"><table class="fz-it y3"><thead><tr><th>Produkt / Leistung</th><th>Jahr 1</th><th>Jahr 2</th><th>Jahr 3</th></tr></thead><tbody>${[1,2,3,4,5].map(p=>`<tr><th scope="row">${prodName(p)}</th><td>${fzNum('u_p'+p+'_j1')}</td><td>${fzNum('u_p'+p+'_j2')}</td><td>${fzNum('u_p'+p+'_j3')}</td></tr>`).join('')}</tbody></table></div>`);
+  } else if(alt==='3'){
+    h+=fzCard('umsatz','Absatzmenge und Verkaufspreis','Menge pro Jahr und Nettopreis je Stück. Verteilt nach Umsatztagen.',`<div class="fz-tw"><table class="fz-it y3 mq"><thead><tr><th>Produkt / Leistung</th><th>Jahr 1</th><th>Jahr 2</th><th>Jahr 3</th></tr></thead><tbody>${[1,2,3,4,5].map(p=>`<tr><th scope="row" rowspan="2">${prodName(p)}</th><td>${fzNum('u_q'+p+'_j1',{u:'Stk.'})}</td><td>${fzNum('u_q'+p+'_j2',{u:'Stk.'})}</td><td>${fzNum('u_q'+p+'_j3',{u:'Stk.'})}</td></tr><tr class="pr"><td>${fzNum('u_pr'+p+'_j1',{u:'€/Stk.'})}</td><td>${fzNum('u_pr'+p+'_j2',{u:'€/Stk.'})}</td><td>${fzNum('u_pr'+p+'_j3',{u:'€/Stk.'})}</td></tr>`).join('')}</tbody></table></div>`);
+  } else {
+    const grid=y=>`<div class="fz-tw"><table class="fz-it mon"><thead><tr>${[...Array(12).keys()].map(j=>`<th>${F2.monthLabel(fd,y*12+j)}</th>`).join('')}</tr></thead><tbody><tr>${[...Array(12).keys()].map(j=>`<td>${fzNum('u_man_'+(y*12+j),{small:1,u:''})}</td>`).join('')}</tr></tbody></table></div>`;
+    h+=fzCard('umsatz','Umsatz Monat für Monat','Netto, ohne Umsatzsteuer.',`<h4 class="fz-sub">Jahr 1</h4>${grid(0)}<h4 class="fz-sub">Jahr 2</h4>${grid(1)}<div class="fz-list"><label class="fz-row"><span>Umsatz Jahr 3 gesamt</span>${fzNum('u_man_y3')}</label></div>`);
+  }
+  if(alt!=='4'){
+    const rowsDef=[['u_wt_','Verfügbare Arbeitstage'],['u_ur_','davon Urlaub bzw. geschlossen'],['u_nf_','davon nicht fakturierbar'],['u_an_','Umsatzminderung Anlaufzeit (%)']];
+    const cal=y=>`<div class="fz-tw"><table class="fz-it cal"><thead><tr><th>${y?'Jahr 2':'Jahr 1'}</th>${[...Array(12).keys()].map(j=>`<th>${F2.monthLabel(fd,y*12+j)}</th>`).join('')}</tr></thead><tbody>${rowsDef.map(([p,l])=>`<tr><th scope="row">${l}</th>${[...Array(12).keys()].map(j=>{const i=y*12+j; const ph=p==='u_wt_'?String(F2.defaultDays(fd,i)):'0'; return `<td>${fzNum(p+i,{small:1,u:'',ph})}</td>`;}).join('')}</tr>`).join('')}<tr class="sum"><th scope="row">Umsatztage</th>${[...Array(12).keys()].map(j=>`<td class="o" data-o="day${y*12+j}"></td>`).join('')}</tr></tbody></table></div>`;
+    h+=`<details class="fz-card fz-det"><summary><div class="fz-ch">${fzIc('kal')}<div><h3>Umsatztage je Monat anpassen</h3><p>Montag bis Freitag sind vorbelegt. Trag Urlaub, Schließtage und eine langsamere Anlaufphase ein.</p></div></div></summary>${cal(0)}${cal(1)}<button type="button" class="btn btn-ghost btn-sm" data-act="days-reset">Arbeitstage zurücksetzen</button></details>`;
+  }
+  h+=fzCard('zahl','Wann zahlen Deine Kunden?','Anteil der Umsätze, der im jeweiligen Monat auf Deinem Konto eingeht (zusammen 100 %).',
+    `<div class="fz-list cols2">${[['z_anz','Anzahlung (vorab)',''],['z_same','Zahlung im selben Monat','100'],['z_next','Zahlung im Folgemonat',''],['z_two','Zahlung nach zwei Monaten','']].map(([k,l,ph])=>`<label class="fz-row"><span>${l}</span>${fzNum(k,{u:'%',ph:ph||'0'})}</label>`).join('')}</div><div class="fz-note" data-o="zahlCheck"></div>`);
+  h+=`<div class="fz-total"><span>Umsatz Jahr 1 / Jahr 2 / Jahr 3</span><b data-o="revAll"></b></div>`;
+  h+=fzCard('gk','Erläuterung Deiner Umsatzplanung (optional)','Wie kommst Du auf diese Zahlen? Das steht im PDF unter 4.2.1.',`<textarea class="fz-ta" data-k="fin_umsatz" rows="3" placeholder="z. B. 25 Gäste pro Tag mit durchschnittlich 12 € Bon">${fzV('fin_umsatz')}</textarea>`);
+  return h;
+}
+
+/* ── Schritt 3: Kosten ── */
+function fzS3(){
+  const fd=window._finData; const R=finCalc2(fd);
+  let h=fzCard('pers','Personalkosten (ohne Unternehmerlohn)','Beträge inklusive Arbeitgeberanteil. Änderungen in Jahr 2 und 3 als Betrag pro Jahr.',fzItems(F2.PERS)+fzToggle('pt_on','Personal-Rechner verwenden',R.ptOn)+(R.ptOn?fzPersTool():''),{out:'persY0'});
+  const mt=String(fd.mt_mode||'0');
+  h+=fzCard('mat','Wareneinsatz und Materialkosten','Was Du einkaufst, um Deine Leistung zu erbringen.',fzItems(F2.MAT)+
+    `<div class="fz-list"><label class="fz-row"><span>Material-Rechner</span><select class="fz-in sel" data-sel="mt_mode"><option value="0"${mt==='0'?' selected':''}>nicht verwenden</option><option value="pct"${mt==='pct'?' selected':''}>Wareneinsatz in % vom Umsatz</option><option value="stk"${mt==='stk'?' selected':''}>Menge × Einkaufspreis</option></select></label></div>`+
+    (mt==='pct'?`<div class="fz-tool"><div class="fz-tw"><table class="fz-it y3"><thead><tr><th></th><th>Jahr 1</th><th>Jahr 2</th><th>Jahr 3</th></tr></thead><tbody><tr><th scope="row">Wareneinsatz in % vom Umsatz</th><td>${fzNum('mt_pct1',{u:'%'})}</td><td>${fzNum('mt_pct2',{u:'%'})}</td><td>${fzNum('mt_pct3',{u:'%'})}</td></tr><tr class="sum"><th scope="row">Wareneinsatz</th><td class="o" data-o="mt0"></td><td class="o" data-o="mt1"></td><td class="o" data-o="mt2"></td></tr></tbody></table></div></div>`:'')+
+    (mt==='stk'?`<div class="fz-tool"><div class="fz-tw"><table class="fz-it"><thead><tr><th>Produkt</th><th>Einkauf je Stück</th><th>Menge Jahr 1</th><th>Menge Jahr 2</th><th>Menge Jahr 3</th></tr></thead><tbody>${[1,2,3,4,5].map(p=>`<tr><th scope="row">${esc(fd['u_p'+p+'_name']||'Produkt '+p)}</th><td>${fzNum('mt_c'+p)}</td><td>${fzNum('mt_q'+p+'_j1',{u:'Stk.'})}</td><td>${fzNum('mt_q'+p+'_j2',{u:'Stk.'})}</td><td>${fzNum('mt_q'+p+'_j3',{u:'Stk.'})}</td></tr>`).join('')}<tr class="sum"><th scope="row">Wareneinsatz</th><td></td><td class="o" data-o="mt0"></td><td class="o" data-o="mt1"></td><td class="o" data-o="mt2"></td></tr></tbody></table></div></div>`:''),{out:'matY0'});
+  h+=fzCard('prov','Provisionen','Umsatzabhängige Provisionen, z. B. für Vertriebspartner oder Plattformen.',`<div class="fz-tw"><table class="fz-it y3"><thead><tr><th></th><th>Jahr 1</th><th>Jahr 2</th><th>Jahr 3</th></tr></thead><tbody><tr><th scope="row">Provision vom Umsatz</th><td>${fzNum('prov_pct1',{u:'%'})}</td><td>${fzNum('prov_pct2',{u:'%'})}</td><td>${fzNum('prov_pct3',{u:'%'})}</td></tr></tbody></table></div>`);
+  h+=fzCard('sba','Sonstige Betriebsausgaben','Laufende Kosten Deines Betriebs, netto.',fzItems(F2.SBA)+fzItems(F2.BST).replace('<thead>','<thead class="sr">'),{out:'sbaY0'});
+  h+=fzCard('afa','Abschreibungen','Anschaffungen über 800 € netto werden über die Nutzungsdauer abgeschrieben.',fzAfaTool(),{out:'afaY0'});
+  return h;
+}
+function fzPersTool(){
+  const sv=F2.PT_SV.map(([k,l,d])=>`<label class="fz-row"><span>${l}</span>${fzNum(k,{u:'%',ph:String(d).replace('.',',')})}</label>`).join('');
+  return `<div class="fz-tool"><h4 class="fz-sub">Arbeitgeberanteil Sozialbeiträge</h4><div class="fz-list cols2">${sv}</div><div class="fz-note">Summe Arbeitgeberanteil: <b data-o="ptSv"></b>. Bitte prüfe die aktuellen Beitragssätze.</div>
+  <h4 class="fz-sub">Löhne und Gehälter</h4><div class="fz-tw"><table class="fz-it"><thead><tr><th>Bereich</th><th>Anzahl</th><th>Brutto pro Monat</th><th>Sonderzahlung pro Jahr</th><th>Sonstiges pro Jahr</th></tr></thead><tbody>${F2.PT_ROWS.map(([k,l])=>`<tr><th scope="row">${l}</th><td>${fzNum('pt_'+k+'_n',{u:''})}</td><td>${fzNum('pt_'+k+'_g')}</td><td>${fzNum('pt_'+k+'_b')}</td><td>${fzNum('pt_'+k+'_o')}</td></tr>`).join('')}
+  <tr><th scope="row">Minijobs</th><td>${fzNum('pt_mini_n',{u:''})}</td><td>${fzNum('pt_mini_g',{ph:'603'})}</td><td colspan="2">${fzNum('pt_mini_p',{u:'% Pauschale',ph:'31,47'})}</td></tr>
+  <tr class="sum"><th scope="row">Personalkosten pro Jahr</th><td></td><td colspan="3" class="o" data-o="ptTotal"></td></tr></tbody></table></div><div class="fz-note">Die Summe wird zu „Löhne und Gehälter“ bzw. „Minijobs“ in Jahr 1 hinzugerechnet.</div></div>`;
+}
+function fzAfaTool(){
+  const lin=[...Array(10).keys()].map(i=>i+1);
+  const row=(p,i)=>`<tr><th scope="row">${fzTxt(p+'_name'+i,'Wirtschaftsgut '+i,'Wirtschaftsgut '+i)}</th><td>${fzNum(p+'_w'+i)}</td><td>${fzNum(p+'_n'+i,{u:'Jahre'})}</td></tr>`;
+  const show=p=>{ let n=0; lin.forEach(i=>{ if(window._finData[p+'_w'+i]||window._finData[p+'_name'+i]) n=i; }); return Math.min(10,Math.max(3,n+1)); };
+  return `<h4 class="fz-sub">Lineare Abschreibung</h4><div class="fz-tw"><table class="fz-it"><thead><tr><th>Wirtschaftsgut</th><th>Anschaffung netto</th><th>Nutzungsdauer</th></tr></thead><tbody>${lin.slice(0,show('al')).map(i=>row('al',i)).join('')}</tbody></table></div>
+  <details class="fz-more"><summary>Degressive Abschreibung und weitere AfA</summary>
+  <h4 class="fz-sub">Degressive Abschreibung (arithmetisch-degressiv)</h4><div class="fz-tw"><table class="fz-it"><thead><tr><th>Wirtschaftsgut</th><th>Anschaffung netto</th><th>Nutzungsdauer</th></tr></thead><tbody>${lin.slice(0,show('ad')).map(i=>row('ad',i)).join('')}</tbody></table></div>
+  <h4 class="fz-sub">Weitere AfA pro Jahr</h4><div class="fz-tw"><table class="fz-it"><thead><tr><th>Bezeichnung</th><th>Jahr 1</th><th>Jahr 2</th><th>Jahr 3</th></tr></thead><tbody>${[1,2,3,4].map(i=>`<tr><th scope="row">${fzTxt('am_name'+i,'Weitere AfA '+i)}</th><td>${fzNum('am_j1_'+i)}</td><td>${fzNum('am_j2_'+i)}</td><td>${fzNum('am_j3_'+i)}</td></tr>`).join('')}</tbody></table></div></details>
+  <div class="fz-note">Die Nutzungsdauer findest Du in der amtlichen AfA-Tabelle des Bundesfinanzministeriums.</div>`;
+}
+
+/* ── Schritt 4: Unternehmerlohn ── */
+function fzS4(){
+  const fd=window._finData; const R=finCalc2(fd);
+  let h=fzCard('ul','Kalkulatorischer Unternehmerlohn','Was Du monatlich aus dem Unternehmen entnimmst, um davon zu leben. Er geht als Privatentnahme in die Liquidität ein.',
+    fzToggle('ul_tool','Mit dem Privatentnahme-Rechner ermitteln (empfohlen)',R.ulTool)+
+    (R.ulTool?'':`<div class="fz-tw"><table class="fz-it y3"><thead><tr><th></th><th>Jahr 1</th><th>Jahr 2</th><th>Jahr 3</th></tr></thead><tbody><tr><th scope="row">Entnahme pro Monat</th><td>${fzNum('ul_m1')}</td><td>${fzNum('ul_m2',{ph:'wie J1'})}</td><td>${fzNum('ul_m3',{ph:'wie J2'})}</td></tr></tbody></table></div>`),{out:'ulY0'});
+  if(R.ulTool){
+    h+=fzCard('ul','Deine monatlichen Ausgaben','Durchschnittliche private Lebenshaltungskosten pro Monat.',fzList(F2.EX),{out:'ulEx'});
+    h+=fzCard('ek','Monatliche Einnahmen aus anderen Quellen','Gründungszuschuss nur für die ersten 6 Monate eintragen.',fzList(F2.INC),{out:'ulInc'});
+    h+=fzCard('kb','Rücklage für Einkommensteuer','Entweder einen Zuschlag in % oder einen festen Jahresbetrag.',`<div class="fz-list cols2"><label class="fz-row"><span>Zuschlag Einkommensteuer, Soli, Kirchensteuer</span>${fzNum('ul_tax_pct',{u:'%'})}</label><label class="fz-row"><span>oder fester Betrag pro Jahr</span>${fzNum('ul_tax_eur')}</label></div>`);
+    h+=`<div class="fz-res"><div><span>Unternehmerlohn Monat 1–6</span><b data-o="ulFirst"></b></div><div><span>Unternehmerlohn Monat 7–12</span><b data-o="ulLast"></b></div><div><span>Jahr 1 / 2 / 3</span><b data-o="ulAll"></b></div></div>`;
+  }
+  return h;
+}
+
+/* ── Schritt 5: Kapital ── */
+function fzS5(){
+  const kr=F2.KR.map(([k,l],i)=>`<tr><th scope="row">${l}</th><td data-l="Summe €">${fzNum(k+'_b')}</td><td data-l="Auszahlung %">${fzNum(k+'_a',{u:'%',ph:'100'})}</td>${i<3?`<td data-l="Zins % p. a.">${fzNum(k+'_z',{u:'%'})}</td><td data-l="tilgungsfrei Jahre">${fzNum(k+'_tf',{u:'Jahre'})}</td><td data-l="Laufzeit Jahre">${fzNum(k+'_lz',{u:'Jahre'})}</td>`:'<td colspan="3" class="mu">ohne Zins- und Tilgungsplan</td>'}</tr>`).join('');
+  return fzCard('ek','Vorhandenes Eigenkapital','Was Du selbst einbringst.',fzList(F2.EK),{out:'ekSum'})
+  + fzCard('kr','Kredite und Fördermittel','Zinsen werden vierteljährlich, Tilgungen halbjährlich berechnet.',`<div class="fz-tw"><table class="fz-it k"><thead><tr><th>Kredit</th><th>Summe €</th><th>Auszahlung %</th><th>Zins % p. a.</th><th>tilgungsfrei Jahre</th><th>Laufzeit Jahre</th></tr></thead><tbody>${kr}</tbody></table></div>`,{out:'fkSum'})
+  + fzCard('kb','Kurzfristige Finanzierung und Sicherheiten','',`<div class="fz-list"><label class="fz-row"><span>Kontokorrentkredit (Kreditlinie)</span>${fzNum('kk')}</label>${F2.SI.map(([k,l])=>`<label class="fz-row"><span>${l}</span>${fzNum(k)}</label>`).join('')}</div>`)
+  + fzCard('liq','Weitere Zahlungen in der Liquidität (optional)','Beträge pro Monat. Den Gründungszuschuss in Phase 2 (300 €) kannst Du hier als sonstige Einnahme eintragen.',`<div class="fz-tw"><table class="fz-it y3"><thead><tr><th>pro Monat</th><th>Jahr 1</th><th>Jahr 2</th></tr></thead><tbody>${[['li_sonstE','Sonstige Einnahmen'],['li_einlage','Privateinlage'],['li_bar','Bareinkäufe'],['li_sonstA','Sonstige Ausgaben']].map(([k,l])=>`<tr><th scope="row">${l}</th><td>${fzNum(k+'1')}</td><td>${fzNum(k+'2')}</td></tr>`).join('')}</tbody></table></div>
+    <h4 class="fz-sub">Einkommensteuer-Rücklage im Rentabilitätsplan</h4><div class="fz-tw"><table class="fz-it y3"><thead><tr><th></th><th>Jahr 1</th><th>Jahr 2</th><th>Jahr 3</th></tr></thead><tbody><tr><th scope="row">pro Jahr</th><td>${fzNum('est1')}</td><td>${fzNum('est2')}</td><td>${fzNum('est3')}</td></tr></tbody></table></div>`);
+}
+
+/* ── Schritt 6: Auswertung ── */
+function fzS6(){
+  return `<div id="fzAus"></div>`
+  + fzCard('rent','Erläuterung zur Rentabilität (optional)','Erscheint im PDF unter 4.4.',`<textarea class="fz-ta" data-k="fin_rent" rows="3" placeholder="z. B. Ab Jahr 2 steigen die Umsätze durch Stammkunden.">${fzV('fin_rent')}</textarea>`)
+  + fzCard('liq','Erläuterung zur Liquidität (optional)','Erscheint im PDF unter 4.3.',`<textarea class="fz-ta" data-k="fin_liquid" rows="3" placeholder="z. B. Die Anlaufphase ist durch den Gründungszuschuss abgesichert.">${fzV('fin_liquid')}</textarea>`);
+}
+function fzAusHtml(R){
+  const fd=window._finData; const e=fzE;
+  const tr=(l,a,c='')=>`<tr class="${c}"><th scope="row">${l}</th>${a.map(v=>`<td>${e(v)}</td>`).join('')}</tr>`;
+  const nz=a=>a.some(v=>Math.round(v)!==0);
+  let rent=tr('Plan-Umsatz',R.rev,'b');
+  if(nz(R.matY)) rent+=tr('Wareneinsatz',R.matY.map(v=>-v),'i'); if(nz(R.provY)) rent+=tr('Provisionen',R.provY.map(v=>-v),'i');
+  rent+=tr('Rohertrag',R.roh,'b');
+  if(nz(R.persY)) rent+=tr('Personalkosten',R.persY.map(v=>-v),'i');
+  R.rentGroups.forEach(g=>{ if(nz(g.y)) rent+=tr(g.l,g.y.map(v=>-v),'i'); });
+  if(nz(R.afaY)) rent+=tr('Abschreibungen',R.afaY.map(v=>-v),'i'); if(nz(R.zinsY)) rent+=tr('Zinsen',R.zinsY.map(v=>-v),'i'); if(R.gkSum) rent+=tr('Gründungsbedingte Kosten',R.gkY.map(v=>-v),'i');
+  rent+=tr('Gewinn (vor Steuern)',R.gew,'t');
+  let cf=tr('Gewinn',R.gew,'b'); if(nz(R.afaY)) cf+=tr('zzgl. Abschreibungen',R.afaY,'i'); if(R.kapZufluss) cf+=tr('zzgl. Eigen- und Fremdkapital',[R.kapZufluss,0,0],'i'); if(nz(R.tilgY)) cf+=tr('abzgl. Tilgung',R.tilgY.map(v=>-v),'i'); if(nz(R.ulY)) cf+=tr('abzgl. Unternehmerlohn',R.ulY.map(v=>-v),'i'); if(nz(R.bstY)) cf+=tr('abzgl. betriebliche Steuern',R.bstY.map(v=>-v),'i'); if(nz(R.estY)) cf+=tr('abzgl. Einkommensteuer-Rücklage',R.estY.map(v=>-v),'i'); if(R.invSum) cf+=tr('abzgl. Investitionen',[-R.invSum,0,0],'i');
+  cf+=tr('Cashflow',R.cf,'t');
+  const L=R.liq;
+  const lrows=[['Kasse / Bank Monatsanfang','bestand','m'],['Kreditauszahlungen','kredit'],['Geldeingang Umsätze (netto)','umsatz'],['Eingenommene Umsatzsteuer','ustEin'],['Erstattete Vorsteuer','vstErst'],['Sonstige Einnahmen','sonstE'],['Privateinlage','einlage'],['Summe Einnahmen','einSum','b'],['Löhne und Gehälter','lohn'],['Zahlungen an Lieferanten','lief'],['Bareinkäufe','bar'],['Provisionen','prov'],['Sonstige Betriebsausgaben','sba'],['Bezahlte Vorsteuer','vst'],['Abgeführte Umsatzsteuer','ustAus'],['Zinsen','zins'],['Kredittilgung','tilg'],['Betriebliche Steuern','bst'],['Investitionen, Gründungskosten','inv'],['Sonstige Ausgaben','sonstA'],['Privatentnahme','entn'],['Summe Ausgaben','ausSum','b'],['Liquidität Monatsende','liq','t']]
+    .filter(([,k,c])=>c||L.some(o=>Math.round(o[k])!==0));
+  const liqT=`<table class="fz-at liq"><thead><tr><th>Monat</th>${L.map((o,i)=>`<th>${F2.monthLabel(fd,i)}</th>`).join('')}</tr></thead><tbody>${lrows.map(([l,k,c])=>`<tr class="${c||'i'}"><th scope="row">${l}</th>${L.map(o=>`<td class="${k==='liq'&&o.liq<-R.kk?'neg':''}">${e(o[k])}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+  const ok=(c,t1,t2)=>`<div class="fz-chk ${c?'ok':'no'}"><span>${c?'✓':'!'}</span>${c?t1:t2}</div>`;
+  const kbT=`<table class="fz-at y1"><tbody><tr><th>Gründungsbedingte Kosten</th><td>${e(R.gkSum)}</td></tr><tr><th>Investitionen Büro, Halle, Laden</th><td>${e(R.irSum)}</td></tr><tr><th>Geschäfts- und Betriebsausstattung</th><td>${e(R.ibSum)}</td></tr><tr class="b"><th>Kapitalbedarf vor der Gründung</th><td>${e(R.kbVor)}</td></tr><tr class="i"><th>Ausgaben bis Monat ${R.gapMonth} (größte Lücke)</th><td>${e(R.gapOut)}</td></tr><tr class="i"><th>Einnahmen bis Monat ${R.gapMonth}</th><td>${e(R.gapIn)}</td></tr><tr class="b"><th>Zusätzlicher Bedarf nach der Gründung</th><td>${e(Math.max(0,R.gap))}</td></tr><tr class="t"><th>Gesamter Kapitalbedarf</th><td>${e(R.kbGesamt)}</td></tr></tbody></table>`;
+  const fiT=`<table class="fz-at y1"><tbody><tr><th>Eigenkapital</th><td>${e(R.ekSum)}</td></tr><tr><th>Fördermittel (Auszahlung)</th><td>${e(R.finFoerder)}</td></tr><tr><th>Kredite der Hausbank</th><td>${e(R.finBank)}</td></tr><tr><th>Sonstiges Fremdkapital</th><td>${e(R.finSonst)}</td></tr><tr class="b"><th>Vorhandenes Gesamtkapital</th><td>${e(R.finGesamt)}</td></tr><tr class="i"><th>Über-/Unterdeckung vor Gründung</th><td class="${R.deckVor<0?'neg':''}">${e(R.deckVor)}</td></tr><tr class="t"><th>Über-/Unterdeckung gesamt</th><td class="${R.deckGesamt<0?'neg':''}">${e(R.deckGesamt)}</td></tr>${R.siSum?`<tr class="i"><th>Sicherheiten</th><td>${e(R.siSum)}</td></tr>`:''}</tbody></table>`;
+  return `<div class="fz-checks">${ok(R.cfOk[0]&&R.cfOk[1]&&R.cfOk[2],'Cashflow in allen drei Jahren in Ordnung','Cashflow prüfen: in mindestens einem Jahr negativ')}${ok(R.kkOkY1&&R.kkOkY2,'Liquidität reicht in allen 24 Monaten','Liquidität reicht nicht in jedem Monat – Finanzierung anpassen')}${ok(R.deckGesamt>=0,'Kapitalbedarf ist gedeckt','Finanzierungslücke von '+e(-R.deckGesamt))}</div>`
+  + fzCard('rent','Rentabilitätsplan','Gewinn und Cashflow für drei Jahre.',`<div class="fz-tw"><table class="fz-at"><thead><tr><th></th><th>Jahr 1</th><th>Jahr 2</th><th>Jahr 3</th></tr></thead><tbody>${rent}</tbody></table></div><h4 class="fz-sub">Cashflow</h4><div class="fz-tw"><table class="fz-at"><thead><tr><th></th><th>Jahr 1</th><th>Jahr 2</th><th>Jahr 3</th></tr></thead><tbody>${cf}</tbody></table></div>`)
+  + fzCard('liq','Liquiditätsplan – 24 Monate','Monat für Monat inklusive Umsatzsteuer, Vorsteuer, Zinsen und Tilgung. Seitlich scrollen für alle Monate.',`<div class="fz-tw fz-liqw">${liqT}</div>`)
+  + `<div class="fz-g2">`+fzCard('kb','Kapitalbedarfsplan','',`<div class="fz-tw">${kbT}</div>`)+fzCard('ek','Finanzierungsplan','',`<div class="fz-tw">${fiT}</div>`)+`</div>`;
+}
+
+/* ── Live-Werte ── */
+function fzUpdate(){
+  const fd=window._finData; const R=finCalc2(fd); const e=fzE;
+  const k=document.getElementById('fzKpis');
+  if(k) k.innerHTML=[['umsatz','Umsatz Jahr 1',e(R.rev[0]),0],['rent','Gewinn Jahr 1',e(R.gew[0]),1],['kb','Kapitalbedarf',e(R.kbGesamt),0],['liq','Niedrigster Kontostand',e(Math.min(R.liqMinY1,R.liqMinY2)),0]].map(([ic,l,v,am])=>`<div class="fz-kpi">${fzIc(ic,am)}<div><b class="${/^-/.test(v)?'neg':''}">${v}</b><span>${l}</span></div></div>`).join('');
+  const O={gkSum:e(R.gkSum),irSum:e(R.irSum),ibSum:e(R.ibSum),vorGr:e(R.vorGr),D0:Math.round(R.D[0]*10)/10+' Tage',D1:Math.round(R.D[1]*10)/10+' Tage',revAll:R.rev.map(e).join(' / '),
+    persY0:e(R.persY[0])+' im Jahr 1',matY0:e(R.matY[0])+' im Jahr 1',sbaY0:e(R.sbaY[0])+' im Jahr 1',afaY0:e(R.afaY[0])+' im Jahr 1',ulY0:e(R.ulY[0])+' im Jahr 1',
+    mt0:e(R.mtY[0]),mt1:e(R.mtY[1]),mt2:e(R.mtY[2]),ptSv:R.ptSv.toLocaleString('de-DE',{maximumFractionDigits:2})+' %',ptTotal:e(R.ptTotal+R.ptMini.total),
+    ulEx:e(R.ulEx)+' pro Monat',ulInc:e(R.ulInc)+' pro Monat',ulFirst:e(R.ulM.first),ulLast:e(R.ulM.last),ulAll:R.ulY.map(e).join(' / '),ekSum:e(R.ekSum),fkSum:e(R.fkSum),
+    zahlCheck:(()=>{const s=R.zahl.reduce((a,b)=>a+b,0);return Math.round(s)===100?'':'Achtung: Die Anteile ergeben zusammen '+s.toLocaleString('de-DE')+' % statt 100 %.';})()};
+  for(let i=0;i<24;i++) O['day'+i]=String(Math.round(R.days[i]*10)/10).replace('.',',');
+  document.querySelectorAll('#fz [data-o]').forEach(el=>{ const v=O[el.dataset.o]; if(v!==undefined) el.textContent=v; });
+  const a=document.getElementById('fzAus'); if(a) a.innerHTML=fzAusHtml(R);
+  document.querySelectorAll('.fz-pill').forEach((p,i)=>{ const done=[R.vorGr>0,R.rev[0]>0,(R.persY[0]+R.sbaY[0]+R.matY[0])>0,R.ulY[0]>0,(R.ekSum+R.fkSum)>0,false][i]; p.classList.toggle('done',!!done); });
+}
 /* ═══════════════════════
    PDF-EXPORT (Aufbau nach der Businessplan-Vorlage der Coachingexperten)
 ═══════════════════════ */
@@ -2940,7 +3602,9 @@ async function dlPDF() {
   const W=210,H=297,ML=25,MR=22,CW=W-ML-MR,TOP=30,BOT=H-26;
   const C={green:[24,129,176],greenBar:[24,129,176],greenSoft:[232,243,248],ink:[20,20,20],tx:[33,33,33],mu:[110,110,110],line:[205,205,205],soft:[246,246,246],neg:[176,40,40]};
   const p=window._profile||{}, s=window._savedData||{}, fd=window._finData||{};
-  const F=finCalc(fd);
+  const sumArr=a=>a.reduce((x,y)=>x+y,0);
+  const R=finCalc2(fd);
+  const F={kapital:R.kbGesamt,ek:R.ekSum,fk:R.finFk,rev:R.rev,gew:R.gew};
   const clean=t=>String(t==null?'':t).replace(/\r/g,'').replace(/[​-‍﻿]/g,'').replace(/ | /g,' ').replace(/[‘’]/g,"'").replace(/\t/g,'  ').trim();
   const has=v=>clean(v).length>0;
   const eur=v=>{const n=Math.round(Number(v||0));return (n<0?'-':'')+Math.abs(n).toLocaleString('de-DE')+' €';};
@@ -3004,16 +3668,16 @@ async function dlPDF() {
   }
   function label(t){ pend.push({lvl:4,title:t}); }
   function table(cols,rows,opt={}){
-    const fs=opt.size||8.6, rh=6.4, pad=2.2;
+    const fs=opt.size||8.6, rh=opt.rh||6.4, pad=2.2;
     const head=()=>{ fill(C.greenSoft); doc.rect(ML,y,CW,rh+0.4,'F'); draw(C.green); doc.setLineWidth(0.4); doc.line(ML,y+rh+0.4,ML+CW,y+rh+0.4); font('bold',fs); col(C.ink); let x=ML; cols.forEach(c=>{const tx=c.a==='right'?x+c.w-pad:x+pad; doc.text(c.t,tx,y+rh*0.68,{align:c.a==='right'?'right':'left'}); x+=c.w;}); y+=rh+0.4; };
-    const est=(opt.noHead?0:rh+0.4)+rows.reduce((a,r)=>{const cells=r.cells||r;font('normal',fs);const n=Math.max(...cells.map((v,ci)=>cols[ci].a==='right'?1:doc.splitTextToSize(String(v),cols[ci].w-pad*2).length));return a+Math.max(rh,n*fs*0.45+2.8);},0);
+    const est=(opt.noHead?0:rh+0.4)+rows.reduce((a,r)=>{const cells=r.cells||r;font('normal',fs);const n=Math.max(...cells.map((v,ci)=>cols[ci].a==='right'?1:doc.splitTextToSize(String(v),cols[ci].w-pad*2).length));return a+Math.max(rh,n*fs*0.45+(opt.rh?1.6:2.8));},0);
     const keep=est<(BOT-TOP)*0.75?est:rh*3;
     flush(keep); if(y+keep>BOT) addPage();
     if(!opt.noHead) head(); else { draw(C.line); doc.setLineWidth(0.2); doc.line(ML,y,ML+CW,y); }
     rows.forEach((r)=>{
       const cells=r.cells||r;
       const wrapped=cells.map((v,ci)=>{font(r.bold||r.total||r.group?'bold':'normal',fs);return cols[ci].a==='right'?[String(v)]:doc.splitTextToSize(String(v),cols[ci].w-pad*2-(r.indent&&ci===0?4:0));});
-      const lines=Math.max(...wrapped.map(w=>w.length)); const h=Math.max(rh,lines*fs*0.45+2.8);
+      const lines=Math.max(...wrapped.map(w=>w.length)); const h=Math.max(rh,lines*fs*0.45+(opt.rh?1.6:2.8));
       if(y+h>BOT){addPage(); if(!opt.noHead) head();}
       if(r.total){fill(C.greenSoft);doc.rect(ML,y,CW,h,'F');draw(C.green);doc.setLineWidth(0.4);doc.line(ML,y,ML+CW,y);}
       else if(r.group){fill(C.soft);doc.rect(ML,y,CW,h,'F');}
@@ -3023,7 +3687,7 @@ async function dlPDF() {
         const v=cells[ci]; const isNeg=typeof v==='string'&&/^-\d/.test(v)&&c.a==='right';
         col(r.muted?C.mu:(isNeg&&r.total?C.neg:C.tx));
         const tx=c.a==='right'?x+c.w-pad:x+pad+(r.indent&&ci===0?4:0);
-        w.forEach((ln,li)=>doc.text(ln,tx,y+fs*0.45+1.7+li*fs*0.45,{align:c.a==='right'?'right':'left'}));
+        w.forEach((ln,li)=>doc.text(ln,tx,y+(opt.rh?h/2+fs*0.16:fs*0.45+1.7)+li*fs*0.45,{align:c.a==='right'?'right':'left'}));
         x+=c.w;
       });
       draw(C.line); doc.setLineWidth(0.15); doc.line(ML,y+h,ML+CW,y+h);
@@ -3112,97 +3776,161 @@ async function dlPDF() {
   const om=['org_struct','org_personal'].filter(k=>has(s[k]));
   if(om.length){ heading(2,zr.length?'3.3':'3.2','Organisation und Mitarbeiter'); om.forEach(k=>{const f=og.fields.find(x=>x.id===k); if(om.length>1){label(f.label);} para(s[k]);}); }
 
-  /* ── 4 Finanzen ── */
+  /* ── 4 Finanzen (nach der Excel-Vorlage) ── */
   heading(1,'4','Finanzen');
   const Y3=[{t:'Position',w:CW-3*28},{t:'Jahr 1',w:28,a:'right'},{t:'Jahr 2',w:28,a:'right'},{t:'Jahr 3',w:28,a:'right'}];
   const row=(label,arr,o={})=>({cells:[label,...arr.map(v=>eur(o.neg?-v:v))],...o});
   const nz=a=>a.some(v=>Math.round(v)!==0);
+  const B2=[{t:'Position',w:CW-38},{t:'Betrag',w:38,a:'right'}];
   // 4.1
   heading(2,'4.1','Investitionen und gründungsbedingte Kosten');
-  const kb=[];
-  const sachR=SACH_ITEMS.filter(([id])=>Number(fd[id])>0), grR=GR_ITEMS.filter(([id])=>Number(fd[id])>0);
-  if(sachR.length){kb.push({cells:['Investitionen',''],group:true});sachR.forEach(([id,l])=>kb.push({cells:[l,eur(fd[id])],indent:true}));kb.push({cells:['Summe Investitionen',eur(F.sach)],bold:true});}
-  if(grR.length){kb.push({cells:['Gründungsbedingte Kosten',''],group:true});grR.forEach(([id,l])=>kb.push({cells:[l,eur(fd[id])],indent:true}));kb.push({cells:['Summe gründungsbedingte Kosten',eur(F.grSum)],bold:true});}
-  kb.push({cells:['Gesamt',eur(F.kapital)],total:true});
-  table([{t:'Position',w:CW-38},{t:'Betrag',w:38,a:'right'}],kb);
-  const afaRows=[];for(let i=1;i<=5;i++){const w=Number(fd['afa_wert'+i])||0,nd=Number(fd['afa_nd'+i])||0;if(w>0&&nd>0)afaRows.push([clean(fd['afa_name'+i])||('Wirtschaftsgut '+i),eur(w),nd+' Jahre',eur(Math.round(w/nd))]);}
-  if(afaRows.length){ label('Abschreibungen'); afaRows.push({cells:['Summe AfA pro Jahr','','',eur(F.afaJ)],total:true}); table([{t:'Wirtschaftsgut',w:CW-3*32},{t:'Anschaffung',w:32,a:'right'},{t:'Nutzungsdauer',w:32,a:'right'},{t:'AfA pro Jahr',w:32,a:'right'}],afaRows); }
+  { const kb=[];
+    const grp=(t,items,sumLabel,sumV)=>{ const it=items.filter(x=>x.v); if(!it.length) return; kb.push({cells:[t,''],group:true}); it.forEach(x=>kb.push({cells:[x.l,eur(x.v)],indent:true})); kb.push({cells:[sumLabel,eur(sumV)],bold:true}); };
+    grp('Gründungsbedingte Kosten',R.gk,'Summe gründungsbedingte Kosten',R.gkSum);
+    grp('Investitionen Büro, Halle, Laden',R.ir,'Summe Büro, Halle, Laden',R.irSum);
+    grp('Investitionen Geschäfts- und Betriebsausstattung',R.ib,'Summe Geschäfts- und Betriebsausstattung',R.ibSum);
+    kb.push({cells:['Summe gründungsbedingte Kosten und Investitionen',eur(R.vorGr)],total:true});
+    table(B2,kb);
+    const afa=[...R.afaLin.map(a=>[a.name,eur(a.w),a.nd+' J. linear',...a.y.map(eur)]),...R.afaDeg.map(a=>[a.name,eur(a.w),a.nd+' J. degr.',...a.y.map(eur)]),...R.afaMan.map(a=>[a.name,'','',...a.y.map(eur)])];
+    if(afa.length){ label('Abschreibungen'); afa.push({cells:['Summe Abschreibungen','','',...R.afaY.map(eur)],total:true}); table([{t:'Wirtschaftsgut',w:CW-30-24-3*22},{t:'Anschaffung',w:30,a:'right'},{t:'Nutzung',w:24,a:'right'},{t:'Jahr 1',w:22,a:'right'},{t:'Jahr 2',w:22,a:'right'},{t:'Jahr 3',w:22,a:'right'}],afa,{size:8}); }
+  }
   // 4.2
   heading(2,'4.2','Ergebnisplanung');
   heading(3,'4.2.1','Umsatzentwicklung und variable Kosten');
-  const uv=[row('Umsatzerlöse (netto)',F.rev,{bold:true})];
-  if(nz(F.mat)) uv.push(row('Wareneinsatz / Material',F.mat,{neg:true,indent:true}));
-  if(nz(F.prov)) uv.push(row('Provisionen',F.prov,{neg:true,indent:true}));
-  uv.push(row('Rohertrag',F.roh,{total:true}));
-  uv.push({cells:['Rohertragsquote',...F.roh.map((r,i)=>F.rev[i]?pct(r,F.rev[i]):'–')],muted:true});
-  table(Y3,uv);
+  { const meth={'1':'Die Umsätze sind über einen durchschnittlichen Tagesumsatz und die geplanten Umsatztage je Monat berechnet.','2':'Die geplanten Jahresumsätze sind nach Umsatztagen auf die Monate verteilt.','3':'Die Umsätze ergeben sich aus geplanter Absatzmenge und Verkaufspreis je Produkt, verteilt nach Umsatztagen.','4':'Die Umsätze sind Monat für Monat geplant.'}[R.alt];
+    if(R.rev.some(v=>v)) para(meth,{size:9.5,after:3});
+    if(R.products.length){
+      const pr=R.products.map(p=>({cells:[p.name+(p.q?'':''),...p.y.map(eur)]}));
+      if(R.alt==='3') R.products.forEach((p,i)=>{ pr[i].cells[0]=p.name; });
+      pr.push(row('Umsatz gesamt',R.rev,{total:true}));
+      table(Y3,pr,{after:3});
+      if(R.alt==='3'){ const mq=R.products.map(p=>[p.name,...[0,1,2].map(i=>(Math.round(p.q[i])||0).toLocaleString('de-DE')+' × '+eur(p.pr[i]))]); table([{t:'Menge × Preis',w:CW-3*28},{t:'Jahr 1',w:28,a:'right'},{t:'Jahr 2',w:28,a:'right'},{t:'Jahr 3',w:28,a:'right'}],mq,{size:7.6}); }
+    }
+    const uv=[row('Umsatzerlöse (netto)',R.rev,{bold:true})];
+    if(nz(R.matY)) uv.push(row('Wareneinsatz, Materialkosten',R.matY,{neg:true,indent:true}));
+    if(nz(R.provY)) uv.push(row('Provisionen',R.provY,{neg:true,indent:true}));
+    uv.push(row('Rohertrag',R.roh,{total:true}));
+    uv.push({cells:['Rohertragsquote',...R.roh.map((r,i)=>R.rev[i]?pct(r,R.rev[i]):'–')],muted:true});
+    table(Y3,uv);
+    if(has(fd.fin_umsatz||s.fin_umsatz)) para(fd.fin_umsatz||s.fin_umsatz);
+  }
   heading(3,'4.2.2','Entwicklung der laufenden Kosten');
-  const lk=[]; FIX_ITEMS.forEach(([id,l])=>{if(nz(F.fix[id]))lk.push(row(l,F.fix[id]));});
-  if(nz(F.afa)) lk.push(row('Abschreibungen (AfA)',F.afa));
-  if(nz(F.zins)) lk.push(row('Zinsen',F.zins));
-  lk.push(row('Summe laufende Kosten',[0,1,2].map(i=>F.fixSum[i]+F.afa[i]+F.zins[i]),{total:true}));
-  table(Y3,lk);
+  { const lk=[];
+    if(nz(R.persY)) lk.push(row('Personalkosten (ohne Unternehmerlohn)',R.persY));
+    R.rentGroups.forEach(gp=>{ if(nz(gp.y)) lk.push(row(gp.l,gp.y)); });
+    if(nz(R.afaY)) lk.push(row('Abschreibungen (AfA)',R.afaY));
+    if(nz(R.zinsY)) lk.push(row('Zinsen',R.zinsY));
+    lk.push(row('Summe laufende Kosten',[0,1,2].map(i=>R.persY[i]+R.sbaY[i]+R.afaY[i]+R.zinsY[i]),{total:true}));
+    table(Y3,lk);
+    if(R.ptOn && (R.ptTotal||R.ptMini.total)){
+      label('Personalplanung');
+      const pr=R.ptRows.filter(x=>x.n).map(x=>[x.l,String(x.n),eur(x.brutto),eur(x.total)]);
+      if(R.ptMini.n) pr.push(['Minijobs',String(R.ptMini.n),eur(R.ptMini.brutto),eur(R.ptMini.total)]);
+      pr.push({cells:['Personalkosten pro Jahr','',eur(sumArr(R.ptRows.map(x=>x.brutto))+R.ptMini.brutto),eur(R.ptTotal+R.ptMini.total)],total:true});
+      table([{t:'Bereich',w:CW-24-38-38},{t:'Anzahl',w:24,a:'right'},{t:'Brutto',w:38,a:'right'},{t:'inkl. Arbeitgeberanteil',w:38,a:'right'}],pr,{after:2});
+      para('Arbeitgeberanteil zur Sozialversicherung: '+R.ptSv.toLocaleString('de-DE',{maximumFractionDigits:2})+' %.',{size:9,color:C.mu});
+    }
+    if(nz(R.bstY)) para('Betriebliche Steuern ('+eur(R.bstY[0])+' im ersten Jahr) sind in der Liquiditätsplanung berücksichtigt.',{size:9,color:C.mu});
+  }
   heading(3,'4.2.3','Kalkulatorischer Unternehmerlohn');
-  if(nz(F.ulohn)){
-    table(Y3,[row('Unternehmerlohn / Privatentnahme pro Jahr',F.ulohn),{cells:['entspricht pro Monat',...F.ulohn.map(v=>eur(v/12))],muted:true}],{after:3});
-    para('Der Unternehmerlohn wird als Privatentnahme in der Liquiditätsplanung berücksichtigt. Er deckt die Lebenshaltungskosten sowie die private Kranken- und Altersvorsorge.',{size:9.5});
+  if(nz(R.ulY)){
+    if(R.ulTool){
+      const ex=F2.EX.filter(([k])=>Number(fd[k])>0).map(([k,l])=>[l,eur(fd[k])]);
+      const inc=F2.INC.filter(([k])=>Number(fd[k])>0).map(([k,l])=>[l,eur(fd[k])]);
+      const rr=[];
+      if(ex.length){ rr.push({cells:['Monatliche Lebenshaltungskosten',''],group:true}); ex.forEach(x=>rr.push({cells:x,indent:true})); rr.push({cells:['Summe Ausgaben',eur(R.ulEx)],bold:true}); }
+      if(inc.length){ rr.push({cells:['Monatliche Einnahmen aus anderen Quellen',''],group:true}); inc.forEach(x=>rr.push({cells:x,indent:true})); rr.push({cells:['Summe andere Einnahmen',eur(R.ulInc)],bold:true}); }
+      rr.push({cells:['Unternehmerlohn pro Monat (Monat 1–6)',eur(R.ulM.first)],total:true});
+      rr.push({cells:['Unternehmerlohn pro Monat (Monat 7–12)',eur(R.ulM.last)],total:true});
+      table(B2,rr,{after:3});
+    }
+    table(Y3,[row('Unternehmerlohn / Privatentnahme pro Jahr',R.ulY,{bold:true}),{cells:['entspricht pro Monat',...R.ulY.map(v=>eur(v/12))],muted:true}],{after:3});
+    para('Der Unternehmerlohn wird als Privatentnahme in der Liquiditätsplanung berücksichtigt. Er deckt die Lebenshaltungskosten'+(R.ulTool&&(R.ulTax[0]>0)?' einschließlich einer Rücklage für Einkommensteuer':'')+' sowie die private Kranken- und Altersvorsorge.',{size:9.5});
   } else para('Es wurde noch kein Unternehmerlohn geplant.',{color:C.mu});
-  // 4.3
+  // 4.3 Liquiditätsplanung – monatlich für 24 Monate
   heading(2,'4.3','Liquiditätsplanung');
-  const lq=[row('Gewinn vor Steuern',F.gew,{bold:true})];
-  if(nz(F.afa)) lq.push(row('zzgl. Abschreibungen',F.afa));
-  if(F.ek+F.fk) lq.push({cells:['zzgl. Eigen- und Fremdkapital',eur(F.ek+F.fk),eur(0),eur(0)]});
-  if(F.sach) lq.push({cells:['abzgl. Investitionen',eur(-F.sach),eur(0),eur(0)]});
-  if(nz(F.tilg)) lq.push(row('abzgl. Tilgung',F.tilg,{neg:true}));
-  if(nz(F.ulohn)) lq.push(row('abzgl. Privatentnahmen',F.ulohn,{neg:true}));
-  if(nz(F.bst)) lq.push(row('abzgl. betriebliche Steuern',F.bst,{neg:true}));
-  if(nz(F.est)) lq.push(row('abzgl. Einkommensteuer-Rücklage',F.est,{neg:true}));
-  lq.push(row('Liquiditätsveränderung',F.cf,{bold:true,group:true}));
-  lq.push(row('Liquidität am Jahresanfang',F.liqStart,{muted:true}));
-  lq.push(row('Liquidität am Jahresende',F.liqEnd,{total:true}));
-  table(Y3,lq,{after:3});
-  if(F.liqEnd.some(v=>v<0)) para('Hinweis: In mindestens einem Planjahr ist die Liquidität negativ. Finanzierung oder Planannahmen sollten angepasst werden.',{size:9.5,color:C.neg});
-  if(has(s.fin_liquid)) para(s.fin_liquid);
-  if(F.tilgPlan.length){
-    label('Tilgungsplan');
-    table([{t:'Jahr',w:CW-3*34},{t:'Zinsen',w:34,a:'right'},{t:'Tilgung',w:34,a:'right'},{t:'Restschuld',w:34,a:'right'}],F.tilgPlan.map(r=>['Jahr '+r.j+(r.j<=F.tf?' (tilgungsfrei)':''),eur(r.z),eur(r.t),eur(r.rest)]),{after:2});
-    para('Kreditsumme '+eur(F.fkKredit)+', Zinssatz '+String(F.zs).replace('.',',')+' % p. a., Laufzeit '+F.lz+' Jahre'+(F.tf?', davon '+F.tf+' tilgungsfrei':'')+'.',{size:9,color:C.mu});
+  { const L=R.liq;
+    const lines=[['Kasse / Bank (Monatsanfang)','bestand',{muted:true}],['Kreditauszahlungen','kredit'],['Geldeingang aus Umsätzen (netto)','umsatz'],['Eingenommene Umsatzsteuer','ustEin'],['Erstattete Vorsteuer','vstErst'],['Sonstige Einnahmen','sonstE'],['Privateinlage','einlage'],['Summe Einnahmen','einSum',{bold:true,group:true}],
+      ['Löhne und Gehälter','lohn'],['Zahlungen an Lieferanten','lief'],['Bareinkäufe','bar'],['Provisionen','prov'],['Sonstige Betriebsausgaben','sba'],['Bezahlte Vorsteuer','vst'],['Abgeführte Umsatzsteuer','ustAus'],['Zinsen','zins'],['Kredittilgung','tilg'],['Betriebliche Steuern','bst'],['Investitionen, Gründungskosten','inv'],['Sonstige Ausgaben','sonstA'],['Privatentnahme','entn'],['Summe Ausgaben','ausSum',{bold:true,group:true}],
+      ['Liquidität (Monatsende)','liq',{total:true}]];
+    const used=lines.filter(([,k,o])=>o||L.some(m=>Math.round(m[k])!==0));
+    const tbl=(from,label0)=>{ const cols=[{t:label0,w:CW-6*18.5},...[0,1,2,3,4,5].map(j=>({t:F2.monthLabel(fd,from+j),w:18.5,a:'right'}))];
+      table(cols,used.map(([l,k,o])=>({cells:[l,...[0,1,2,3,4,5].map(j=>eur(L[from+j][k]))],...(o||{}),indent:!o})),{size:6.8,after:4,rh:4.7}); };
+    para('Die Liquiditätsplanung zeigt Monat für Monat, ob jederzeit genug Geld vorhanden ist. Umsatzsteuer und Vorsteuer werden mit '+Math.round(R.ust*100)+' % berücksichtigt.',{size:9.5,after:3});
+    label('Jahr 1, Monate 1–6'); tbl(0,'Jahr 1');
+    label('Jahr 1, Monate 7–12'); tbl(6,'Jahr 1');
+    label('Jahr 2, Monate 1–6'); tbl(12,'Jahr 2');
+    label('Jahr 2, Monate 7–12'); tbl(18,'Jahr 2');
+    kv([['Niedrigster Kontostand Jahr 1',eur(R.liqMinY1)],['Niedrigster Kontostand Jahr 2',eur(R.liqMinY2)],['Kontokorrentkredit',R.kk?eur(R.kk):'nicht eingeplant'],['Kreditlinie eingehalten',(R.kkOkY1&&R.kkOkY2)?'ja':'nein – Finanzierung anpassen']]);
+    if(!(R.kkOkY1&&R.kkOkY2)) para('Hinweis: In mindestens einem Monat reicht die Liquidität nicht aus. Finanzierung oder Planannahmen sollten angepasst werden.',{size:9.5,color:C.neg});
+    if(has(fd.fin_liquid||s.fin_liquid)) para(fd.fin_liquid||s.fin_liquid);
+    R.kr.filter(k=>k.plan.length).forEach(k=>{
+      label('Tilgungsplan: '+k.l);
+      table([{t:'Jahr',w:CW-3*34},{t:'Zinsen',w:34,a:'right'},{t:'Tilgung',w:34,a:'right'},{t:'Restschuld',w:34,a:'right'}],k.plan.map(p=>['Jahr '+p.y+(p.y<=k.tf?' (tilgungsfrei)':''),eur(p.z),eur(p.t),eur(p.rest)]),{after:2,size:8});
+      para('Kreditsumme '+eur(k.betrag)+(k.ausz!==k.betrag?' (Auszahlung '+eur(k.ausz)+')':'')+', Zinssatz '+String(k.zins).replace('.',',')+' % p. a., Laufzeit '+k.lz+' Jahre'+(k.tf?', davon '+k.tf+' tilgungsfrei':'')+'.',{size:9,color:C.mu});
+    });
   }
-  // 4.4
+  // 4.4 Rentabilitätsplan
   heading(2,'4.4','Übersicht Jahresergebnisse');
-  const jr=[row('Umsatzerlöse',F.rev,{bold:true}),row('Rohertrag',F.roh)];
-  if(nz(F.fixSum)) jr.push(row('Betriebskosten',F.fixSum,{neg:true}));
-  if(nz(F.afa)) jr.push(row('Abschreibungen',F.afa,{neg:true}));
-  if(nz(F.zins)) jr.push(row('Zinsen',F.zins,{neg:true}));
-  if(F.grSum) jr.push({cells:['Gründungsbedingte Kosten',eur(-F.grSum),eur(0),eur(0)]});
-  jr.push(row('Jahresergebnis (vor Steuern)',F.gew,{total:true}));
-  jr.push({cells:['Umsatzrendite',...F.gew.map((g,i)=>F.rev[i]?pct(g,F.rev[i]):'–')],muted:true});
-  table(Y3,jr);
-  if(typeof Chart!=='undefined' && F.rev.some(v=>v)){
-    try{
-      const mk=(cfg)=>{const c=document.createElement('canvas');c.width=1000;c.height=520;c.style.position='fixed';c.style.left='-9999px';document.body.appendChild(c);cfg.options=Object.assign({responsive:false,animation:false,devicePixelRatio:1,plugins:{legend:{labels:{font:{family:'Poppins',size:24},boxWidth:24}}},scales:{x:{ticks:{font:{family:'Poppins',size:24}}},y:{ticks:{font:{family:'Poppins',size:22},callback:v=>Number(v).toLocaleString('de-DE')+' €'}}}},cfg.options||{});const ch=new Chart(c.getContext('2d'),cfg);const url=c.toDataURL('image/png');ch.destroy();c.remove();return url;};
-      const img=mk({type:'bar',data:{labels:['Jahr 1','Jahr 2','Jahr 3'],datasets:[{label:'Umsatz',data:F.rev,backgroundColor:'#1881B0'},{label:'Kosten',data:F.kostenJ,backgroundColor:'#a7b4c0'},{label:'Ergebnis',data:F.gew,backgroundColor:'#FFB430'}]}});
-      const iw=CW*0.82, ih=iw*520/1000; flush(ih+6); ensure(ih+6); doc.addImage(img,'PNG',ML+(CW-iw)/2,y,iw,ih); y+=ih+5;
-    }catch(e){console.warn('Diagramm',e);}
+  { const jr=[row('Plan-Umsatz',R.rev,{bold:true})];
+    if(nz(R.matY)) jr.push(row('Wareneinsatz',R.matY,{neg:true,indent:true}));
+    if(nz(R.provY)) jr.push(row('Provisionen',R.provY,{neg:true,indent:true}));
+    jr.push(row('Rohertrag',R.roh,{bold:true}));
+    if(nz(R.persY)) jr.push(row('Personalkosten',R.persY,{neg:true,indent:true}));
+    R.rentGroups.forEach(gp=>{ if(nz(gp.y)) jr.push(row(gp.l,gp.y,{neg:true,indent:true})); });
+    if(nz(R.afaY)) jr.push(row('Abschreibungen',R.afaY,{neg:true,indent:true}));
+    if(nz(R.zinsY)) jr.push(row('Zinsen',R.zinsY,{neg:true,indent:true}));
+    if(R.gkSum) jr.push(row('Gründungsbedingte Kosten',R.gkY,{neg:true,indent:true}));
+    jr.push(row('Gewinn (vor Steuern)',R.gew,{total:true}));
+    jr.push({cells:['Umsatzrendite',...R.gew.map((g,i)=>R.rev[i]?pct(g,R.rev[i]):'–')],muted:true});
+    table(Y3,jr);
+    const cf=[row('Gewinn',R.gew,{bold:true})];
+    if(nz(R.afaY)) cf.push(row('zzgl. Abschreibungen',R.afaY,{indent:true}));
+    if(R.kapZufluss) cf.push(row('zzgl. Eigen- und Fremdkapital',[R.kapZufluss,0,0],{indent:true}));
+    if(nz(R.tilgY)) cf.push(row('abzgl. Tilgung',R.tilgY,{neg:true,indent:true}));
+    if(nz(R.ulY)) cf.push(row('abzgl. Unternehmerlohn (netto)',R.ulY,{neg:true,indent:true}));
+    if(nz(R.bstY)) cf.push(row('abzgl. betriebliche Steuern',R.bstY,{neg:true,indent:true}));
+    if(nz(R.estY)) cf.push(row('abzgl. Einkommensteuer (Rücklage)',R.estY,{neg:true,indent:true}));
+    if(R.invSum) cf.push(row('abzgl. Investitionen',[R.invSum,0,0],{neg:true,indent:true}));
+    cf.push(row('Cashflow',R.cf,{total:true}));
+    label('Cashflow'); table(Y3,cf);
+    if(typeof Chart!=='undefined' && R.rev.some(v=>v)){
+      try{
+        const mk=(cfg)=>{const c=document.createElement('canvas');c.width=1000;c.height=520;c.style.position='fixed';c.style.left='-9999px';document.body.appendChild(c);cfg.options=Object.assign({responsive:false,animation:false,devicePixelRatio:1,plugins:{legend:{labels:{font:{family:'Poppins',size:24},boxWidth:24}}},scales:{x:{ticks:{font:{family:'Poppins',size:24}}},y:{ticks:{font:{family:'Poppins',size:22},callback:v=>Number(v).toLocaleString('de-DE')+' €'}}}},cfg.options||{});const ch=new Chart(c.getContext('2d'),cfg);const url=c.toDataURL('image/png');ch.destroy();c.remove();return url;};
+        const img=mk({type:'bar',data:{labels:['Jahr 1','Jahr 2','Jahr 3'],datasets:[{label:'Umsatz',data:R.rev,backgroundColor:'#1881B0'},{label:'Kosten',data:R.kostenJ,backgroundColor:'#a7b4c0'},{label:'Gewinn',data:R.gew,backgroundColor:'#FFB430'}]}});
+        const iw=CW*0.82, ih=iw*520/1000; flush(ih+6); ensure(ih+6); doc.addImage(img,'PNG',ML+(CW-iw)/2,y,iw,ih); y+=ih+5;
+      }catch(e){console.warn('Diagramm',e);}
+    }
+    kv([['Laufende Kostendeckung',R.be?(R.be<=1?'ab dem ersten Monat':'ab dem '+R.be+'. Monat'):'in den ersten 24 Monaten nicht erreicht']]);
+    if(has(fd.fin_rent||s.fin_rent)) para(fd.fin_rent||s.fin_rent);
   }
-  kv([['Laufende Kostendeckung',F.be?(F.be<=1?'ab dem ersten Monat':'ab dem '+F.be+'. Monat'):'mit den aktuellen Zahlen nicht erreicht'],['Rückfluss des Kapitalbedarfs',F.amort?('nach etwa '+F.amort+' Monaten'):'']]);
-  if(has(s.fin_rent)) para(s.fin_rent);
   // 4.5 Finanzierungsplan
   heading(2,'4.5','Finanzierungsplan');
-  const tot=F.ek+F.fk; const fr=[];
-  const ekR=EK_ITEMS.filter(([id])=>Number(fd[id])>0), fkR=FK_ITEMS.filter(([id])=>Number(fd[id])>0);
-  if(ekR.length){fr.push({cells:['Eigenkapital','',''],group:true});ekR.forEach(([id,l])=>fr.push({cells:[l,eur(fd[id]),pct(Number(fd[id]),tot)],indent:true}));fr.push({cells:['Summe Eigenkapital',eur(F.ek),pct(F.ek,tot)],bold:true});}
-  if(fkR.length){fr.push({cells:['Fremdkapital und Fördermittel','',''],group:true});fkR.forEach(([id,l])=>fr.push({cells:[l,eur(fd[id]),pct(Number(fd[id]),tot)],indent:true}));fr.push({cells:['Summe Fremdkapital und Fördermittel',eur(F.fk),pct(F.fk,tot)],bold:true});}
-  fr.push({cells:['Gesamtfinanzierung',eur(tot),tot?'100,0 %':'–'],total:true});
-  table([{t:'Quelle',w:CW-64},{t:'Betrag',w:36,a:'right'},{t:'Anteil',w:28,a:'right'}],fr);
+  { const fr=[{cells:['Kapitalbedarf vor der Gründung',eur(R.kbVor)],bold:true}];
+    const ek=R.ek.filter(x=>x.v);
+    if(ek.length){ fr.push({cells:['Vorhandenes Eigenkapital',''],group:true}); ek.forEach(x=>fr.push({cells:[x.l,eur(x.v)],indent:true})); fr.push({cells:['Summe Eigenkapital',eur(R.ekSum)],bold:true}); }
+    if(R.finFk){ fr.push({cells:['Langfristiges Fremdkapital',''],group:true});
+      if(R.finFoerder) fr.push({cells:['Fördermittel (vergünstigte Kredite), Auszahlungsbetrag',eur(R.finFoerder)],indent:true});
+      if(R.finBank) fr.push({cells:['Kredite der Hausbank',eur(R.finBank)],indent:true});
+      if(R.finSonst) fr.push({cells:['Sonstiges',eur(R.finSonst)],indent:true});
+      fr.push({cells:['Summe Fremdkapital',eur(R.finFk)],bold:true}); }
+    fr.push({cells:['Vorhandenes Gesamtkapital',eur(R.finGesamt)],bold:true});
+    fr.push({cells:['Über- (+) / Unterdeckung (–) vor der Gründung',eur(R.deckVor)],total:true});
+    fr.push({cells:['Zusätzlicher Bedarf nach der Gründung (bis Monat '+R.gapMonth+')',eur(R.gap)]});
+    fr.push({cells:['Über- (+) / Unterdeckung (–) gesamt',eur(R.deckGesamt)],total:true});
+    if(R.kk) fr.push({cells:['Kontokorrentkredit',eur(R.kk)]});
+    if(R.siSum){ fr.push({cells:['Vorhandene Sicherheiten',''],group:true}); R.si.filter(x=>x.v).forEach(x=>fr.push({cells:[x.l,eur(x.v)],indent:true})); fr.push({cells:['Summe Sicherheiten',eur(R.siSum)],bold:true}); }
+    table(B2,fr);
+  }
   // 4.6 Kapitalbedarfsplan
   heading(2,'4.6','Kapitalbedarfsplan');
-  const diff=tot-F.kapital;
-  table([{t:'Position',w:CW-38},{t:'Betrag',w:38,a:'right'}],[
-    {cells:['Investitionen',eur(F.sach)]},{cells:['Gründungsbedingte Kosten',eur(F.grSum)]},{cells:['Kapitalbedarf gesamt',eur(F.kapital)],bold:true},
-    {cells:['Verfügbare Finanzierung',eur(tot)]},
-    {cells:[diff>=0?'Liquiditätsreserve':'Finanzierungslücke',eur(diff)],total:true}],{after:3});
-  para(diff>=0?('Der Kapitalbedarf ist vollständig gedeckt'+(diff>0?'; die verbleibende Reserve von '+eur(diff)+' sichert die Anlaufphase ab.':'.')):('Es besteht eine Finanzierungslücke von '+eur(-diff)+', die vor dem Start geschlossen werden muss.'),{size:9.5});
+  { const kb=[{cells:['Gründungsbedingte Kosten',eur(R.gkSum)]},{cells:['Investitionen Büro, Halle, Laden',eur(R.irSum)]},{cells:['Investitionen Geschäfts- und Betriebsausstattung',eur(R.ibSum)]},{cells:['Kapitalbedarf vor der Gründung',eur(R.kbVor)],bold:true},
+      {cells:['Größte Liquiditätslücke nach der Gründung: Monat '+R.gapMonth,''],group:true},{cells:['Summe Ausgaben in diesem Zeitraum',eur(R.gapOut)],indent:true},{cells:['Summe Einnahmen in diesem Zeitraum',eur(R.gapIn)],indent:true},{cells:['Zusätzlicher Kapitalbedarf nach der Gründung',eur(Math.max(0,R.gap))],bold:true},
+      {cells:['Gesamter Kapitalbedarf (Eigen- und Fremdkapital)',eur(R.kbGesamt)],total:true}];
+    table(B2,kb,{after:3});
+    const d=R.finGesamt-R.kbGesamt;
+    para(d>=0?('Der Kapitalbedarf ist mit '+eur(R.finGesamt)+' vollständig gedeckt'+(d>0?'; die Reserve beträgt '+eur(d)+'.':'.')):('Es besteht eine Finanzierungslücke von '+eur(-d)+', die vor dem Start geschlossen werden muss.'),{size:9.5});
+  }
 
   /* ── 5 Anhang ── */
   if(has(s.anh_lebenslauf)||has(s.anh_zert)){
@@ -3258,7 +3986,7 @@ function exportCheck(){
   const empty=CHAPTERS.filter(ch=>{
     if(ch.fields) return !ch.fields.some(f=>(s[f.id]||'').trim());
     if(ch.isSwot) return !['sw_s','sw_w','sw_o','sw_t'].some(k=>(s[k]||'').trim());
-    if(ch.isFinance) return !(Number(fd.rev1)>0);
+    if(ch.isFinance) return !finCalc2(fd).filled;
     if(ch.isGründer) return !((s.gr_vorname||'').trim()&&(s.gr_ausbildung||s.gr_erfahrung||'').trim());
     return false;
   }).map(c=>c.title);
