@@ -4114,7 +4114,8 @@ function closeMenu(){
 document.addEventListener('click',function(e){
   const btn=document.getElementById('hamburgerBtn');
   const dd=document.getElementById('hdrDropdown');
-  if(btn && dd && !btn.contains(e.target) && !dd.contains(e.target)){
+  const av=document.getElementById('hdrAvatar');
+  if(btn && dd && !btn.contains(e.target) && !dd.contains(e.target) && !(av && av.contains(e.target))){
     closeMenu();
   }
 });
