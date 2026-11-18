@@ -4221,7 +4221,8 @@ function selUse(i){
   window.consentAccept=function(){var c=document.getElementById('ckStat');if(c)c.checked=true;write(true);close();loadGA();};
   window.consentSave=function(){var c=document.getElementById('ckStat');if(c&&c.checked)window.consentAccept();else window.consentDecline();};
   window.consentDecline=function(){var had=read();write(false);close();if(had&&had.analytics){clearGA();setTimeout(function(){location.reload()},300)}};
-  function init(){var c=read();if(c&&c.analytics)loadGA();if(!c)setTimeout(function(){window.openConsent(null,1)},600)}
+  function fromSite(){try{var u=new URL(location.href),k=u.searchParams.get('dce_c');if(!k)return;if(k==='stat'||k==='ess'){write(k==='stat')}u.searchParams.delete('dce_c');history.replaceState(null,'',u.pathname+(u.search?u.search:'')+u.hash)}catch(e){}}
+  function init(){fromSite();var c=read();if(c&&c.analytics)loadGA();if(!c)setTimeout(function(){window.openConsent(null,1)},600)}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 
   // Ereignisse (ohne personenbezogene Daten)
