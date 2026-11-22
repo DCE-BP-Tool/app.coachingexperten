@@ -278,6 +278,7 @@ select.fin-input,select.cp-input{appearance:none;-webkit-appearance:none;padding
 .paper-live .pl-title{font-size:13px;font-weight:700;color:var(--ink);margin:3px 0 8px;line-height:1.25}
 .paper-live .pl-h{font-size:7.5px;font-weight:700;color:var(--ink);margin:9px 0 2px}
 .paper-live .pl-t{font-size:7.5px;color:#4a5568;white-space:pre-wrap;word-break:break-word;display:-webkit-box;-webkit-line-clamp:9;-webkit-box-orient:vertical;overflow:hidden}
+.paper-live .pl-t+.pl-t{margin-top:6px}
 .paper-live .pl-kv{display:grid;grid-template-columns:auto 1fr;gap:1px 8px;font-size:7.5px}
 .paper-live .pl-kv span:nth-child(odd){color:var(--mu)}
 .pv-dl{width:100%;margin-top:14px}
@@ -1197,7 +1198,7 @@ textarea.cp-input{resize:vertical;line-height:1.55}
     <button class="cp-close" onclick="closeContact()" aria-label="Schließen">✕</button>
   </div>
   <div class="cp-body">
-    <p class="cp-lead">Du hast Fragen zu Deinem Businessplan? Wir helfen Dir gern – kostenlos und unverbindlich.</p>
+    <p class="cp-lead">Du hast Fragen zu Deinem Businessplan? Wir helfen Dir gern, kostenlos und unverbindlich.</p>
     <div class="cp-field"><label class="cp-label" for="cp_name">Name</label><input class="cp-input" id="cp_name" type="text" placeholder="Dein Name" autocomplete="name"></div>
     <div class="cp-field"><label class="cp-label" for="cp_email">E-Mail</label><input class="cp-input" id="cp_email" type="email" placeholder="deine@email.de" autocomplete="email"></div>
     <div class="cp-field"><label class="cp-label" for="cp_tel">Telefon (optional)</label><input class="cp-input" id="cp_tel" type="tel" placeholder="+49 …" autocomplete="tel"></div>
@@ -1208,14 +1209,14 @@ textarea.cp-input{resize:vertical;line-height:1.55}
         <option>Gründungszuschuss (Agentur für Arbeit)</option>
         <option>Bürgergeld / Jobcenter</option>
         <option>Bankfinanzierung / KfW</option>
-        <option>Finanzplan – Fragen &amp; Korrekturen</option>
+        <option>Finanzplan: Fragen und Korrekturen</option>
         <option>Businessplan-Erstellung (vollständig)</option>
         <option>Sonstiges</option>
       </select></div>
     <div class="cp-field"><label class="cp-label" for="cp_msg">Deine Frage / Nachricht</label><textarea class="cp-input" id="cp_msg" rows="4" placeholder="Beschreibe kurz Dein Anliegen …"></textarea></div>
     <button class="btn btn-primary cp-btn" onclick="sendContact()">Anfrage senden</button>
     <div class="cp-success" id="cp_success">Vielen Dank! Wir melden uns in der Regel innerhalb von 24 Stunden bei Dir.<br><br><strong>Die Coachingexperten</strong><br>Tel. 0176 84318695<br>info@die-coachingexperten.de</div>
-    <div class="cp-note"><strong>Gut zu wissen</strong>Mit einem <b>AVGS-Gutschein</b> der Agentur für Arbeit oder des Jobcenters sind Gründercoaching und Businessplan-Erstellung mit uns für Dich <b>kostenlos</b>. Frag uns einfach – wir prüfen Deine Fördermöglichkeit.</div>
+    <div class="cp-note"><strong>Gut zu wissen</strong>Mit einem <b>AVGS-Gutschein</b> der Agentur für Arbeit oder des Jobcenters sind Gründercoaching und Businessplan-Erstellung mit uns für Dich <b>kostenlos</b>. Frag uns einfach, wir prüfen Deine Fördermöglichkeit.</div>
     <div class="cp-info">Tel. 0176 84318695<br>info@die-coachingexperten.de</div>
   </div>
 </aside>
@@ -1621,7 +1622,7 @@ textarea.cp-input{resize:vertical;line-height:1.55}
       </div>
       <nav class="sb-nav" id="sbNav"></nav>
       <div class="sb-foot">
-        <div class="sb-tip"><b>Lieber mit Profi an Deiner Seite?</b>Mit AVGS-Gutschein erstellen wir Deinen Businessplan gemeinsam mit Dir – für Dich kostenlos.<button onclick="openContact()">Kostenlos anfragen</button></div>
+        <div class="sb-tip"><b>Lieber mit Profi an Deiner Seite?</b>Mit AVGS-Gutschein erstellen wir Deinen Businessplan gemeinsam mit Dir, für Dich kostenlos.<button onclick="openContact()">Kostenlos anfragen</button></div>
       </div>
     </aside>
 
@@ -1830,44 +1831,44 @@ let charts = {};
 const PDF_LABEL={ex_motivation:'Motivation',ex_idea:'Gegenstand des Unternehmens',co_product:'Angebot und Leistungen',co_usp:'Alleinstellungsmerkmale',mkt_target:'Zielgruppe',org_standort:'Standort',std_bedeutung:'Bedeutung für den Unternehmenserfolg',mv_sales:'Maßnahmen und Vertriebswege',mv_budget:'Marketingbudget'};
 function pdfLabel(f){return (f&&PDF_LABEL[f.id])||(f&&f.label)||'';}
 const CHAPTERS = [
-  {id:'exec',sec:'1',title:'Zusammenfassung',desc:'Bring Deinen Businessplan kurz und prägnant auf den Punkt. Hier entscheidet der Leser, ob er weiterliest – wecke sein Interesse. Tipp: Schreib die Zusammenfassung zum Schluss.',fields:[
+  {id:'exec',sec:'1',title:'Zusammenfassung',desc:'Fasse Deinen Businessplan kurz zusammen. Viele Leser entscheiden hier, ob sie weiterlesen. Tipp: Schreib die Zusammenfassung zum Schluss.',fields:[
     {id:'ex_motivation',label:'Warum willst Du gründen?',hint:'Was motiviert Dich? Was hat Dich zu dieser Idee gebracht?',rows:3},
     {id:'ex_idea',label:'Gegenstand Deines Geschäfts',hint:'Was ist Deine Geschäftsidee? Mit welchen Leistungen willst Du welche Kunden bedienen, und wie erreichst Du sie?',rows:4},
     {id:'ex_summary',label:'Wettbewerbsvorteile und Kundennutzen',hint:'Was ist das Besondere an Deinem Angebot? Welchen Nutzen haben Deine Kunden? Welche Meilensteine hast Du schon erreicht?',rows:3},
     {id:'ex_vision',label:'Ziele und Vision',hint:'Welche Ziele hast Du Dir gesetzt, und mit welchen konkreten Schritten erreichst Du sie? Wo willst Du mit Deinem Unternehmen hin?',rows:3},
   ]},
-  {id:'produkt',sec:'2.1',title:'Produkt / Dienstleistung',desc:'Beschreibe im Detail, welche Produkte oder Dienstleistungen Du anbietest, was Dein Angebot vom Wettbewerb unterscheidet und welche Vorteile es Deiner Zielgruppe bringt.',fields:[
+  {id:'produkt',sec:'2.1',title:'Produkt / Dienstleistung',desc:'Beschreibe genau, welche Produkte oder Dienstleistungen Du anbietest, was Dich vom Wettbewerb unterscheidet und was Deine Kunden davon haben.',fields:[
     {id:'co_product',label:'Deine Geschäftsidee',hint:'Was genau bietest Du an? Erkläre Dein Konzept ausführlich.',rows:5},
     {id:'co_usp',label:'Was zeichnet Deine Geschäftsidee aus?',hint:'Was unterscheidet Dein Angebot vom Wettbewerb? Welche Vorteile hat Deine Zielgruppe?',rows:3},
-    {id:'co_name',label:'Name von Unternehmen und Produkten',hint:'Welchen Namen sollen Dein Unternehmen und Deine Produkte tragen – und warum?',rows:2},
+    {id:'co_name',label:'Name von Unternehmen und Produkten',hint:'Welchen Namen sollen Dein Unternehmen und Deine Produkte tragen, und warum?',rows:2},
     {id:'co_model',label:'Geschäftsmodell',hint:'Wie verdienst Du Geld? Welche Einnahmequellen gibt es?',rows:3},
     {id:'co_entwicklung',label:'Stand der Vorbereitung',hint:'Wie weit bist Du mit der Umsetzung? Was ist schon erledigt, was steht noch an?',rows:3},
   ]},
-  {id:'markt',sec:'2.2',title:'Kunden und Markt',desc:'Zeig, dass Du Dir viele Gedanken über Deine Kunden gemacht hast. Beschreibe Deine Zielgruppen und belege mit Zahlen, dass es genug Nachfrage gibt.',fields:[
+  {id:'markt',sec:'2.2',title:'Kunden und Markt',desc:'Beschreibe Deine Kunden so genau wie möglich und teile sie in Gruppen ein. Zeig mit Zahlen, dass es genug Nachfrage gibt.',fields:[
     {id:'mkt_target',label:'Deine Kunden',hint:'Wer sind Deine Kunden, und wie lassen sie sich beschreiben? Sprichst Du eher Verbraucher oder Geschäftskunden an?',rows:4},
     {id:'mkt_segment',label:'Marktsegmente',hint:'Welche Kundengruppen (Segmente) kannst Du unterscheiden? Wie sieht Dein idealer Kunde aus?',rows:3},
     {id:'mkt_size',label:'Marktgröße und Entwicklung',hint:'Wie groß ist Dein Zielmarkt, und welche Dynamik hat er? Nenne Zahlen und Quellen.',rows:3},
     {id:'mkt_comp',label:'Wettbewerb',hint:'Wer sind Deine wichtigsten Wettbewerber? Was machen sie gut, was schlecht?',rows:3},
   ]},
-  {id:'standort',sec:'2.3',title:'Standort',desc:'Beschreibe genau, von wo aus Du arbeitest und welchen Einfluss Dein Standort auf den Unternehmenserfolg hat.',fields:[
+  {id:'standort',sec:'2.3',title:'Standort',desc:'Beschreibe, von wo aus Du arbeitest und wie wichtig der Standort für Dein Geschäft ist.',fields:[
     {id:'org_standort',label:'Dein Standort',hint:'Steht der Standort bereits fest? Wo genau befindet er sich (Lage, Größe, Ausstattung)?',rows:3},
     {id:'std_vorteile',label:'Vor- und Nachteile des Standorts',hint:'Welche Vor- und Nachteile hat dieser Standort?',rows:3},
     {id:'std_bedeutung',label:'Bedeutung für den Erfolg',hint:'Inwieweit ist Dein Standort für den Unternehmenserfolg ausschlaggebend?',rows:2},
     {id:'std_umfeld',label:'Einzugsgebiet und regionales Umfeld',hint:'Optional: Wie groß ist Dein Einzugsgebiet? Wie viele Einwohner, Betriebe oder Besucher gibt es dort? Wie ist die Verkehrsanbindung?',rows:3},
   ]},
-  {id:'preis',sec:'2.4',title:'Preispolitik',desc:'Kaum ein Faktor ist wichtiger für die Rentabilität. Beschreibe, wie Du Deine Preise setzt und von welchen Überlegungen Du Dich leiten lässt.',fields:[
+  {id:'preis',sec:'2.4',title:'Preispolitik',desc:'Deine Preise entscheiden mit darüber, ob sich Dein Geschäft rechnet. Beschreibe, wie Du sie festlegst und woran Du Dich dabei orientierst.',fields:[
     {id:'mv_price',label:'Preis- und Tarifmodelle',hint:'Wie sehen Deine Preise und Tarifmodelle aus? Kostenorientiert, wettbewerbsorientiert oder nach Kundennutzen (Value Based)?',rows:3},
     {id:'pr_wettbewerb',label:'Positionierung gegenüber dem Wettbewerb',hint:'Wie positionierst Du Dich mit Deinen Preisen gegenüber dem Wettbewerb?',rows:3},
     {id:'pr_kalk',label:'Kalkulation',hint:'Welche Kalkulation liegt Deinen Preisen zugrunde?',rows:3},
   ]},
-  {id:'marketing',sec:'2.5',title:'Marketing und Vertrieb',desc:'Neue Angebote müssen bei den Kunden bekannt werden. Zeig, welche Vertriebskanäle Du nutzt und wie Du Deine Kunden erreichst.',fields:[
+  {id:'marketing',sec:'2.5',title:'Marketing und Vertrieb',desc:'Ein neues Angebot kennt am Anfang niemand. Beschreibe, wie Deine Kunden davon erfahren und auf welchen Wegen Du verkaufst.',fields:[
     {id:'mv_strat',label:'Marketingstrategie',hint:'Welche Marketingstrategie verfolgst Du?',rows:3},
     {id:'mv_sales',label:'Konkrete Maßnahmen und Vertriebswege',hint:'In welche konkreten Maßnahmen mündet Deine Strategie? Über welche Kanäle verkaufst Du?',rows:3},
     {id:'mv_partner',label:'Vertriebspartner',hint:'Gibt es Partnerschaften für den Vertrieb Deiner Leistungen?',rows:2},
     {id:'mv_bindung',label:'Kundengewinnung und Kundenbindung',hint:'Optional: Wie gewinnst Du Deine ersten Kunden? Wie sorgst Du dafür, dass sie wiederkommen und Dich weiterempfehlen?',rows:3},
     {id:'mv_budget',label:'Budget',hint:'Ist ausreichend Budget für Marketing und Vertrieb eingeplant? Wie viel?',rows:2},
   ]},
-  {id:'risiko',sec:'2.6',title:'Zukunftsprognose, Trends, Risiken',desc:'Zeig, dass Du Chancen und Risiken Deines Vorhabens realistisch einschätzt und vorbereitet bist.',fields:[
+  {id:'risiko',sec:'2.6',title:'Zukunftsprognose, Trends, Risiken',desc:'Schätze Chancen und Risiken realistisch ein und beschreibe, wie Du auf Probleme reagierst.',fields:[
     {id:'mkt_trends',label:'Trends und Chancen',hint:'Welche Trends begünstigen Dein Vorhaben? Welche besonderen Chancen und Geschäftsmöglichkeiten siehst Du?',rows:3},
     {id:'ri_main',label:'Kritische Faktoren und Risiken',hint:'Welche Faktoren könnten kritisch werden (Ausfall von Lieferanten oder Kunden, Wettbewerb, Vorschriften …)? Welches sind die drei wichtigsten Probleme?',rows:4},
     {id:'ri_mit',label:'Absicherung und Gegenmaßnahmen',hint:'Wie sicherst Du Dich ab, und welche Maßnahmen ergreifst Du? Wie schnell und mit welchem Aufwand?',rows:3},
@@ -1875,9 +1876,9 @@ const CHAPTERS = [
     {id:'ri_umsetzung',label:'Umsetzung und Kapitalbedarf bei Veränderungen',hint:'Optional: Wie schnell und mit welchem finanziellen Aufwand kannst Du notwendige Maßnahmen umsetzen? Wofür würdest Du zusätzliches Kapital einsetzen?',rows:3},
     {id:'ri_langfrist',label:'Langfristige Entwicklung',hint:'Optional: Wie soll sich Dein Unternehmen in den nächsten Jahren entwickeln? Welche weiteren Angebote oder Märkte sind denkbar?',rows:3},
   ]},
-  {id:'swot',sec:'2.6',title:'Stärken und Schwächen (SWOT)',desc:'Stell Deine Stärken und Schwächen den Chancen und Risiken gegenüber – ehrlich und objektiv.',isSwot:true},
-  {id:'gründer',sec:'3.1',title:'Gründer/in und Team',desc:'Gründungen hängen stark von Qualifikation und Motivation der Gründer ab. Beschreibe, welche Erfahrungen, Kenntnisse und Netzwerke Du (und Dein Team) mitbringst.',isGründer:true},
-  {id:'org',sec:'3.2',title:'Rechtliches und Organisation',desc:'Erläutere rechtliche Voraussetzungen, Deine Rechtsform und wie Dein Unternehmen organisiert ist.',fields:[
+  {id:'swot',sec:'2.6',title:'Stärken und Schwächen (SWOT)',desc:'Stell Deine Stärken und Schwächen den Chancen und Risiken gegenüber. Bleib dabei ehrlich.',isSwot:true},
+  {id:'gründer',sec:'3.1',title:'Gründer/in und Team',desc:'Bank und Agentur für Arbeit wollen wissen, wer hinter der Gründung steht. Beschreibe Deine Erfahrung, Deine Kenntnisse und Dein Netzwerk. Gründest Du im Team, gilt das für alle.',isGründer:true},
+  {id:'org',sec:'3.2',title:'Rechtliches und Organisation',desc:'Beschreibe die rechtlichen Voraussetzungen, Deine Rechtsform und wie Du Dein Unternehmen organisierst.',fields:[
     {id:'org_zulassung',label:'Zulassungsvoraussetzungen',hint:'Gibt es Zulassungsvoraussetzungen (z. B. Meisterpflicht, Genehmigungen, Erlaubnisse), und erfüllst Du sie?',rows:3},
     {id:'org_rechts',label:'Rechtsform',hint:'Welche Rechtsform wählst Du, und welche Konsequenzen hat das?',rows:3},
     {id:'org_anmeldung',label:'Gewerbeanmeldung, Finanzamt und Kammer',hint:'Optional: Wo meldest Du Dein Unternehmen an (Gewerbeamt oder als Freiberufler direkt beim Finanzamt)? Welcher Kammer gehörst Du an?',rows:3},
@@ -1889,9 +1890,9 @@ const CHAPTERS = [
     {id:'org_lief',label:'Lieferanten und Partnerbetriebe',hint:'Optional: Bei wem kaufst Du ein? Mit welchen Partnerbetrieben arbeitest Du zusammen, und wie stellst Du Qualität und Lieferfähigkeit sicher?',rows:3},
     {id:'org_entw',label:'Entwicklung der Organisation',hint:'Optional: Wie soll sich Deine Organisation entwickeln, wenn die Aufträge steigen? Welche Aufgaben gibst Du zuerst ab?',rows:3},
   ]},
-  {id:'finanz',sec:'4',title:'Finanzen',desc:'Der Zahlenteil ist genauso wichtig wie der Text. Hier zeigst Du, dass Dein Vorhaben genau geplant und kalkuliert ist. GuV, Liquidität und Kapitalbedarf rechnet das Tool automatisch.',isFinance:true},
-  {id:'anhang',sec:'5',title:'Anhang',desc:'Füge Zusatzinformationen bei, auf die Du im Text verweist – vor allem Deinen Lebenslauf und Zertifikate.',fields:[
-    {id:'anh_lebenslauf',label:'Lebenslauf',hint:'Dein tabellarischer Lebenslauf: Schule, Ausbildung, Studium, berufliche Stationen – am besten mit Jahreszahlen, eine Station pro Zeile.',rows:7},
+  {id:'finanz',sec:'4',title:'Finanzen',desc:'Der Zahlenteil ist genauso wichtig wie der Text. Du trägst Umsätze, Kosten und Finanzierung ein. Rentabilität, Liquidität und Kapitalbedarf rechnet das Tool.',isFinance:true},
+  {id:'anhang',sec:'5',title:'Anhang',desc:'Füge Unterlagen bei, auf die Du im Text verweist, vor allem Lebenslauf und Zertifikate.',fields:[
+    {id:'anh_lebenslauf',label:'Lebenslauf',hint:'Schule, Ausbildung, Studium und berufliche Stationen, am besten mit Jahreszahlen und eine Station pro Zeile.',rows:7},
     {id:'anh_zert',label:'Zertifikate und weitere Unterlagen',hint:'Welche Zeugnisse, Zertifikate oder Nachweise legst Du bei? Liste sie auf (die Dokumente selbst reichst Du separat ein).',rows:3},
   ]},
 ];
@@ -1993,7 +1994,7 @@ async function afterSignIn(user, nameHint){
 
 async function doGoogleSignIn() {
   const ok = await waitForFirebase(6000);
-  if(!ok){ showToast('Verbindung zum Server fehlgeschlagen – bitte lade die Seite neu.'); return; }
+  if(!ok){ showToast('Keine Verbindung zum Server. Bitte lade die Seite neu.'); return; }
   window._authBusy=true;
   try {
     const cred = await window._fbFn.signInWithGoogle();
@@ -2058,7 +2059,7 @@ async function doLogin() {
     const msg = e.code==='auth/user-not-found'?'Diese E-Mail ist nicht registriert.':
                 e.code==='auth/wrong-password'?'Das Passwort ist falsch.':
                 e.code==='auth/invalid-credential'?'E-Mail oder Passwort ist falsch.':
-                e.code==='auth/too-many-requests'?'Zu viele Versuche – bitte warte kurz.':
+                e.code==='auth/too-many-requests'?'Zu viele Versuche. Bitte warte kurz.':
                 e.code==='auth/network-request-failed'?'Keine Internetverbindung. Bitte versuche es erneut.':
                 'Anmeldung fehlgeschlagen.';
     showErr(err,msg);
@@ -2083,7 +2084,7 @@ async function doResetPassword() {
   }
   err.style.display='none';
   if (!window._firebaseReady) {
-    showErr(err,'Verbindung wird aufgebaut – bitte kurz warten und nochmal versuchen.');
+    showErr(err,'Die Verbindung wird aufgebaut. Bitte warte kurz und versuch es noch einmal.');
     return;
   }
   // Button deaktivieren während Anfrage läuft
@@ -2100,7 +2101,7 @@ async function doResetPassword() {
     const codes = {
       'auth/user-not-found':    'Diese E-Mail ist nicht registriert.',
       'auth/invalid-email':     'Ungültige E-Mail-Adresse.',
-      'auth/too-many-requests': 'Zu viele Versuche – bitte später nochmal.',
+      'auth/too-many-requests': 'Zu viele Versuche. Bitte versuch es später noch einmal.',
       'auth/invalid-credential':'Diese E-Mail ist nicht registriert.',
     };
     showErr(err, codes[e.code] || 'Fehler: '+e.message);
@@ -2364,7 +2365,8 @@ function renderLivePreview(){
   const ph='<div class="paper-ph"><i></i><i></i><i class="s"></i></div>';
   let h=`<div class="pl-ch">Kapitel ${currentChapter+1}</div><div class="pl-title">${esc(ch.title)}</div>`;
   if(ch.fields){
-    ch.fields.forEach(f=>{const t=val(f.id).trim();if(f.opt&&!t)return;h+=`<div class="pl-h">${esc(pdfLabel(f))}</div>`+(t?`<div class="pl-t">${esc(t)}</div>`:ph);});
+    const noLab=['exec','produkt','markt','preis','marketing'].includes(ch.id);
+    ch.fields.forEach(f=>{const t=val(f.id).trim();if(f.opt&&!t)return;h+=(noLab?'':`<div class="pl-h">${esc(pdfLabel(f))}</div>`)+(t?`<div class="pl-t">${esc(t)}</div>`:ph);});
   } else if(ch.isGründer){
     const kv=[['Name',[val('gr_vorname'),val('gr_nachname')].filter(Boolean).join(' ')],['Ort',[val('gr_plz'),val('gr_ort')].filter(Boolean).join(' ')],['Telefon',val('gr_telefon')],['E-Mail',val('gr_email')],['Status',val('gr_status')]];
     h+='<div class="pl-h">Persönliche Angaben</div><div class="pl-kv">'+kv.map(([k,v])=>`<span>${k}</span><span>${esc(v)||'–'}</span>`).join('')+'</div>';
@@ -2396,7 +2398,7 @@ function buildSwot(panel) {
   const block = document.createElement('div');
   block.className = 'fblock';
   let html = '<div class="ftop"><div class="flabel">SWOT-Analyse</div></div>';
-  html += '<div class="fhint">Analysiere Dein Vorhaben aus vier Perspektiven – ehrlich und objektiv.</div>';
+  html += '<div class="fhint">Betrachte Dein Vorhaben aus vier Blickwinkeln und bleib dabei ehrlich.</div>';
   html += '<div class="swot-grid" style="padding:16px 18px 20px">';
   items.forEach(({key,cls,label,ph}) => {
     const val = (s[key]||'');
@@ -2470,7 +2472,7 @@ function buildGründer(panel) {
     <div class="fblock">
       <div class="ftop"><div class="flabel">Fachliche Lücken</div></div>
       <div class="fhint">Welche fachlichen Lücken gibt es heute noch, und wie willst Du sie schließen (z. B. Gründercoaching, Steuerberater, Weiterbildung)?</div>
-      <textarea class="fta" id="gr_luecken" rows="3" placeholder="z. B. Buchhaltung – übernimmt ein Steuerberater" oninput="onInput('gr_luecken',this)">${esc(s.gr_luecken)}</textarea>
+      <textarea class="fta" id="gr_luecken" rows="3" placeholder="z. B. Buchhaltung: übernimmt ein Steuerberater" oninput="onInput('gr_luecken',this)">${esc(s.gr_luecken)}</textarea>
       <div class="ffoot"><span class="fcc" id="cc_gr_luecken">${(s.gr_luecken||'').length} Zeichen</span></div>
     </div>
     <div class="fblock">
@@ -2541,8 +2543,8 @@ async function saveAll(silent) {
   saveCurrentFields();
   clearTimeout(window._saveT);
   if(!(window._currentUser&&window._fbFn&&window._fbDb)){
-    setSave('error','Nicht gespeichert – keine Verbindung');
-    if(!silent) showToast('Speichern nicht möglich – bitte prüfe Deine Verbindung und melde Dich erneut an.');
+    setSave('error','Nicht gespeichert, keine Verbindung');
+    if(!silent) showToast('Speichern nicht möglich. Bitte prüfe Deine Verbindung und melde Dich neu an.');
     return false;
   }
   setSave('saving','Wird gespeichert …');
@@ -2561,7 +2563,7 @@ async function saveAll(silent) {
   }catch(e){
     console.error('Speicherfehler',e);
     setSave('error','Speichern fehlgeschlagen');
-    if(!silent) showToast('Speichern fehlgeschlagen – bitte versuche es gleich noch einmal.');
+    if(!silent) showToast('Speichern fehlgeschlagen. Bitte versuch es gleich noch einmal.');
     return false;
   }
 }
@@ -3056,7 +3058,7 @@ function fzAct(act,el){
       for(let i=1;i<=10;i++){ if(!used(i)){ fd['al_name'+i]=l; fd['al_w'+i]=fd[k]; n++; break; } }
     });
     fzChanged(); fzRender();
-    if(typeof showToast==='function') showToast(n?n+' Anschaffung'+(n>1?'en':'')+' übernommen – bitte die Nutzungsdauer eintragen.':'Keine neuen Anschaffungen zum Übernehmen.');
+    if(typeof showToast==='function') showToast(n?n+' Anschaffung'+(n>1?'en':'')+' übernommen. Bitte trag noch die Nutzungsdauer ein.':'Keine neuen Anschaffungen zum Übernehmen.');
   }
 }
 function fzRender(){
@@ -3213,7 +3215,7 @@ function fzAusHtml(R){
   const fiT=`<table class="fz-at y1"><tbody><tr><th>Eigenkapital</th><td>${e(R.ekSum)}</td></tr><tr><th>Fördermittel (Auszahlung)</th><td>${e(R.finFoerder)}</td></tr><tr><th>Kredite der Hausbank</th><td>${e(R.finBank)}</td></tr><tr><th>Sonstiges Fremdkapital</th><td>${e(R.finSonst)}</td></tr><tr class="b"><th>Vorhandenes Gesamtkapital</th><td>${e(R.finGesamt)}</td></tr><tr class="i"><th>Über-/Unterdeckung vor Gründung</th><td class="${R.deckVor<0?'neg':''}">${e(R.deckVor)}</td></tr><tr class="t"><th>Über-/Unterdeckung gesamt</th><td class="${R.deckGesamt<0?'neg':''}">${e(R.deckGesamt)}</td></tr>${R.siSum?`<tr class="i"><th>Sicherheiten</th><td>${e(R.siSum)}</td></tr>`:''}</tbody></table>`;
   return `<div class="fz-checks">${ok(R.cfOk[0]&&R.cfOk[1]&&R.cfOk[2],'Cashflow in allen drei Jahren in Ordnung','Cashflow prüfen: in mindestens einem Jahr negativ')}${ok(R.kkOkY1&&R.kkOkY2,'Liquidität reicht in allen 24 Monaten','Liquidität reicht nicht in jedem Monat – Finanzierung anpassen')}${ok(R.tragOk.every(Boolean),'Gewinn deckt den Unternehmerlohn in allen drei Jahren','Gewinn deckt den Unternehmerlohn nicht in jedem Jahr – Tragfähigkeit prüfen')}${ok(R.deckGesamt>=0||R.gapByKk,R.deckGesamt>=0?'Kapitalbedarf ist gedeckt':'Kapitalbedarf gedeckt, die Anlaufphase überbrückt der Kontokorrentkredit','Finanzierungslücke von '+e(-R.deckGesamt))}${(R.afaInvBase>0||R.afaBase>0)&&Math.abs(R.afaDiff)>1?ok(false,'',R.afaDiff>0?'Abschreibungen unvollständig: '+e(R.afaDiff)+' Anschaffungen fehlen':'Abschreibungen höher als die Investitionen in Schritt 1'):''}</div>`
   + fzCard('rent','Rentabilitätsplan','Gewinn und Cashflow für drei Jahre.',`<div class="fz-tw"><table class="fz-at"><thead><tr><th></th><th>Jahr 1</th><th>Jahr 2</th><th>Jahr 3</th></tr></thead><tbody>${rent}</tbody></table></div><h4 class="fz-sub">Cashflow</h4><div class="fz-tw"><table class="fz-at"><thead><tr><th></th><th>Jahr 1</th><th>Jahr 2</th><th>Jahr 3</th></tr></thead><tbody>${cf}</tbody></table></div>`)
-  + fzCard('liq','Liquiditätsplan – 24 Monate','Monat für Monat inklusive Umsatzsteuer, Vorsteuer, Zinsen und Tilgung. Seitlich scrollen für alle Monate.',`<div class="fz-tw fz-liqw">${liqT}</div>`)
+  + fzCard('liq','Liquiditätsplan für 24 Monate','Monat für Monat inklusive Umsatzsteuer, Vorsteuer, Zinsen und Tilgung. Seitlich scrollen für alle Monate.',`<div class="fz-tw fz-liqw">${liqT}</div>`)
   + `<div class="fz-g2">`+fzCard('kb','Kapitalbedarfsplan','',`<div class="fz-tw">${kbT}</div>`)+fzCard('ek','Finanzierungsplan','',`<div class="fz-tw">${fiT}</div>`)+`</div>`;
 }
 
@@ -3237,7 +3239,7 @@ function fzUpdate(){
    PDF-EXPORT (Aufbau nach der Businessplan-Vorlage der Coachingexperten)
 ═══════════════════════ */
 async function dlPDF() {
-  if(!window.jspdf||!window.jspdf.jsPDF){showToast('Der PDF-Baustein konnte nicht geladen werden – bitte lade die Seite neu.');return;}
+  if(!window.jspdf||!window.jspdf.jsPDF){showToast('Das PDF konnte nicht erstellt werden. Bitte lade die Seite neu.');return;}
   saveCurrentFields();
   showToast('PDF wird erstellt …');
   const {jsPDF}=window.jspdf;
@@ -3439,7 +3441,7 @@ async function dlPDF() {
     if(R.gkSum) t.push('Zu Beginn der Geschäftstätigkeit fallen gründungsbedingte Kosten in Höhe von '+eur(R.gkSum)+' an.');
     const inv=[]; if(R.irSum) inv.push(eur(R.irSum)+' für Büro, Halle oder Laden'); if(R.ibSum) inv.push(eur(R.ibSum)+' für die Geschäfts- und Betriebsausstattung');
     if(inv.length) t.push('Für Investitionen plane ich '+inv.join(' und ')+' ein.');
-    if(R.gkSum||R.irSum||R.ibSum) t.push('Insgesamt ergeben sich gründungsbedingte Kosten und Investitionen von '+eur(R.vorGrBrutto)+(R.ku?' einschließlich Umsatzsteuer':'')+'. Die Aufstellung zeigt die einzelnen Positionen.');
+    if(R.gkSum||R.irSum||R.ibSum) t.push('Insgesamt ergeben sich gründungsbedingte Kosten und Investitionen von '+eur(R.vorGrBrutto)+(R.ku?' einschließlich Umsatzsteuer':'')+'.');
     else t.push('Gründungsbedingte Kosten und Investitionen fallen nicht an.');
     para(t.join(' '));
   }
@@ -3573,7 +3575,7 @@ async function dlPDF() {
       table(B2,rr,{cap:'Durchschnittliche monatliche Ausgaben und Unternehmerlohn'});
     }
     table(Y3,[row('Unternehmerlohn / Privatentnahme pro Jahr',R.ulY,{bold:true}),{cells:['entspricht pro Monat',...R.ulY.map(v=>eur(v/12))],muted:true}],{after:3});
-    para('Der Unternehmerlohn wird als Privatentnahme in der Liquiditätsplanung berücksichtigt. Er deckt die Lebenshaltungskosten'+(R.ulTool&&(R.ulTax[0]>0)?' einschließlich einer Rücklage für Einkommensteuer':'')+' sowie die private Kranken- und Altersvorsorge.');
+    para('Der Unternehmerlohn ist in der Liquiditätsplanung als Privatentnahme berücksichtigt und dient zur Deckung der Lebenshaltungskosten'+(R.ulTool&&(R.ulTax[0]>0)?' einschließlich einer Rücklage für die Einkommensteuer':'')+'.');
     ownTxt('fin_ul');
   }
   // 4.3 Liquiditätsplanung – monatlich für 24 Monate
@@ -3737,7 +3739,7 @@ function exportCheck(){
   }).map(c=>c.title);
   const el=document.getElementById('expCheck'); if(!el) return;
   el.className='exp-check'+(empty.length?'':' ok'); el.style.display='block';
-  el.innerHTML=empty.length?'<b>Noch nicht ausgefüllt:</b> '+empty.map(esc).join(', ')+'. Du kannst trotzdem herunterladen – leere Abschnitte werden im PDF weggelassen.':'<b>Alles ausgefüllt.</b> Dein Businessplan ist vollständig.';
+  el.innerHTML=empty.length?'<b>Noch nicht ausgefüllt:</b> '+empty.map(esc).join(', ')+'. Du kannst trotzdem herunterladen. Leere Abschnitte lässt das PDF weg.':'<b>Alles ausgefüllt.</b> Dein Businessplan ist vollständig.';
 }
 /* Eigenes Logo (optional) für Deckblatt und Kopfzeile */
 function onLogoUpload(inp){
