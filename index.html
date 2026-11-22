@@ -3583,7 +3583,8 @@ async function dlPDF() {
       const t=['Der niedrigste Kontostand im ersten Jahr liegt im '+monName(mi)+' bei '+eur(L[mi].liq)+'.'];
       if(L[mi].liq>=0) t.push('Die Liquidität ist damit in jedem Monat des ersten Jahres gesichert.');
       else if(R.kk && -L[mi].liq<=R.kk) t.push('Dieser Betrag wird durch den eingeplanten Kontokorrentkredit über '+eur(R.kk)+' abgedeckt.');
-      t.push('Am Ende des ersten Jahres stehen '+eur(L[11].liq)+' zur Verfügung, am Ende des zweiten Jahres '+eur(L[23].liq)+'.');
+      else t.push(R.kk?'Der eingeplante Kontokorrentkredit über '+eur(R.kk)+' reicht dafür nicht aus.':'Dieser Betrag ist durch die bisher geplante Finanzierung nicht gedeckt.');
+      t.push('Am Ende des ersten Jahres beträgt der Kontostand '+eur(L[11].liq)+', am Ende des zweiten Jahres '+eur(L[23].liq)+'.');
       para(t.join(' '),{after:3}); }
     label('Jahr 1, Monate 1–6'); tbl(0,'Jahr 1');
     label('Jahr 1, Monate 7–12'); tbl(6,'Jahr 1');
