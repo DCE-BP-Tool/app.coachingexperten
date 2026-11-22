@@ -3607,10 +3607,6 @@ async function dlPDF() {
     if(has(s.anh_lebenslauf)){ heading(2,'5.1','Lebenslauf'); para(s.anh_lebenslauf,{noJustify:true}); }
     if(has(s.anh_zert)){ heading(2,has(s.anh_lebenslauf)?'5.2':'5.1','Zertifikate'); para(s.anh_zert,{noJustify:true}); }
   }
-  // Unterschrift
-  flush(36); ensure(36); y+=16;
-  draw(C.ink); doc.setLineWidth(0.3); doc.line(ML,y,ML+65,y); doc.line(W-MR-65,y,W-MR,y);
-  font('normal',8.5); col(C.mu); doc.text('Ort, Datum',ML,y+5); doc.text('Unterschrift'+(person?' '+person:''),W-MR-65,y+5);
 
   flush(0);
   /* ── Inhaltsverzeichnis füllen ── */
