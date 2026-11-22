@@ -3316,7 +3316,8 @@ async function dlPDF() {
   let ay=200; font('normal',10.5); col(C.ink);
   const adr=[s.gr_strasse,[s.gr_plz,s.gr_ort].filter(Boolean).join(' '),s.gr_telefon,s.gr_email||p.email].map(clean).filter(Boolean);
   adr.forEach(l=>{doc.text(l,ML,ay);ay+=5.4;});
-  if(p.gründung){ ay+=3; doc.text('Gründung: '+clean(p.gründung),ML,ay); ay+=5.4; }
+  const gStart=/^\d{4}-\d{2}$/.test(String(fd.f_start||''))?('01.'+String(fd.f_start).slice(5,7)+'.'+String(fd.f_start).slice(0,4)):'';
+  if(gStart){ ay+=3; doc.text('Gründung zum '+gStart,ML,ay); ay+=5.4; } else if(p.gründung){ ay+=3; doc.text('Gründung: '+clean(p.gründung),ML,ay); ay+=5.4; }
   const PURPOSE={jobcenter:'Agentur für Arbeit / Jobcenter',bank:'Bank / Kreditinstitut',investor:'Investoren',intern:''};
   if(PURPOSE[p.purpose]){ font('normal',9); col(C.mu); doc.text('Zur Vorlage bei: '+PURPOSE[p.purpose],ML,ay+3); }
   font('normal',8.5); col(C.mu); doc.text('Stand: '+new Date().toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'}),ML,H-22);
@@ -3328,7 +3329,7 @@ async function dlPDF() {
   /* ── 1 Zusammenfassung ── */
   heading(1,'1','Zusammenfassung');
   fields(ch('exec'));
-  const eck=[['Unternehmen',company],['Gründer/in',person],['Branche',p.branche],['Rechtsform',p.rechtsform],['Standort',[s.gr_plz,s.gr_ort].filter(Boolean).join(' ')],['Geplanter Start',p.gründung],['Kapitalbedarf',F.kapital>0?eur(F.kapital):p.kapital],['Finanzierung',(F.ek+F.fk)>0?'Eigenkapital '+eur(F.ek)+' · Fremdkapital/Förderung '+eur(F.fk):''],['Umsatz Jahr 1 / 2 / 3',F.rev.some(v=>v)?F.rev.map(eur).join(' / '):''],['Gewinn Jahr 1 / 2 / 3',F.rev.some(v=>v)?F.gew.map(eur).join(' / '):'']];
+  const eck=[['Unternehmen',company],['Gründer/in',person],['Branche',p.branche],['Rechtsform',p.rechtsform],['Standort',[s.gr_plz,s.gr_ort].filter(Boolean).join(' ')],['Geplanter Start',gStart?('zum '+gStart):p.gründung],['Kapitalbedarf',F.kapital>0?eur(F.kapital):p.kapital],['Finanzierung',(F.ek+F.fk)>0?'Eigenkapital '+eur(F.ek)+' · Fremdkapital/Förderung '+eur(F.fk):''],['Umsatz Jahr 1 / 2 / 3',F.rev.some(v=>v)?F.rev.map(eur).join(' / '):''],['Gewinn Jahr 1 / 2 / 3',F.rev.some(v=>v)?F.gew.map(eur).join(' / '):'']];
   if(eck.some(([,v])=>has(v))){ label('Das Vorhaben auf einen Blick'); kv(eck); }
 
   /* ── 2 Geschäftsidee ── */
