@@ -3047,7 +3047,8 @@ function fzS1(){
   + fzCard('gk','Gründungsbedingte Kosten','Einmalige Kosten rund um die Gründung.',fzList(F2.GK),{out:'gkSum'})
   + fzCard('raum','Investitionen Büro, Halle, Laden','Räume, Umbau, Kaution und Übernahmen.',fzList(F2.INV_RAUM),{out:'irSum'})
   + fzCard('bga','Investitionen Geschäfts- und Betriebsausstattung','Maschinen, Einrichtung, Technik, Fahrzeuge und Erstausstattung.',fzList(F2.INV_BGA),{out:'ibSum'})
-  + `<div class="fz-total"><span>Summe gründungsbedingte Kosten und Investitionen</span><b data-o="vorGr"></b></div>`;
+  + `<div class="fz-total"><span>Summe gründungsbedingte Kosten und Investitionen</span><b data-o="vorGr"></b></div>`
+  + fzCard('gk','Eigene Ergänzung zu den Investitionen (optional)','Erscheint im PDF unter 4.1 nach dem automatischen Text.',`<textarea class="fz-ta" data-k="fin_invest" rows="3" placeholder="z. B. Das Fahrzeug kaufe ich gebraucht, weitere Investitionen sind nicht nötig.">${fzV('fin_invest')}</textarea>`);
 }
 
 /* ── Schritt 2: Umsätze ── */
@@ -3077,7 +3078,7 @@ function fzS2(){
   h+=fzCard('zahl','Wann zahlen Deine Kunden?','Anteil der Umsätze, der im jeweiligen Monat auf Deinem Konto eingeht (zusammen 100 %).',
     `<div class="fz-list cols2">${[['z_anz','Anzahlung (vorab)',''],['z_same','Zahlung im selben Monat','100'],['z_next','Zahlung im Folgemonat',''],['z_two','Zahlung nach zwei Monaten','']].map(([k,l,ph])=>`<label class="fz-row"><span>${l}</span>${fzNum(k,{u:'%',ph:ph||'0'})}</label>`).join('')}</div><div class="fz-note" data-o="zahlCheck"></div>`);
   h+=`<div class="fz-total"><span>Umsatz Jahr 1 / Jahr 2 / Jahr 3</span><b data-o="revAll"></b></div>`;
-  h+=fzCard('gk','Erläuterung Deiner Umsatzplanung (optional)','Wie kommst Du auf diese Zahlen? Das steht im PDF unter 4.2.1.',`<textarea class="fz-ta" data-k="fin_umsatz" rows="3" placeholder="z. B. 25 Gäste pro Tag mit durchschnittlich 12 € Bon">${fzV('fin_umsatz')}</textarea>`);
+  h+=fzCard('gk','Erläuterung Deiner Umsatzplanung (optional)','Wie kommst Du auf diese Zahlen? Erscheint im PDF unter 4.2.1 nach dem automatischen Text.',`<textarea class="fz-ta" data-k="fin_umsatz" rows="3" placeholder="z. B. 25 Gäste pro Tag mit durchschnittlich 12 € Bon">${fzV('fin_umsatz')}</textarea>`);
   return h;
 }
 
@@ -3093,6 +3094,7 @@ function fzS3(){
   h+=fzCard('prov','Provisionen','Umsatzabhängige Provisionen, z. B. für Vertriebspartner oder Plattformen.',`<div class="fz-tw"><table class="fz-it y3"><thead><tr><th></th><th>Jahr 1</th><th>Jahr 2</th><th>Jahr 3</th></tr></thead><tbody><tr><th scope="row">Provision vom Umsatz</th><td>${fzNum('prov_pct1',{u:'%'})}</td><td>${fzNum('prov_pct2',{u:'%'})}</td><td>${fzNum('prov_pct3',{u:'%'})}</td></tr></tbody></table></div>`);
   h+=fzCard('sba','Sonstige Betriebsausgaben','Laufende Kosten Deines Betriebs, netto.',fzItems(F2.SBA)+fzItems(F2.BST).replace('<thead>','<thead class="sr">'),{out:'sbaY0'});
   h+=fzCard('afa','Abschreibungen','Anschaffungen über 800 € netto werden über die Nutzungsdauer abgeschrieben.',fzAfaTool(),{out:'afaY0'});
+  h+=fzCard('sba','Eigene Ergänzung zu den Kosten (optional)','Erscheint im PDF unter 4.2.2 nach dem automatischen Text.',`<textarea class="fz-ta" data-k="fin_kosten" rows="3" placeholder="z. B. Die Versicherungskosten beruhen auf einem Angebot meines Versicherers.">${fzV('fin_kosten')}</textarea>`);
   return h;
 }
 function fzPersTool(){
@@ -3126,6 +3128,7 @@ function fzS4(){
     h+=fzCard('kb','Rücklage für Einkommensteuer','Entweder einen Zuschlag in % oder einen festen Jahresbetrag.',`<div class="fz-list cols2"><label class="fz-row"><span>Zuschlag Einkommensteuer, Soli, Kirchensteuer</span>${fzNum('ul_tax_pct',{u:'%'})}</label><label class="fz-row"><span>oder fester Betrag pro Jahr</span>${fzNum('ul_tax_eur')}</label></div>`);
     h+=`<div class="fz-res"><div><span>Unternehmerlohn Monat 1–6</span><b data-o="ulFirst"></b></div><div><span>Unternehmerlohn Monat 7–12</span><b data-o="ulLast"></b></div><div><span>Jahr 1 / 2 / 3</span><b data-o="ulAll"></b></div></div>`;
   }
+  h+=fzCard('gk','Eigene Ergänzung zum Unternehmerlohn (optional)','Erscheint im PDF unter 4.2.3 nach dem automatischen Text.',`<textarea class="fz-ta" data-k="fin_ul" rows="3" placeholder="z. B. In den ersten Monaten lebe ich zusätzlich von Ersparnissen.">${fzV('fin_ul')}</textarea>`);
   return h;
 }
 
@@ -3136,7 +3139,8 @@ function fzS5(){
   + fzCard('kr','Kredite und Fördermittel','Zinsen werden vierteljährlich, Tilgungen halbjährlich berechnet.',`<div class="fz-tw"><table class="fz-it k"><thead><tr><th>Kredit</th><th>Summe €</th><th>Auszahlung %</th><th>Zins % p. a.</th><th>tilgungsfrei Jahre</th><th>Laufzeit Jahre</th></tr></thead><tbody>${kr}</tbody></table></div>`,{out:'fkSum'})
   + fzCard('kb','Kurzfristige Finanzierung und Sicherheiten','',`<div class="fz-list"><label class="fz-row"><span>Kontokorrentkredit (Kreditlinie)</span>${fzNum('kk')}</label>${F2.SI.map(([k,l])=>`<label class="fz-row"><span>${l}</span>${fzNum(k)}</label>`).join('')}</div>`)
   + fzCard('liq','Weitere Zahlungen in der Liquidität (optional)','Beträge pro Monat. Den Gründungszuschuss in Phase 2 (300 €) kannst Du hier als sonstige Einnahme eintragen.',`<div class="fz-tw"><table class="fz-it y3"><thead><tr><th>pro Monat</th><th>Jahr 1</th><th>Jahr 2</th></tr></thead><tbody>${[['li_sonstE','Sonstige Einnahmen'],['li_einlage','Privateinlage'],['li_bar','Bareinkäufe'],['li_sonstA','Sonstige Ausgaben']].map(([k,l])=>`<tr><th scope="row">${l}</th><td>${fzNum(k+'1')}</td><td>${fzNum(k+'2')}</td></tr>`).join('')}</tbody></table></div>
-    <h4 class="fz-sub">Einkommensteuer-Rücklage im Rentabilitätsplan</h4><div class="fz-tw"><table class="fz-it y3"><thead><tr><th></th><th>Jahr 1</th><th>Jahr 2</th><th>Jahr 3</th></tr></thead><tbody><tr><th scope="row">pro Jahr</th><td>${fzNum('est1')}</td><td>${fzNum('est2')}</td><td>${fzNum('est3')}</td></tr></tbody></table></div>`);
+    <h4 class="fz-sub">Einkommensteuer-Rücklage im Rentabilitätsplan</h4><div class="fz-tw"><table class="fz-it y3"><thead><tr><th></th><th>Jahr 1</th><th>Jahr 2</th><th>Jahr 3</th></tr></thead><tbody><tr><th scope="row">pro Jahr</th><td>${fzNum('est1')}</td><td>${fzNum('est2')}</td><td>${fzNum('est3')}</td></tr></tbody></table></div>`)
+  + fzCard('kr','Eigene Ergänzung zur Finanzierung (optional)','Erscheint im PDF unter 4.6 nach dem automatischen Text.',`<textarea class="fz-ta" data-k="fin_finanz" rows="3" placeholder="z. B. Die Hausbank hat den Kredit bereits mündlich zugesagt.">${fzV('fin_finanz')}</textarea>`);
 }
 
 /* ── Schritt 6: Auswertung ── */
@@ -3275,14 +3279,14 @@ async function dlPDF() {
     const fs=opt.size||8.6, rh=opt.rh||6.4, pad=2.2;
     const head=()=>{ fill(C.greenSoft); doc.rect(ML,y,CW,rh+0.4,'F'); draw(C.green); doc.setLineWidth(0.4); doc.line(ML,y+rh+0.4,ML+CW,y+rh+0.4); font('bold',fs); col(C.ink); let x=ML; cols.forEach(c=>{const tx=c.a==='right'?x+c.w-pad:x+pad; doc.text(c.t,tx,y+rh*0.68,{align:c.a==='right'?'right':'left'}); x+=c.w;}); y+=rh+0.4; };
     const est=(opt.noHead?0:rh+0.4)+rows.reduce((a,r)=>{const cells=r.cells||r;font('normal',fs);const n=Math.max(...cells.map((v,ci)=>cols[ci].a==='right'?1:doc.splitTextToSize(String(v),cols[ci].w-pad*2).length));return a+Math.max(rh,n*fs*0.45+(opt.rh?1.6:2.8));},0);
-    const keep=est<(BOT-TOP)*0.75?est:rh*3;
+    const est2=est+(opt.cap?6:0); const keep=est2<(BOT-TOP)*0.75?est2:rh*3;
     flush(keep); if(y+keep>BOT) addPage();
     if(!opt.noHead) head(); else { draw(C.line); doc.setLineWidth(0.2); doc.line(ML,y,ML+CW,y); }
-    rows.forEach((r)=>{
+    rows.forEach((r,ri)=>{
       const cells=r.cells||r;
       const wrapped=cells.map((v,ci)=>{font(r.bold||r.total||r.group?'bold':'normal',fs);return cols[ci].a==='right'?[String(v)]:doc.splitTextToSize(String(v),cols[ci].w-pad*2-(r.indent&&ci===0?4:0));});
       const lines=Math.max(...wrapped.map(w=>w.length)); const h=Math.max(rh,lines*fs*0.45+(opt.rh?1.6:2.8));
-      if(y+h>BOT){addPage(); if(!opt.noHead) head();}
+      if(y+h+(opt.cap&&ri===rows.length-1?6:0)>BOT){addPage(); if(!opt.noHead) head();}
       if(r.total){fill(C.greenSoft);doc.rect(ML,y,CW,h,'F');draw(C.green);doc.setLineWidth(0.4);doc.line(ML,y,ML+CW,y);}
       else if(r.group){fill(C.soft);doc.rect(ML,y,CW,h,'F');}
       let x=ML;
@@ -3297,6 +3301,7 @@ async function dlPDF() {
       draw(C.line); doc.setLineWidth(0.15); doc.line(ML,y+h,ML+CW,y+h);
       y+=h;
     });
+    if(opt.cap){ font('normal',8.2); col(C.mu); doc.text('Tabelle: '+opt.cap,ML,y+4.2); y+=6; }
     y+=opt.after==null?5:opt.after;
   }
   function kv(pairs){ const rows=pairs.filter(([,v])=>has(v)).map(([k,v])=>({cells:[k,clean(v)],kvRow:true})); if(rows.length) table([{t:'',w:58},{t:'',w:CW-58}],rows,{noHead:true}); }
@@ -3383,12 +3388,25 @@ async function dlPDF() {
 
   /* ── 4 Finanzen (nach der Excel-Vorlage) ── */
   heading(1,'4','Finanzen');
+  const MN=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+  const st0=F2.startOf(fd); const monName=i=>{const t=st0.m+i;return MN[t%12]+' '+(st0.y+Math.floor(t/12));};
+  const ownTxt=k=>{ const t=fd[k]||s[k]; if(has(t)) para(t); };
+  const rnd=v=>eur(Math.round(v/100)*100);
+  para('Im Zahlenteil sind die Investitionen, Umsätze und Kosten, der Unternehmerlohn, die Liquidität und die Finanzierung für die ersten drei Geschäftsjahre geplant. Die Planung beginnt im '+monName(0)+'. '+(R.ku?'Als Kleinunternehmer stelle ich keine Umsatzsteuer in Rechnung. Die Umsatzsteuer auf meine Einkäufe ist deshalb als Kostenbestandteil eingerechnet.':'Alle Beträge sind netto, also ohne Umsatzsteuer, angegeben.'));
   const Y3=[{t:'Position',w:CW-3*28},{t:'Jahr 1',w:28,a:'right'},{t:'Jahr 2',w:28,a:'right'},{t:'Jahr 3',w:28,a:'right'}];
   const row=(label,arr,o={})=>({cells:[label,...arr.map(v=>eur(o.neg?-v:v))],...o});
   const nz=a=>a.some(v=>Math.round(v)!==0);
   const B2=[{t:'Position',w:CW-38},{t:'Betrag',w:38,a:'right'}];
   // 4.1
   heading(2,'4.1','Investitionen und gründungsbedingte Kosten');
+  { const t=[];
+    if(R.gkSum) t.push('Zu Beginn der Geschäftstätigkeit fallen gründungsbedingte Kosten in Höhe von '+eur(R.gkSum)+' an.');
+    const inv=[]; if(R.irSum) inv.push(eur(R.irSum)+' für Büro, Halle oder Laden'); if(R.ibSum) inv.push(eur(R.ibSum)+' für die Geschäfts- und Betriebsausstattung');
+    if(inv.length) t.push('Für Investitionen plane ich '+inv.join(' und ')+' ein.');
+    if(R.gkSum||R.irSum||R.ibSum) t.push('Insgesamt ergeben sich gründungsbedingte Kosten und Investitionen von '+eur(R.vorGrBrutto)+(R.ku?' einschließlich Umsatzsteuer':'')+'. Die Aufstellung zeigt die einzelnen Positionen.');
+    else t.push('Gründungsbedingte Kosten und Investitionen fallen nicht an.');
+    para(t.join(' '));
+  }
   { const kb=[];
     const grp=(t,items,sumLabel,sumV)=>{ const it=items.filter(x=>x.v); if(!it.length) return; kb.push({cells:[t,''],group:true}); it.forEach(x=>kb.push({cells:[x.l,eur(x.v)],indent:true})); kb.push({cells:[sumLabel,eur(sumV)],bold:true}); };
     grp('Gründungsbedingte Kosten',R.gk,'Summe gründungsbedingte Kosten',R.gkSum);
@@ -3396,20 +3414,28 @@ async function dlPDF() {
     grp('Investitionen Geschäfts- und Betriebsausstattung',R.ib,'Summe Geschäfts- und Betriebsausstattung',R.ibSum);
     if(R.ku){ kb.push({cells:['Summe netto',eur(R.vorGr)],bold:true}); kb.push({cells:['zzgl. Umsatzsteuer (kein Vorsteuerabzug als Kleinunternehmer)',eur(R.gkVst+R.invVst)],indent:true}); }
     kb.push({cells:['Summe gründungsbedingte Kosten und Investitionen'+(R.ku?' (brutto)':''),eur(R.vorGrBrutto)],total:true});
-    table(B2,kb);
+    table(B2,kb,{cap:'Gründungsbedingte Kosten und Investitionen'});
     const afa=[...R.afaLin.map(a=>[a.name,eur(a.w),a.nd+' J. linear',...a.y.map(eur)]),...R.afaDeg.map(a=>[a.name,eur(a.w),a.nd+' J. degr.',...a.y.map(eur)]),...R.afaMan.map(a=>[a.name,'','',...a.y.map(eur)])];
-    if(afa.length){ label('Abschreibungen'); afa.push({cells:['Summe Abschreibungen','','',...R.afaY.map(eur)],total:true}); table([{t:'Wirtschaftsgut',w:CW-30-24-3*22},{t:R.ku?'Anschaffung brutto':'Anschaffung',w:30,a:'right'},{t:'Nutzung',w:24,a:'right'},{t:'Jahr 1',w:22,a:'right'},{t:'Jahr 2',w:22,a:'right'},{t:'Jahr 3',w:22,a:'right'}],afa,{size:8}); }
+    if(afa.length){ label('Abschreibungen'); para('Die Investitionen werden über ihre betriebsgewöhnliche Nutzungsdauer abgeschrieben. Die Abschreibungen fließen in die Ergebnisplanung ein und betragen im ersten Jahr '+eur(R.afaY[0])+', im zweiten Jahr '+eur(R.afaY[1])+' und im dritten Jahr '+eur(R.afaY[2])+'.'); afa.push({cells:['Summe Abschreibungen','','',...R.afaY.map(eur)],total:true}); table([{t:'Wirtschaftsgut',w:CW-30-24-3*22},{t:R.ku?'Anschaffung brutto':'Anschaffung',w:30,a:'right'},{t:'Nutzung',w:24,a:'right'},{t:'Jahr 1',w:22,a:'right'},{t:'Jahr 2',w:22,a:'right'},{t:'Jahr 3',w:22,a:'right'}],afa,{size:8,cap:'Übersicht Abschreibungen'}); }
+    ownTxt('fin_invest');
   }
   // 4.2
   heading(2,'4.2','Ergebnisplanung');
+  para('Die Ergebnisplanung zeigt, wie sich Umsätze und Kosten in den ersten drei Geschäftsjahren entwickeln und welcher Gewinn daraus entsteht.');
   heading(3,'4.2.1','Umsatzentwicklung und variable Kosten');
   { const meth={'1':'Die Umsätze sind über einen durchschnittlichen Tagesumsatz und die geplanten Umsatztage je Monat berechnet.','2':'Die geplanten Jahresumsätze sind nach Umsatztagen auf die Monate verteilt.','3':'Die Umsätze ergeben sich aus geplanter Absatzmenge und Verkaufspreis je Produkt, verteilt nach Umsatztagen.','4':'Die Umsätze sind Monat für Monat geplant.'}[R.alt];
-    if(R.rev.some(v=>v)) para(meth,{size:9.5,after:3});
+    if(R.rev.some(v=>v)){
+      const t=['Für das erste Geschäftsjahr plane ich einen Umsatz von '+eur(R.rev[0])+', für das zweite Jahr '+eur(R.rev[1])+' und für das dritte Jahr '+eur(R.rev[2])+'.'];
+      if(R.rev[0]>0&&R.rev[2]>R.rev[0]) t.push('Das entspricht einer Steigerung um '+Math.round((R.rev[2]/R.rev[0]-1)*100)+' % vom ersten zum dritten Jahr.');
+      if(R.products.length>1){ const top=[...R.products].sort((a,b)=>b.y[0]-a.y[0])[0]; if(top.y[0]>0&&R.rev[0]>0) t.push('Den größten Anteil am Umsatz im ersten Jahr hat „'+top.name+'“ mit '+eur(top.y[0])+'.'); }
+      t.push(meth);
+      para(t.join(' '),{after:3});
+    }
     if(R.products.length){
       const pr=R.products.map(p=>({cells:[p.name+(p.q?'':''),...p.y.map(eur)]}));
       if(R.alt==='3') R.products.forEach((p,i)=>{ pr[i].cells[0]=p.name; });
       pr.push(row('Umsatz gesamt',R.rev,{total:true}));
-      table(Y3,pr,{after:3});
+      table(Y3,pr,{cap:'Umsatzentwicklung in den ersten drei Geschäftsjahren'});
       if(R.alt==='3'){ const mq=R.products.map(p=>[p.name,...[0,1,2].map(i=>(Math.round(p.q[i])||0).toLocaleString('de-DE')+' × '+eur(p.pr[i]))]); table([{t:'Menge × Preis',w:CW-3*28},{t:'Jahr 1',w:28,a:'right'},{t:'Jahr 2',w:28,a:'right'},{t:'Jahr 3',w:28,a:'right'}],mq,{size:7.6}); }
     }
     const uv=[row('Umsatzerlöse (netto)',R.rev,{bold:true})];
@@ -3417,10 +3443,19 @@ async function dlPDF() {
     if(nz(R.provY)) uv.push(row('Provisionen',R.provY,{neg:true,indent:true}));
     uv.push(row('Rohertrag',R.roh,{total:true}));
     uv.push({cells:['Rohertragsquote',...R.roh.map((r,i)=>R.rev[i]?pct(r,R.rev[i]):'–')],muted:true});
-    table(Y3,uv);
-    if(has(fd.fin_umsatz||s.fin_umsatz)) para(fd.fin_umsatz||s.fin_umsatz);
+    table(Y3,uv,{cap:'Umsatzerlöse und Rohertrag'});
+    ownTxt('fin_umsatz');
   }
   heading(3,'4.2.2','Entwicklung der laufenden Kosten');
+  { const lfd=[0,1,2].map(i=>R.persY[i]+R.sbaY[i]+R.afaY[i]+R.zinsY[i]+R.vstNaY[i]);
+    if(nz(lfd)){
+      const pos=[]; if(R.persY[0]) pos.push(['Personalkosten',R.persY[0]]); R.rentGroups.forEach(gp=>{ if(gp.y[0]) pos.push([gp.l,gp.y[0]]); }); if(R.afaY[0]) pos.push(['Abschreibungen',R.afaY[0]]); if(R.zinsY[0]) pos.push(['Zinsen',R.zinsY[0]]);
+      pos.sort((a,b)=>b[1]-a[1]);
+      const t=['Im ersten Geschäftsjahr betragen die laufenden Kosten '+eur(lfd[0])+', das sind rund '+rnd(lfd[0]/12)+' pro Monat. Im zweiten Jahr rechne ich mit '+eur(lfd[1])+' und im dritten Jahr mit '+eur(lfd[2])+'.'];
+      if(pos.length>1) t.push('Die größten Positionen im ersten Jahr sind '+pos.slice(0,2).map(x=>x[0]+' ('+eur(x[1])+')').join(' und ')+'.');
+      para(t.join(' '),{after:3});
+    }
+  }
   { const lk=[];
     if(nz(R.persY)) lk.push(row('Personalkosten (ohne Unternehmerlohn)',R.persY));
     R.rentGroups.forEach(gp=>{ if(nz(gp.y)) lk.push(row(gp.l,gp.y)); });
@@ -3428,7 +3463,7 @@ async function dlPDF() {
     if(nz(R.zinsY)) lk.push(row('Zinsen',R.zinsY));
     if(nz(R.vstNaY)) lk.push(row('Nicht abziehbare Umsatzsteuer (Kleinunternehmer)',R.vstNaY));
     lk.push(row('Summe laufende Kosten',[0,1,2].map(i=>R.persY[i]+R.sbaY[i]+R.afaY[i]+R.zinsY[i]+R.vstNaY[i]),{total:true}));
-    table(Y3,lk);
+    table(Y3,lk,{cap:'Laufende Kosten in den ersten drei Geschäftsjahren'});
     if(R.ptOn && (R.ptTotal||R.ptMini.total)){
       label('Personalplanung');
       const pr=R.ptRows.filter(x=>x.n).map(x=>[x.l,String(x.n),eur(x.brutto),eur(x.total)]);
@@ -3438,9 +3473,11 @@ async function dlPDF() {
       para('Arbeitgeberanteil zur Sozialversicherung: '+R.ptSv.toLocaleString('de-DE',{maximumFractionDigits:2})+' %.',{size:9,color:C.mu});
     }
     if(nz(R.bstY)) para('Betriebliche Steuern ('+eur(R.bstY[0])+' im ersten Jahr) sind in der Liquiditätsplanung berücksichtigt.',{size:9,color:C.mu});
+    ownTxt('fin_kosten');
   }
   heading(3,'4.2.3','Kalkulatorischer Unternehmerlohn');
   if(nz(R.ulY)){
+    para('Zur Bestimmung des kalkulatorischen Unternehmerlohns '+(R.ulTool?'wurden meine durchschnittlichen monatlichen Privatausgaben betrachtet und Einnahmen aus anderen Quellen abgezogen.':'habe ich festgelegt, wie viel ich monatlich für meinen Lebensunterhalt aus dem Unternehmen entnehme.')+' '+(Math.round(R.ulM.first)!==Math.round(R.ulM.last)?'In den ersten sechs Monaten entnehme ich '+eur(R.ulM.first)+' pro Monat, ab dem siebten Monat '+eur(R.ulM.last)+', im ersten Jahr insgesamt '+eur(R.ulY[0])+'.':'Im ersten Jahr entnehme ich '+eur(R.ulM.first)+' pro Monat, insgesamt also '+eur(R.ulY[0])+'.'),{after:3});
     if(R.ulTool){
       const ex=F2.EX.filter(([k])=>Number(fd[k])>0).map(([k,l])=>[l,eur(fd[k])]);
       const inc=F2.INC.filter(([k])=>Number(fd[k])>0).map(([k,l])=>[l,eur(fd[k])]);
@@ -3449,10 +3486,11 @@ async function dlPDF() {
       if(inc.length){ rr.push({cells:['Monatliche Einnahmen aus anderen Quellen',''],group:true}); inc.forEach(x=>rr.push({cells:x,indent:true})); rr.push({cells:['Summe andere Einnahmen',eur(R.ulInc)],bold:true}); }
       rr.push({cells:['Unternehmerlohn pro Monat (Monat 1–6)',eur(R.ulM.first)],total:true});
       rr.push({cells:['Unternehmerlohn pro Monat (Monat 7–12)',eur(R.ulM.last)],total:true});
-      table(B2,rr,{after:3});
+      table(B2,rr,{cap:'Durchschnittliche monatliche Ausgaben und Unternehmerlohn'});
     }
     table(Y3,[row('Unternehmerlohn / Privatentnahme pro Jahr',R.ulY,{bold:true}),{cells:['entspricht pro Monat',...R.ulY.map(v=>eur(v/12))],muted:true}],{after:3});
-    para('Der Unternehmerlohn wird als Privatentnahme in der Liquiditätsplanung berücksichtigt. Er deckt die Lebenshaltungskosten'+(R.ulTool&&(R.ulTax[0]>0)?' einschließlich einer Rücklage für Einkommensteuer':'')+' sowie die private Kranken- und Altersvorsorge.',{size:9.5});
+    para('Der Unternehmerlohn wird als Privatentnahme in der Liquiditätsplanung berücksichtigt. Er deckt die Lebenshaltungskosten'+(R.ulTool&&(R.ulTax[0]>0)?' einschließlich einer Rücklage für Einkommensteuer':'')+' sowie die private Kranken- und Altersvorsorge.');
+    ownTxt('fin_ul');
   } else para('Es wurde noch kein Unternehmerlohn geplant.',{color:C.mu});
   // 4.3 Liquiditätsplanung – monatlich für 24 Monate
   heading(2,'4.3','Liquiditätsplanung');
@@ -3461,16 +3499,22 @@ async function dlPDF() {
       ['Löhne und Gehälter','lohn'],['Zahlungen an Lieferanten','lief'],['Bareinkäufe','bar'],['Provisionen','prov'],['Sonstige Betriebsausgaben','sba'],[R.ku?'Nicht erstattete Umsatzsteuer':'Bezahlte Vorsteuer','vst'],['Abgeführte Umsatzsteuer','ustAus'],['Zinsen','zins'],['Kredittilgung','tilg'],['Betriebliche Steuern','bst'],['Investitionen, Gründungskosten','inv'],['Sonstige Ausgaben','sonstA'],['Privatentnahme','entn'],['Summe Ausgaben','ausSum',{bold:true,group:true}],
       ['Liquidität (Monatsende)','liq',{total:true}]];
     const used=lines.filter(([,k,o])=>o||L.some(m=>Math.round(m[k])!==0));
-    const tbl=(from,label0)=>{ const cols=[{t:label0,w:CW-6*18.5},...[0,1,2,3,4,5].map(j=>({t:F2.monthLabel(fd,from+j),w:18.5,a:'right'}))];
-      table(cols,used.map(([l,k,o])=>({cells:[l,...[0,1,2,3,4,5].map(j=>eur(L[from+j][k]))],...(o||{}),indent:!o})),{size:6.8,after:4,rh:4.7}); };
+    const tbl=(from,label0,cap)=>{ const cols=[{t:label0,w:CW-6*18.5},...[0,1,2,3,4,5].map(j=>({t:F2.monthLabel(fd,from+j),w:18.5,a:'right'}))];
+      table(cols,used.map(([l,k,o])=>({cells:[l,...[0,1,2,3,4,5].map(j=>eur(L[from+j][k]))],...(o||{}),indent:!o})),{size:6.8,after:4,rh:4.7,cap}); };
     para('Die Liquiditätsplanung zeigt Monat für Monat, ob jederzeit genug Geld vorhanden ist. '+(R.ku?'Das Unternehmen stellt keine Umsatzsteuer in Rechnung (Kleinunternehmerregelung nach § 19 UStG bzw. steuerfreie Umsätze). Die Umsatzsteuer auf Einkäufe ist nicht abziehbar und als Ausgabe berücksichtigt.':'Die Umsatzsteuer auf die Umsätze ist mit '+Math.round(R.ust*100)+' %, die Vorsteuer auf Einkäufe mit 19 % berücksichtigt. Vorsteuer wird im Folgemonat erstattet, Umsatzsteuer im Folgemonat abgeführt.'),{size:9.5,after:3});
+    { let mi=0; for(let i=1;i<12;i++) if(L[i].liq<L[mi].liq) mi=i;
+      const t=['Der niedrigste Kontostand im ersten Jahr liegt im '+monName(mi)+' bei '+eur(L[mi].liq)+'.'];
+      if(L[mi].liq>=0) t.push('Die Liquidität ist damit in jedem Monat des ersten Jahres gesichert.');
+      else if(R.kk && -L[mi].liq<=R.kk) t.push('Dieser Betrag wird durch den eingeplanten Kontokorrentkredit über '+eur(R.kk)+' abgedeckt.');
+      t.push('Am Ende des ersten Jahres stehen '+eur(L[11].liq)+' zur Verfügung, am Ende des zweiten Jahres '+eur(L[23].liq)+'.');
+      para(t.join(' '),{after:3}); }
     label('Jahr 1, Monate 1–6'); tbl(0,'Jahr 1');
     label('Jahr 1, Monate 7–12'); tbl(6,'Jahr 1');
     label('Jahr 2, Monate 1–6'); tbl(12,'Jahr 2');
-    label('Jahr 2, Monate 7–12'); tbl(18,'Jahr 2');
+    label('Jahr 2, Monate 7–12'); tbl(18,'Jahr 2','Liquiditätsplanung für die ersten 24 Monate');
     kv([['Niedrigster Kontostand Jahr 1',eur(R.liqMinY1)],['Niedrigster Kontostand Jahr 2',eur(R.liqMinY2)],['Kontokorrentkredit',R.kk?eur(R.kk):'nicht eingeplant'],['Kreditlinie eingehalten',(R.kkOkY1&&R.kkOkY2)?'ja':'nein – Finanzierung anpassen']]);
     if(!(R.kkOkY1&&R.kkOkY2)) para('Hinweis: In mindestens einem Monat reicht die Liquidität nicht aus. Finanzierung oder Planannahmen sollten angepasst werden.',{size:9.5,color:C.neg});
-    if(has(fd.fin_liquid||s.fin_liquid)) para(fd.fin_liquid||s.fin_liquid);
+    ownTxt('fin_liquid');
     R.kr.filter(k=>k.plan.length).forEach(k=>{
       label('Tilgungsplan: '+k.l);
       table([{t:'Jahr',w:CW-3*34},{t:'Zinsen',w:34,a:'right'},{t:'Tilgung',w:34,a:'right'},{t:'Restschuld',w:34,a:'right'}],k.plan.map(p=>['Jahr '+p.y+(p.y<=k.tf?' (tilgungsfrei)':''),eur(p.z),eur(p.t),eur(p.rest)]),{after:2,size:8});
@@ -3479,6 +3523,7 @@ async function dlPDF() {
   }
   // 4.4 Rentabilitätsplan
   heading(2,'4.4','Übersicht Jahresergebnisse');
+  para('Ein Unternehmen muss jederzeit in der Lage sein, seine finanziellen Verpflichtungen zu erfüllen. Die folgende Gewinn- und Verlustrechnung fasst die Planung der ersten drei Geschäftsjahre zusammen. Aus einem Planumsatz von '+eur(R.rev[0])+' im ersten Jahr ergibt sich ein Gewinn vor Steuern von '+eur(R.gew[0])+'. Im zweiten Jahr liegt der Gewinn bei '+eur(R.gew[1])+', im dritten Jahr bei '+eur(R.gew[2])+'.',{after:3});
   { const jr=[row('Plan-Umsatz',R.rev,{bold:true})];
     if(nz(R.matY)) jr.push(row('Wareneinsatz',R.matY,{neg:true,indent:true}));
     if(nz(R.provY)) jr.push(row('Provisionen',R.provY,{neg:true,indent:true}));
@@ -3495,7 +3540,7 @@ async function dlPDF() {
     if(nz(R.estY)) jr.push(row('abzgl. Einkommensteuer-Rücklage',R.estY,{neg:true,indent:true}));
     jr.push(row('abzgl. kalkulatorischer Unternehmerlohn',R.ulY,{neg:true,indent:true}));
     jr.push(row('Ergebnis nach Unternehmerlohn',R.tragY,{total:true}));
-    table(Y3,jr);
+    table(Y3,jr,{cap:'Übersicht Jahresergebnisse'});
     { const bad=R.tragY.map((v,i)=>v<-0.5?'Jahr '+(i+1):null).filter(Boolean);
       para(bad.length===0?'Der Gewinn deckt in allen drei Planjahren den kalkulatorischen Unternehmerlohn'+(nz(R.bstY)||nz(R.estY)?' sowie die eingeplanten Steuern':'')+'.':'Der Gewinn deckt den kalkulatorischen Unternehmerlohn in '+bad.join(' und ')+' noch nicht vollständig.',{size:9.5,after:3}); }
     const cf=[row('Gewinn',R.gew,{bold:true})];
@@ -3507,7 +3552,7 @@ async function dlPDF() {
     if(nz(R.estY)) cf.push(row('abzgl. Einkommensteuer (Rücklage)',R.estY,{neg:true,indent:true}));
     if(R.invSum) cf.push(row(R.ku?'abzgl. Investitionen (brutto)':'abzgl. Investitionen',[R.invSum+R.invVst,0,0],{neg:true,indent:true}));
     cf.push(row('Cashflow',R.cf,{total:true}));
-    label('Cashflow'); table(Y3,cf);
+    label('Cashflow'); table(Y3,cf,{cap:'Cashflow in den ersten drei Geschäftsjahren'});
     if(typeof Chart!=='undefined' && R.rev.some(v=>v)){
       try{
         const mk=(cfg)=>{const c=document.createElement('canvas');c.width=1000;c.height=520;c.style.position='fixed';c.style.left='-9999px';document.body.appendChild(c);cfg.options=Object.assign({responsive:false,animation:false,devicePixelRatio:1,plugins:{legend:{labels:{font:{family:'Poppins',size:24},boxWidth:24}}},scales:{x:{ticks:{font:{family:'Poppins',size:24}}},y:{ticks:{font:{family:'Poppins',size:22},callback:v=>Number(v).toLocaleString('de-DE')+' €'}}}},cfg.options||{});const ch=new Chart(c.getContext('2d'),cfg);const url=c.toDataURL('image/png');ch.destroy();c.remove();return url;};
@@ -3516,10 +3561,14 @@ async function dlPDF() {
       }catch(e){console.warn('Diagramm',e);}
     }
     kv([['Laufende Kostendeckung',R.be?(R.be<=1?'ab dem ersten Monat':'ab dem '+R.be+'. Monat'):'in den ersten 24 Monaten nicht erreicht']]);
-    if(has(fd.fin_rent||s.fin_rent)) para(fd.fin_rent||s.fin_rent);
+    ownTxt('fin_rent');
   }
   // 4.5 Finanzierungsplan
   heading(2,'4.5','Finanzierungsplan');
+  { const t=['Der Kapitalbedarf vor der Gründung beträgt '+eur(R.kbVor)+'.'];
+    const q=[]; if(R.ekSum) q.push('Eigenkapital in Höhe von '+eur(R.ekSum)); if(R.finFk) q.push('Fremdkapital in Höhe von '+eur(R.finFk));
+    if(q.length) t.push('Zur Finanzierung stehen '+q.join(' und ')+' zur Verfügung, insgesamt '+eur(R.finGesamt)+'.');
+    para(t.join(' '),{after:3}); }
   { const fr=[{cells:['Kapitalbedarf vor der Gründung',eur(R.kbVor)],bold:true}];
     const ek=R.ek.filter(x=>x.v);
     if(ek.length){ fr.push({cells:['Vorhandenes Eigenkapital',''],group:true}); ek.forEach(x=>fr.push({cells:[x.l,eur(x.v)],indent:true})); fr.push({cells:['Summe Eigenkapital',eur(R.ekSum)],bold:true}); }
@@ -3534,16 +3583,22 @@ async function dlPDF() {
     fr.push({cells:['Über- (+) / Unterdeckung (–) gesamt',eur(R.deckGesamt)],total:true});
     if(R.kk) fr.push({cells:['Kontokorrentkredit (Kreditlinie für die Anlaufphase)',eur(R.kk)]});
     if(R.siSum){ fr.push({cells:['Vorhandene Sicherheiten',''],group:true}); R.si.filter(x=>x.v).forEach(x=>fr.push({cells:[x.l,eur(x.v)],indent:true})); fr.push({cells:['Summe Sicherheiten',eur(R.siSum)],bold:true}); }
-    table(B2,fr);
+    table(B2,fr,{cap:'Finanzierungsplan'});
   }
   // 4.6 Kapitalbedarfsplan
   heading(2,'4.6','Kapitalbedarfsplan');
   { const kb=[{cells:['Gründungsbedingte Kosten',eur(R.gkSum)]},{cells:['Investitionen Büro, Halle, Laden',eur(R.irSum)]},{cells:['Investitionen Geschäfts- und Betriebsausstattung',eur(R.ibSum)]},...(R.ku?[{cells:['Umsatzsteuer darauf (kein Vorsteuerabzug)',eur(R.gkVst+R.invVst)]}]:[]),{cells:['Kapitalbedarf vor der Gründung',eur(R.kbVor)],bold:true},
       {cells:['Größte Liquiditätslücke nach der Gründung: Monat '+R.gapMonth,''],group:true},{cells:['Summe Ausgaben in diesem Zeitraum',eur(R.gapOut)],indent:true},{cells:['Summe Einnahmen in diesem Zeitraum',eur(R.gapIn)],indent:true},{cells:['Zusätzlicher Kapitalbedarf nach der Gründung',eur(Math.max(0,R.gap))],bold:true},
       {cells:['Gesamter Kapitalbedarf (Eigen- und Fremdkapital)',eur(R.kbGesamt)],total:true}];
-    table(B2,kb,{after:3});
+    para('Der Kapitalbedarfsplan fasst den Bedarf vor der Gründung und den zusätzlichen Bedarf in der Anlaufphase zusammen, bis die Einnahmen die laufenden Ausgaben decken.',{after:3});
+    table(B2,kb,{cap:'Kapitalbedarfsplan'});
     const d=R.finGesamt-R.kbGesamt;
-    para(d>=0?('Der Kapitalbedarf ist mit '+eur(R.finGesamt)+' vollständig gedeckt'+(d>0?'; die Reserve beträgt '+eur(d)+'.':'.')):(R.gapByKk?('Der Kapitalbedarf vor der Gründung ist gedeckt. Den zusätzlichen Bedarf von '+eur(-d)+' in der Anlaufphase überbrückt der Kontokorrentkredit über '+eur(R.kk)+'.'):('Es besteht eine Finanzierungslücke von '+eur(-d)+', die vor dem Start geschlossen werden muss.')),{size:9.5});
+    if(d>=0) para('Der Kapitalbedarf ist mit '+eur(R.finGesamt)+' vollständig gedeckt'+(d>0?'; die Reserve beträgt '+eur(d)+'.':'.'));
+    else { const pre=R.deckVor<0?-R.deckVor:0, post=-d-pre, t=[];
+      if(pre>0) t.push('Vor der Gründung fehlen noch '+eur(pre)+'. Dieser Betrag muss vor dem Start finanziert werden.');
+      if(post>0) t.push(R.kk>=post?'Den zusätzlichen Bedarf von '+eur(post)+' in der Anlaufphase überbrückt der Kontokorrentkredit über '+eur(R.kk)+'.':'In der Anlaufphase fehlen '+(R.kk?'trotz Kontokorrentkredit ':'')+'weitere '+eur(post-(R.kk||0))+', die vor dem Start finanziert werden müssen.');
+      para(t.join(' ')); }
+    ownTxt('fin_finanz');
   }
 
   /* ── 5 Anhang ── */
