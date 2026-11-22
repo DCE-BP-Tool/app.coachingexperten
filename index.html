@@ -1176,6 +1176,13 @@ textarea.cp-input{resize:vertical;line-height:1.55}
 @media (prefers-reduced-motion:reduce){
   #appView .eheading,#appView .pq-total,#appView .fz-total,#appView .fz-head h2{animation:none}
 }
+/* Eingabefelder: klare, schlichte Kanten */
+#appView .fta.pq-ta,#appView .fz-in,#appView .fz-ta,#appView .fin-input,#appView .fblock .fta,#appView .fi,#appView .cp-input{border:1px solid #B7C4D0;border-radius:4px;background-color:#fff;box-shadow:none}
+#appView .fta.pq-ta:hover,#appView .fz-in:hover,#appView .fz-ta:hover,#appView .fin-input:hover,#appView .fblock .fta:hover,#appView .fi:hover{border-color:#8D9FB0}
+#appView .fta.pq-ta:focus,#appView .fz-in:focus,#appView .fz-ta:focus,#appView .fin-input:focus,#appView .fblock .fta:focus,#appView .fi:focus,#appView .cp-input:focus{border-color:var(--pb);background-color:#fff;box-shadow:0 0 0 1px var(--pb)}
+#appView .swot-cell{border-radius:4px;background:#fff;box-shadow:inset 0 0 0 1px #B7C4D0}
+#appView .fz-opt{border:1px solid #B7C4D0;border-radius:6px;background:#fff}
+#appView .fz-opt.on{border-color:var(--pb);box-shadow:0 0 0 1px var(--pb)}
 </style>
 </head>
 <body>
@@ -3372,7 +3379,7 @@ async function dlPDF() {
   heading(1,'2','Geschäftsidee');
   [['produkt','2.1','Produkt/ Dienstleistung'],['markt','2.2','Kunden und Markt'],['standort','2.3','Standort'],['preis','2.4','Preispolitik'],['marketing','2.5','Marketing und Vertrieb']].forEach(([id,num,t])=>{
     const c=ch(id); if(!c.fields.some(x=>has(s[x.id]))) return;
-    heading(2,num,t); fields(c);
+    heading(2,num,t); fields(c,false,id!=='standort');
   });
   const riC=ch('risiko'), hasRi=riC.fields.some(x=>has(s[x.id])), hasSw=['sw_s','sw_w','sw_o','sw_t'].some(k=>has(s[k]));
   if(hasRi||hasSw){
