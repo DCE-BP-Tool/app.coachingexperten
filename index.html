@@ -3575,7 +3575,7 @@ async function dlPDF() {
     table(Y3,[row('Unternehmerlohn / Privatentnahme pro Jahr',R.ulY,{bold:true}),{cells:['entspricht pro Monat',...R.ulY.map(v=>eur(v/12))],muted:true}],{after:3});
     para('Der Unternehmerlohn wird als Privatentnahme in der Liquiditätsplanung berücksichtigt. Er deckt die Lebenshaltungskosten'+(R.ulTool&&(R.ulTax[0]>0)?' einschließlich einer Rücklage für Einkommensteuer':'')+' sowie die private Kranken- und Altersvorsorge.');
     ownTxt('fin_ul');
-  } else para('Es wurde noch kein Unternehmerlohn geplant.',{color:C.mu});
+  }
   // 4.3 Liquiditätsplanung – monatlich für 24 Monate
   heading(2,'4.3','Liquiditätsplanung');
   { const L=R.liq;
@@ -3590,15 +3590,13 @@ async function dlPDF() {
       const t=['Der niedrigste Kontostand im ersten Jahr liegt im '+monName(mi)+' bei '+eur(L[mi].liq)+'.'];
       if(L[mi].liq>=0) t.push('Die Liquidität ist damit in jedem Monat des ersten Jahres gesichert.');
       else if(R.kk && -L[mi].liq<=R.kk) t.push('Dieser Betrag wird durch den eingeplanten Kontokorrentkredit über '+eur(R.kk)+' abgedeckt.');
-      else t.push(R.kk?'Der eingeplante Kontokorrentkredit über '+eur(R.kk)+' reicht dafür nicht aus.':'Dieser Betrag ist durch die bisher geplante Finanzierung nicht gedeckt.');
       t.push('Am Ende des ersten Jahres beträgt der Kontostand '+eur(L[11].liq)+', am Ende des zweiten Jahres '+eur(L[23].liq)+'.');
       para(t.join(' '),{after:3}); }
     label('Jahr 1, Monate 1–6'); tbl(0,'Jahr 1');
     label('Jahr 1, Monate 7–12'); tbl(6,'Jahr 1');
     label('Jahr 2, Monate 1–6'); tbl(12,'Jahr 2');
     label('Jahr 2, Monate 7–12'); tbl(18,'Jahr 2','Liquiditätsplanung für die ersten 24 Monate');
-    kv([['Niedrigster Kontostand Jahr 1',eur(R.liqMinY1)],['Niedrigster Kontostand Jahr 2',eur(R.liqMinY2)],['Kontokorrentkredit',R.kk?eur(R.kk):'nicht eingeplant'],['Kreditlinie eingehalten',(R.kkOkY1&&R.kkOkY2)?'ja':'nein – Finanzierung anpassen']]);
-    if(!(R.kkOkY1&&R.kkOkY2)) para('Hinweis: In mindestens einem Monat reicht die Liquidität nicht aus. Finanzierung oder Planannahmen sollten angepasst werden.',{size:9.5,color:C.neg});
+    kv([['Niedrigster Kontostand Jahr 1',eur(R.liqMinY1)],['Niedrigster Kontostand Jahr 2',eur(R.liqMinY2)],...(R.kk?[['Kontokorrentkredit',eur(R.kk)]]:[])]);
     ownTxt('fin_liquid');
     R.kr.filter(k=>k.plan.length).forEach(k=>{
       label('Tilgungsplan: '+k.l);
@@ -3627,7 +3625,7 @@ async function dlPDF() {
     jr.push(row('Ergebnis nach Unternehmerlohn',R.tragY,{total:true}));
     table(Y3,jr,{cap:'Übersicht Jahresergebnisse'});
     { const bad=R.tragY.map((v,i)=>v<-0.5?'Jahr '+(i+1):null).filter(Boolean);
-      para(bad.length===0?'Der Gewinn deckt in allen drei Planjahren den kalkulatorischen Unternehmerlohn'+(nz(R.bstY)||nz(R.estY)?' sowie die eingeplanten Steuern':'')+'.':'Der Gewinn deckt den kalkulatorischen Unternehmerlohn in '+bad.join(' und ')+' noch nicht vollständig.',{size:9.5,after:3}); }
+      if(bad.length===0) para('Der Gewinn deckt in allen drei Planjahren den kalkulatorischen Unternehmerlohn'+(nz(R.bstY)||nz(R.estY)?' sowie die eingeplanten Steuern':'')+'.',{size:9.5,after:3}); }
     const cf=[row('Gewinn',R.gew,{bold:true})];
     if(nz(R.afaY)) cf.push(row('zzgl. Abschreibungen',R.afaY,{indent:true}));
     if(R.kapZufluss) cf.push(row('zzgl. Eigen- und Fremdkapital',[R.kapZufluss,0,0],{indent:true}));
@@ -3645,7 +3643,7 @@ async function dlPDF() {
         const iw=CW*0.82, ih=iw*520/1000; flush(ih+6); ensure(ih+6); doc.addImage(img,'PNG',ML+(CW-iw)/2,y,iw,ih); y+=ih+5;
       }catch(e){console.warn('Diagramm',e);}
     }
-    kv([['Laufende Kostendeckung',R.be?(R.be<=1?'ab dem ersten Monat':'ab dem '+R.be+'. Monat'):'in den ersten 24 Monaten nicht erreicht']]);
+    if(R.be) kv([['Laufende Kostendeckung',R.be<=1?'ab dem ersten Monat':'ab dem '+R.be+'. Monat']]);
     ownTxt('fin_rent');
   }
   // 4.5 Finanzierungsplan
@@ -3680,8 +3678,7 @@ async function dlPDF() {
     const d=R.finGesamt-R.kbGesamt;
     if(d>=0) para('Der Kapitalbedarf ist mit '+eur(R.finGesamt)+' vollständig gedeckt'+(d>0?'; die Reserve beträgt '+eur(d)+'.':'.'));
     else { const pre=R.deckVor<0?-R.deckVor:0, post=-d-pre, t=[];
-      if(pre>0) t.push('Vor der Gründung fehlen noch '+eur(pre)+'. Dieser Betrag muss vor dem Start finanziert werden.');
-      if(post>0) t.push(R.kk>=post?'Den zusätzlichen Bedarf von '+eur(post)+' in der Anlaufphase überbrückt der Kontokorrentkredit über '+eur(R.kk)+'.':'In der Anlaufphase fehlen '+(R.kk?'trotz Kontokorrentkredit ':'')+'weitere '+eur(post-(R.kk||0))+', die vor dem Start finanziert werden müssen.');
+      if(post>0&&pre<=0&&R.kk>=post) t.push('Den zusätzlichen Bedarf von '+eur(post)+' in der Anlaufphase überbrückt der Kontokorrentkredit über '+eur(R.kk)+'.');
       para(t.join(' ')); }
     ownTxt('fin_finanz');
   }
