@@ -3501,7 +3501,7 @@ async function dlPDF() {
     const used=lines.filter(([,k,o])=>o||L.some(m=>Math.round(m[k])!==0));
     const tbl=(from,label0,cap)=>{ const cols=[{t:label0,w:CW-6*18.5},...[0,1,2,3,4,5].map(j=>({t:F2.monthLabel(fd,from+j),w:18.5,a:'right'}))];
       table(cols,used.map(([l,k,o])=>({cells:[l,...[0,1,2,3,4,5].map(j=>eur(L[from+j][k]))],...(o||{}),indent:!o})),{size:6.8,after:4,rh:4.7,cap}); };
-    para('Die Liquiditätsplanung zeigt Monat für Monat, ob jederzeit genug Geld vorhanden ist. '+(R.ku?'Das Unternehmen stellt keine Umsatzsteuer in Rechnung (Kleinunternehmerregelung nach § 19 UStG bzw. steuerfreie Umsätze). Die Umsatzsteuer auf Einkäufe ist nicht abziehbar und als Ausgabe berücksichtigt.':'Die Umsatzsteuer auf die Umsätze ist mit '+Math.round(R.ust*100)+' %, die Vorsteuer auf Einkäufe mit 19 % berücksichtigt. Vorsteuer wird im Folgemonat erstattet, Umsatzsteuer im Folgemonat abgeführt.'),{size:9.5,after:3});
+    para('Ein Unternehmen muss jederzeit in der Lage sein, seine finanziellen Verpflichtungen zu erfüllen, also Betriebsausgaben, Lebensunterhalt und Kapitaldienst zu bezahlen. Die Liquiditätsplanung zeigt Monat für Monat, ob dafür genug Geld vorhanden ist. '+(R.ku?'Das Unternehmen stellt keine Umsatzsteuer in Rechnung (Kleinunternehmerregelung nach § 19 UStG bzw. steuerfreie Umsätze). Die Umsatzsteuer auf Einkäufe ist nicht abziehbar und als Ausgabe berücksichtigt.':'Die Umsatzsteuer auf die Umsätze ist mit '+Math.round(R.ust*100)+' %, die Vorsteuer auf Einkäufe mit 19 % berücksichtigt. Vorsteuer wird im Folgemonat erstattet, Umsatzsteuer im Folgemonat abgeführt.'),{size:9.5,after:3});
     { let mi=0; for(let i=1;i<12;i++) if(L[i].liq<L[mi].liq) mi=i;
       const t=['Der niedrigste Kontostand im ersten Jahr liegt im '+monName(mi)+' bei '+eur(L[mi].liq)+'.'];
       if(L[mi].liq>=0) t.push('Die Liquidität ist damit in jedem Monat des ersten Jahres gesichert.');
@@ -3523,7 +3523,7 @@ async function dlPDF() {
   }
   // 4.4 Rentabilitätsplan
   heading(2,'4.4','Übersicht Jahresergebnisse');
-  para('Ein Unternehmen muss jederzeit in der Lage sein, seine finanziellen Verpflichtungen zu erfüllen. Die folgende Gewinn- und Verlustrechnung fasst die Planung der ersten drei Geschäftsjahre zusammen. Aus einem Planumsatz von '+eur(R.rev[0])+' im ersten Jahr ergibt sich ein Gewinn vor Steuern von '+eur(R.gew[0])+'. Im zweiten Jahr liegt der Gewinn bei '+eur(R.gew[1])+', im dritten Jahr bei '+eur(R.gew[2])+'.',{after:3});
+  para('Die folgende Gewinn- und Verlustrechnung fasst die Planung der ersten drei Geschäftsjahre zusammen. Aus einem Planumsatz von '+eur(R.rev[0])+' im ersten Jahr ergibt sich ein Gewinn vor Steuern von '+eur(R.gew[0])+'. Im zweiten Jahr liegt der Gewinn bei '+eur(R.gew[1])+', im dritten Jahr bei '+eur(R.gew[2])+'.',{after:3});
   { const jr=[row('Plan-Umsatz',R.rev,{bold:true})];
     if(nz(R.matY)) jr.push(row('Wareneinsatz',R.matY,{neg:true,indent:true}));
     if(nz(R.provY)) jr.push(row('Provisionen',R.provY,{neg:true,indent:true}));
