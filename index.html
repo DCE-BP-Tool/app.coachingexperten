@@ -966,8 +966,8 @@ textarea.cp-input{resize:vertical;line-height:1.55}
 .fz-at.y1 th{white-space:normal;line-height:1.35}
 .fz-at.y1 td{width:auto;padding-left:12px}
 @media (max-width:640px){
-  .fz-ch>div:not(.fz-sum){flex:1 1 calc(100% - 60px)}
-  .fz-sum{margin-left:48px}
+  .fz-ch>div:not(.fz-sum){flex:1 1 100%}
+  .fz-sum{margin-left:0}
   .fz-it.k thead{display:none}
   .fz-it.k,.fz-it.k tbody{display:block}
   .fz-it.k tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 10px;padding:12px 0;border-bottom:1px solid #eef2f6}
@@ -2992,7 +2992,8 @@ const FZ_IC={
   liq:'<path d="M12 2.7l5.7 5.7a8 8 0 1 1-11.4 0z"/>',
   kb:'<circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 10h4.5a1.5 1.5 0 0 1 0 3h-3a1.5 1.5 0 0 0 0 3H15"/>'
 };
-function fzIc(k,amber){ return `<span class="fx-ic${amber?' am':''}"><svg viewBox="0 0 24 24" aria-hidden="true">${FZ_IC[k]||FZ_IC.gk}</svg></span>`; }
+function fzIc(k,amber){ return ''; }
+function fzIcOld(k,amber){ return `<span class="fx-ic${amber?' am':''}"><svg viewBox="0 0 24 24" aria-hidden="true">${FZ_IC[k]||FZ_IC.gk}</svg></span>`; }
 const fzE=v=>{const x=Number(v||0);const n=Math.round(Math.abs(x))*(x<0?-1:1);return n.toLocaleString('de-DE')+' €';};
 const fzV=k=>{const v=window._finData[k];return v===undefined||v===null?'':esc(String(v));};
 function fzNum(k,o={}){ return `<span class="fz-inw${o.small?' sm':''}"><input class="fz-in" data-k="${k}" inputmode="decimal" autocomplete="off" value="${fzV(k)}" placeholder="${o.ph!==undefined?o.ph:'0'}" aria-label="${esc(o.aria||'')}"><span class="fz-u">${o.u!==undefined?o.u:'€'}</span></span>`; }
@@ -3214,7 +3215,7 @@ function fzAusHtml(R){
   const ok=(c,t1,t2)=>`<div class="fz-chk ${c?'ok':'no'}"><span>${c?'✓':'!'}</span>${c?t1:t2}</div>`;
   const kbT=`<table class="fz-at y1"><tbody><tr><th>Gründungsbedingte Kosten</th><td>${e(R.gkSum)}</td></tr><tr><th>Investitionen Büro, Halle, Laden</th><td>${e(R.irSum)}</td></tr><tr><th>Geschäfts- und Betriebsausstattung</th><td>${e(R.ibSum)}</td></tr>${R.ku?`<tr><th>Umsatzsteuer darauf (kein Vorsteuerabzug)</th><td>${e(R.gkVst+R.invVst)}</td></tr>`:''}<tr class="b"><th>Kapitalbedarf vor der Gründung</th><td>${e(R.kbVor)}</td></tr><tr class="i"><th>Ausgaben bis Monat ${R.gapMonth} (größte Lücke)</th><td>${e(R.gapOut)}</td></tr><tr class="i"><th>Einnahmen bis Monat ${R.gapMonth}</th><td>${e(R.gapIn)}</td></tr><tr class="b"><th>Zusätzlicher Bedarf nach der Gründung</th><td>${e(Math.max(0,R.gap))}</td></tr><tr class="t"><th>Gesamter Kapitalbedarf</th><td>${e(R.kbGesamt)}</td></tr></tbody></table>`;
   const fiT=`<table class="fz-at y1"><tbody><tr><th>Eigenkapital</th><td>${e(R.ekSum)}</td></tr><tr><th>Fördermittel (Auszahlung)</th><td>${e(R.finFoerder)}</td></tr><tr><th>Kredite der Hausbank</th><td>${e(R.finBank)}</td></tr><tr><th>Sonstiges Fremdkapital</th><td>${e(R.finSonst)}</td></tr><tr class="b"><th>Vorhandenes Gesamtkapital</th><td>${e(R.finGesamt)}</td></tr><tr class="i"><th>Über-/Unterdeckung vor Gründung</th><td class="${R.deckVor<0?'neg':''}">${e(R.deckVor)}</td></tr><tr class="t"><th>Über-/Unterdeckung gesamt</th><td class="${R.deckGesamt<0?'neg':''}">${e(R.deckGesamt)}</td></tr>${R.siSum?`<tr class="i"><th>Sicherheiten</th><td>${e(R.siSum)}</td></tr>`:''}</tbody></table>`;
-  return `<div class="fz-checks">${ok(R.cfOk[0]&&R.cfOk[1]&&R.cfOk[2],'Cashflow in allen drei Jahren in Ordnung','Cashflow prüfen: in mindestens einem Jahr negativ')}${ok(R.kkOkY1&&R.kkOkY2,'Liquidität reicht in allen 24 Monaten','Liquidität reicht nicht in jedem Monat – Finanzierung anpassen')}${ok(R.tragOk.every(Boolean),'Gewinn deckt den Unternehmerlohn in allen drei Jahren','Gewinn deckt den Unternehmerlohn nicht in jedem Jahr – Tragfähigkeit prüfen')}${ok(R.deckGesamt>=0||R.gapByKk,R.deckGesamt>=0?'Kapitalbedarf ist gedeckt':'Kapitalbedarf gedeckt, die Anlaufphase überbrückt der Kontokorrentkredit','Finanzierungslücke von '+e(-R.deckGesamt))}${(R.afaInvBase>0||R.afaBase>0)&&Math.abs(R.afaDiff)>1?ok(false,'',R.afaDiff>0?'Abschreibungen unvollständig: '+e(R.afaDiff)+' Anschaffungen fehlen':'Abschreibungen höher als die Investitionen in Schritt 1'):''}</div>`
+  return `<div class="fz-checks">${ok(R.cfOk[0]&&R.cfOk[1]&&R.cfOk[2],'Cashflow in allen drei Jahren in Ordnung','Cashflow prüfen: in mindestens einem Jahr negativ')}${ok(R.kkOkY1&&R.kkOkY2,'Liquidität reicht in allen 24 Monaten','Liquidität reicht nicht in jedem Monat. Finanzierung anpassen')}${ok(R.tragOk.every(Boolean),'Gewinn deckt den Unternehmerlohn in allen drei Jahren','Gewinn deckt den Unternehmerlohn nicht in jedem Jahr. Tragfähigkeit prüfen')}${ok(R.deckGesamt>=0||R.gapByKk,R.deckGesamt>=0?'Kapitalbedarf ist gedeckt':'Kapitalbedarf gedeckt, die Anlaufphase überbrückt der Kontokorrentkredit','Finanzierungslücke von '+e(-R.deckGesamt))}${(R.afaInvBase>0||R.afaBase>0)&&Math.abs(R.afaDiff)>1?ok(false,'',R.afaDiff>0?'Abschreibungen unvollständig: '+e(R.afaDiff)+' Anschaffungen fehlen':'Abschreibungen höher als die Investitionen in Schritt 1'):''}</div>`
   + fzCard('rent','Rentabilitätsplan','Gewinn und Cashflow für drei Jahre.',`<div class="fz-tw"><table class="fz-at"><thead><tr><th></th><th>Jahr 1</th><th>Jahr 2</th><th>Jahr 3</th></tr></thead><tbody>${rent}</tbody></table></div><h4 class="fz-sub">Cashflow</h4><div class="fz-tw"><table class="fz-at"><thead><tr><th></th><th>Jahr 1</th><th>Jahr 2</th><th>Jahr 3</th></tr></thead><tbody>${cf}</tbody></table></div>`)
   + fzCard('liq','Liquiditätsplan für 24 Monate','Monat für Monat inklusive Umsatzsteuer, Vorsteuer, Zinsen und Tilgung. Seitlich scrollen für alle Monate.',`<div class="fz-tw fz-liqw">${liqT}</div>`)
   + `<div class="fz-g2">`+fzCard('kb','Kapitalbedarfsplan','',`<div class="fz-tw">${kbT}</div>`)+fzCard('ek','Finanzierungsplan','',`<div class="fz-tw">${fiT}</div>`)+`</div>`;
