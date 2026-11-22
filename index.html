@@ -3335,9 +3335,9 @@ async function dlPDF() {
     y+=opt.after==null?5:opt.after;
   }
   function kv(pairs){ const rows=pairs.filter(([,v])=>has(v)).map(([k,v])=>({cells:[k,clean(v)],kvRow:true})); if(rows.length) table([{t:'',w:58},{t:'',w:CW-58}],rows,{noHead:true}); }
-  function fields(ch,sub){ // Unterpunkte eines Text-Kapitels
+  function fields(ch,sub,noLabel){ // Unterpunkte eines Text-Kapitels
     const f=ch.fields.filter(x=>has(s[x.id]));
-    f.forEach(x=>{ if(f.length>1||sub){ label(pdfLabel(x)); } para(s[x.id]); });
+    f.forEach(x=>{ if(!noLabel&&(f.length>1||sub)){ label(pdfLabel(x)); } para(s[x.id]); });
     return f.length;
   }
   const ch=id=>CHAPTERS.find(c=>c.id===id);
@@ -3365,7 +3365,7 @@ async function dlPDF() {
 
   /* ── 1 Zusammenfassung ── */
   heading(1,'1','Zusammenfassung');
-  fields(ch('exec'));
+  fields(ch('exec'),false,true);
   const eck=[['Unternehmen',company],['Gründer/in',person],['Branche',p.branche],['Rechtsform',p.rechtsform],['Standort',[s.gr_plz,s.gr_ort].filter(Boolean).join(' ')],['Geplanter Start',gStart?('zum '+gStart):p.gründung],['Kapitalbedarf',F.kapital>0?eur(F.kapital):p.kapital],['Finanzierung',(F.ek+F.fk)>0?'Eigenkapital '+eur(F.ek)+' · Fremdkapital/Förderung '+eur(F.fk):''],['Umsatz Jahr 1 / 2 / 3',F.rev.some(v=>v)?F.rev.map(eur).join(' / '):''],['Gewinn Jahr 1 / 2 / 3',F.rev.some(v=>v)?F.gew.map(eur).join(' / '):'']];
 
   /* ── 2 Geschäftsidee ── */
