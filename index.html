@@ -2701,7 +2701,10 @@ function finCalc2(fd){
     return Math.max(0,(wt - g('u_ur_'+i) - g('u_nf_'+i)) * (1 - g('u_an_'+i)/100));
   });
   r.days = days;
-  const D1 = sum(days.slice(0,12)) || 0.001, D2 = sum(days.slice(12)) || 0.001;
+  r.sf = M.map(i=>{ const v=fd['u_sf_'+i]; return (v===undefined||v===''||isNaN(parseFloat(String(v).replace(',','.'))))?1:Math.max(0,parseFloat(String(v).replace(',','.'))); });
+  r.sfOn = r.sf.some(v=>Math.abs(v-1)>1e-9);
+  const w = M.map(i=>days[i]*r.sf[i]); r.w = w;
+  const D1 = sum(w.slice(0,12)) || 0.001, D2 = sum(w.slice(12)) || 0.001;
   r.D = [D1, D2];
   const alt = String(fd.u_alt||'2');
   r.alt = alt;
@@ -2709,26 +2712,28 @@ function finCalc2(fd){
   r.products = [];
   let rev3 = 0;
   if(alt==='1'){
-    M.forEach(i=>{ rev[i] = (i<12?g('u_tag1'):g('u_tag2')) * days[i]; });
+    M.forEach(i=>{ rev[i] = (i<12?g('u_tag1'):g('u_tag2')) * w[i]; });
     const t3 = (fd.u_tage3===undefined||fd.u_tage3==='') ? D2 : g('u_tage3');
     rev3 = t3 * g('u_tag3');
   } else if(alt==='2'){
     for(let p=1;p<=5;p++){
       const y=[g('u_p'+p+'_j1'),g('u_p'+p+'_j2'),g('u_p'+p+'_j3')];
-      if(y.some(v=>v)) r.products.push({name:fd['u_p'+p+'_name']||('Produkt '+p), y});
-      M.forEach(i=>{ rev[i] += i<12 ? y[0]/D1*days[i] : y[1]/D2*days[i]; });
+      const m = M.map(i=> i<12 ? y[0]/D1*w[i] : y[1]/D2*w[i]);
+      if(y.some(v=>v)) r.products.push({p, name:fd['u_p'+p+'_name']||('Produkt '+p), y, m});
+      M.forEach(i=>{ rev[i] += m[i]; });
       rev3 += y[2];
     }
   } else if(alt==='3'){
     for(let p=1;p<=5;p++){
       const q=[g('u_q'+p+'_j1'),g('u_q'+p+'_j2'),g('u_q'+p+'_j3')], pr=[g('u_pr'+p+'_j1'),g('u_pr'+p+'_j2'),g('u_pr'+p+'_j3')];
-      if(q.some(v=>v)) r.products.push({name:fd['u_p'+p+'_name']||('Produkt '+p), q, pr, y:[0,0,q[2]*pr[2]]});
+      const m = M.map(()=>0);
+      if(q.some(v=>v)) r.products.push({p, name:fd['u_p'+p+'_name']||('Produkt '+p), q, pr, y:[0,0,q[2]*pr[2]], m});
       [0,1].forEach(yy=>{
         const Q=q[yy], Dd=yy?D2:D1; let acc=0;
         for(let k=0;k<12;k++){
           const i=yy*12+k;
-          const qty = k<11 ? Math.round(Q/Dd*days[i]) : Q-acc;
-          acc += qty; rev[i] += qty*pr[yy];
+          const qty = k<11 ? Math.round(Q/Dd*w[i]) : Q-acc;
+          acc += qty; rev[i] += qty*pr[yy]; m[i] = qty*pr[yy];
         }
       });
       const P=r.products[r.products.length-1]; if(P&&q.some(v=>v)){ P.y[0]=q[0]*pr[0]; P.y[1]=q[1]*pr[1]; }
@@ -2761,11 +2766,20 @@ function finCalc2(fd){
   // Material-Rechner
   r.mtMode = String(fd.mt_mode||'0');
   r.mtY = [0,0,0];
-  if(r.mtMode==='pct'){ const p=[g('mt_pct1'),g('mt_pct2'),g('mt_pct3')]; r.mtY = r.rev.map((v,i)=>v*p[i]/100); }
-  else if(r.mtMode==='stk'){ for(let p=1;p<=5;p++){ [0,1,2].forEach(i=>{ r.mtY[i] += g('mt_q'+p+'_j'+(i+1))*g('mt_c'+p); }); } }
+  const shareM = i => { const y=i<12?0:1; return r.rev[y]>0 ? rev[i]/r.rev[y] : 1/12; };
+  let mtM = M.map(()=>0);
+  if(r.mtMode==='pct'){ const p=[g('mt_pct1'),g('mt_pct2'),g('mt_pct3')]; r.mtPct=p; r.mtY = r.rev.map((v,i)=>v*p[i]/100); mtM = M.map(i=>rev[i]*p[i<12?0:1]/100); }
+  else if(r.mtMode==='stk'){ for(let p=1;p<=5;p++){ [0,1,2].forEach(i=>{ r.mtY[i] += g('mt_q'+p+'_j'+(i+1))*g('mt_c'+p); }); } mtM = M.map(i=>r.mtY[i<12?0:1]*shareM(i)); }
+  else if(r.mtMode==='prod'){
+    r.products.forEach(P=>{ const pc=[1,2,3].map(j=>{ const k='mt_pp'+P.p+'_j'+j; return (j>1&&(fd[k]===undefined||fd[k]===''))?null:g(k); }); for(let j=1;j<3;j++) if(pc[j]===null) pc[j]=pc[j-1]; P.wPct=pc; P.wm=P.m.map((v,i)=>v*pc[i<12?0:1]/100); P.wy=[sum(P.wm.slice(0,12)),sum(P.wm.slice(12)),P.y[2]*pc[2]/100]; });
+    mtM = M.map(i=>sum(r.products.map(P=>P.wm[i])));
+    r.mtY = [sum(mtM.slice(0,12)), sum(mtM.slice(12)), sum(r.products.map(P=>P.wy[2]))];
+  }
   r.mat = F2.MAT.map(([k,l])=>({k,l,y:item(k)}));
   const matManual = [0,1,2].map(i=>sum(r.mat.map(x=>x.y[i])));
   r.matY = [0,1,2].map(i=>matManual[i] + r.mtY[i]);
+  r.mtM = mtM;
+  r.matM = M.map(i=>mtM[i] + matManual[i<12?0:1]*shareM(i));
   // Provisionen
   r.provPct = [g('prov_pct1'),g('prov_pct2'),g('prov_pct3')];
   r.provY = r.rev.map((v,i)=>v*r.provPct[i]/100);
@@ -2859,7 +2873,7 @@ function finCalc2(fd){
     o.einSum = o.kredit+o.umsatz+o.ustEin+o.vstErst+o.sonstE+o.einlage;
     o.verf = o.bestand + o.einSum;
     o.lohn = r.persY[y]/12;
-    o.lief = r.matY[y]*share;
+    o.lief = r.matM[i];
     o.bar = liBar[y];
     o.prov = rev[i]*r.provPct[y]/100;
     o.sba = r.sbaY[y]/12;
@@ -2918,7 +2932,7 @@ function finCalc2(fd){
   r.gapByKk = r.deckGesamt<0 && r.kk>0 && -r.deckGesamt<=r.kk && r.deckVor>=0;
   // Break-even: erster Monat, ab dem der Monatsumsatz die laufenden Kosten deckt
   r.be = null;
-  for(let i=0;i<24;i++){ const y=i<12?0:1; const db = rev[i] - (r.revM[i]>0&&r.rev[y]>0? r.matY[y]*rev[i]/r.rev[y] : r.matY[y]/12) - rev[i]*r.provPct[y]/100; const fixM = (r.persY[y]+r.sbaY[y]+r.afaY[y]+r.zinsY[y])/12; if(rev[i]>0 && db>=fixM){ r.be=i+1; break; } }
+  for(let i=0;i<24;i++){ const y=i<12?0:1; const db = rev[i] - r.matM[i] - rev[i]*r.provPct[y]/100; const fixM = (r.persY[y]+r.sbaY[y]+r.afaY[y]+r.zinsY[y])/12; if(rev[i]>0 && db>=fixM){ r.be=i+1; break; } }
   r.filled = r.rev.some(v=>v>0) || r.vorGr>0 || r.ekSum>0;
   return r;
 }
@@ -3071,9 +3085,9 @@ function fzS2(){
     h+=fzCard('umsatz','Umsatz Monat für Monat','Netto, ohne Umsatzsteuer.',`<h4 class="fz-sub">Jahr 1</h4>${grid(0)}<h4 class="fz-sub">Jahr 2</h4>${grid(1)}<div class="fz-list"><label class="fz-row"><span>Umsatz Jahr 3 gesamt</span>${fzNum('u_man_y3')}</label></div>`);
   }
   if(alt!=='4'){
-    const rowsDef=[['u_wt_','Verfügbare Arbeitstage'],['u_ur_','davon Urlaub bzw. geschlossen'],['u_nf_','davon nicht fakturierbar'],['u_an_','Umsatzminderung Anlaufzeit (%)']];
-    const cal=y=>`<div class="fz-tw"><table class="fz-it cal"><thead><tr><th>${y?'Jahr 2':'Jahr 1'}</th>${[...Array(12).keys()].map(j=>`<th>${F2.monthLabel(fd,y*12+j)}</th>`).join('')}</tr></thead><tbody>${rowsDef.map(([p,l])=>`<tr><th scope="row">${l}</th>${[...Array(12).keys()].map(j=>{const i=y*12+j; const ph=p==='u_wt_'?String(F2.defaultDays(fd,i)):'0'; return `<td>${fzNum(p+i,{small:1,u:'',ph})}</td>`;}).join('')}</tr>`).join('')}<tr class="sum"><th scope="row">Umsatztage</th>${[...Array(12).keys()].map(j=>`<td class="o" data-o="day${y*12+j}"></td>`).join('')}</tr></tbody></table></div>`;
-    h+=`<details class="fz-card fz-det"><summary><div class="fz-ch">${fzIc('kal')}<div><h3>Umsatztage je Monat anpassen</h3><p>Montag bis Freitag sind vorbelegt. Trag Urlaub, Schließtage und eine langsamere Anlaufphase ein.</p></div></div></summary>${cal(0)}${cal(1)}<button type="button" class="btn btn-ghost btn-sm" data-act="days-reset">Arbeitstage zurücksetzen</button></details>`;
+    const rowsDef=[['u_wt_','Verfügbare Arbeitstage'],['u_ur_','davon Urlaub bzw. geschlossen'],['u_nf_','davon nicht fakturierbar'],['u_an_','Umsatzminderung Anlaufzeit (%)'],['u_sf_','Saisonfaktor (1 = normal)']];
+    const cal=y=>`<div class="fz-tw"><table class="fz-it cal"><thead><tr><th>${y?'Jahr 2':'Jahr 1'}</th>${[...Array(12).keys()].map(j=>`<th>${F2.monthLabel(fd,y*12+j)}</th>`).join('')}</tr></thead><tbody>${rowsDef.map(([p,l])=>`<tr><th scope="row">${l}</th>${[...Array(12).keys()].map(j=>{const i=y*12+j; const ph=p==='u_wt_'?String(F2.defaultDays(fd,i)):p==='u_sf_'?'1':'0'; return `<td>${fzNum(p+i,{small:1,u:'',ph})}</td>`;}).join('')}</tr>`).join('')}<tr class="sum"><th scope="row">Umsatztage</th>${[...Array(12).keys()].map(j=>`<td class="o" data-o="day${y*12+j}"></td>`).join('')}</tr></tbody></table></div>`;
+    h+=`<details class="fz-card fz-det"><summary><div class="fz-ch">${fzIc('kal')}<div><h3>Umsatztage und Saison je Monat anpassen</h3><p>Montag bis Freitag sind vorbelegt. Trag Urlaub, Schließtage und eine langsamere Anlaufphase ein. Mit dem Saisonfaktor bildest Du starke und schwache Monate ab, z. B. 0,65 im Januar und 1,05 im Mai.</p></div></div></summary>${cal(0)}${cal(1)}<button type="button" class="btn btn-ghost btn-sm" data-act="days-reset">Arbeitstage zurücksetzen</button></details>`;
   }
   h+=fzCard('zahl','Wann zahlen Deine Kunden?','Anteil der Umsätze, der im jeweiligen Monat auf Deinem Konto eingeht (zusammen 100 %).',
     `<div class="fz-list cols2">${[['z_anz','Anzahlung (vorab)',''],['z_same','Zahlung im selben Monat','100'],['z_next','Zahlung im Folgemonat',''],['z_two','Zahlung nach zwei Monaten','']].map(([k,l,ph])=>`<label class="fz-row"><span>${l}</span>${fzNum(k,{u:'%',ph:ph||'0'})}</label>`).join('')}</div><div class="fz-note" data-o="zahlCheck"></div>`);
@@ -3088,8 +3102,9 @@ function fzS3(){
   let h=fzCard('pers','Personalkosten (ohne Unternehmerlohn)','Beträge inklusive Arbeitgeberanteil. Änderungen in Jahr 2 und 3 als Betrag pro Jahr.',fzItems(F2.PERS)+fzToggle('pt_on','Personal-Rechner verwenden',R.ptOn)+(R.ptOn?fzPersTool():''),{out:'persY0'});
   const mt=String(fd.mt_mode||'0');
   h+=fzCard('mat','Wareneinsatz und Materialkosten','Was Du einkaufst, um Deine Leistung zu erbringen.',fzItems(F2.MAT)+
-    `<div class="fz-list"><label class="fz-row"><span>Material-Rechner</span><select class="fz-in sel" data-sel="mt_mode"><option value="0"${mt==='0'?' selected':''}>nicht verwenden</option><option value="pct"${mt==='pct'?' selected':''}>Wareneinsatz in % vom Umsatz</option><option value="stk"${mt==='stk'?' selected':''}>Menge × Einkaufspreis</option></select></label></div>`+
+    `<div class="fz-list"><label class="fz-row"><span>Material-Rechner</span><select class="fz-in sel" data-sel="mt_mode"><option value="0"${mt==='0'?' selected':''}>nicht verwenden</option><option value="pct"${mt==='pct'?' selected':''}>Wareneinsatz in % vom Umsatz</option><option value="stk"${mt==='stk'?' selected':''}>Menge × Einkaufspreis</option>${(R.products.length||mt==='prod')?`<option value="prod"${mt==='prod'?' selected':''}>In % je Produkt</option>`:''}</select></label></div>`+
     (mt==='pct'?`<div class="fz-tool"><div class="fz-tw"><table class="fz-it y3"><thead><tr><th></th><th>Jahr 1</th><th>Jahr 2</th><th>Jahr 3</th></tr></thead><tbody><tr><th scope="row">Wareneinsatz in % vom Umsatz</th><td>${fzNum('mt_pct1',{u:'%'})}</td><td>${fzNum('mt_pct2',{u:'%'})}</td><td>${fzNum('mt_pct3',{u:'%'})}</td></tr><tr class="sum"><th scope="row">Wareneinsatz</th><td class="o" data-o="mt0"></td><td class="o" data-o="mt1"></td><td class="o" data-o="mt2"></td></tr></tbody></table></div></div>`:'')+
+    (mt==='prod'?(R.products.length?`<div class="fz-tool"><div class="fz-tw"><table class="fz-it y3"><thead><tr><th>Wareneinsatz in % vom Umsatz</th><th>Jahr 1</th><th>Jahr 2</th><th>Jahr 3</th></tr></thead><tbody>${R.products.map(P=>`<tr><th scope="row">${esc(P.name)}</th><td>${fzNum('mt_pp'+P.p+'_j1',{u:'%'})}</td><td>${fzNum('mt_pp'+P.p+'_j2',{u:'%',ph:'wie J1'})}</td><td>${fzNum('mt_pp'+P.p+'_j3',{u:'%',ph:'wie J2'})}</td></tr>`).join('')}<tr class="sum"><th scope="row">Wareneinsatz</th><td class="o" data-o="mt0"></td><td class="o" data-o="mt1"></td><td class="o" data-o="mt2"></td></tr></tbody></table></div></div>`:`<div class="fz-note">Lege zuerst in Schritt 2 Deine Produkte an.</div>`):'')+
     (mt==='stk'?`<div class="fz-tool"><div class="fz-tw"><table class="fz-it"><thead><tr><th>Produkt</th><th>Einkauf je Stück</th><th>Menge Jahr 1</th><th>Menge Jahr 2</th><th>Menge Jahr 3</th></tr></thead><tbody>${[1,2,3,4,5].map(p=>`<tr><th scope="row">${esc(fd['u_p'+p+'_name']||'Produkt '+p)}</th><td>${fzNum('mt_c'+p)}</td><td>${fzNum('mt_q'+p+'_j1',{u:'Stk.'})}</td><td>${fzNum('mt_q'+p+'_j2',{u:'Stk.'})}</td><td>${fzNum('mt_q'+p+'_j3',{u:'Stk.'})}</td></tr>`).join('')}<tr class="sum"><th scope="row">Wareneinsatz</th><td></td><td class="o" data-o="mt0"></td><td class="o" data-o="mt1"></td><td class="o" data-o="mt2"></td></tr></tbody></table></div></div>`:''),{out:'matY0'});
   h+=fzCard('prov','Provisionen','Umsatzabhängige Provisionen, z. B. für Vertriebspartner oder Plattformen.',`<div class="fz-tw"><table class="fz-it y3"><thead><tr><th></th><th>Jahr 1</th><th>Jahr 2</th><th>Jahr 3</th></tr></thead><tbody><tr><th scope="row">Provision vom Umsatz</th><td>${fzNum('prov_pct1',{u:'%'})}</td><td>${fzNum('prov_pct2',{u:'%'})}</td><td>${fzNum('prov_pct3',{u:'%'})}</td></tr></tbody></table></div>`);
   h+=fzCard('sba','Sonstige Betriebsausgaben','Laufende Kosten Deines Betriebs, netto.',fzItems(F2.SBA)+fzItems(F2.BST).replace('<thead>','<thead class="sr">'),{out:'sbaY0'});
@@ -3337,7 +3352,6 @@ async function dlPDF() {
   heading(1,'1','Zusammenfassung');
   fields(ch('exec'));
   const eck=[['Unternehmen',company],['Gründer/in',person],['Branche',p.branche],['Rechtsform',p.rechtsform],['Standort',[s.gr_plz,s.gr_ort].filter(Boolean).join(' ')],['Geplanter Start',gStart?('zum '+gStart):p.gründung],['Kapitalbedarf',F.kapital>0?eur(F.kapital):p.kapital],['Finanzierung',(F.ek+F.fk)>0?'Eigenkapital '+eur(F.ek)+' · Fremdkapital/Förderung '+eur(F.fk):''],['Umsatz Jahr 1 / 2 / 3',F.rev.some(v=>v)?F.rev.map(eur).join(' / '):''],['Gewinn Jahr 1 / 2 / 3',F.rev.some(v=>v)?F.gew.map(eur).join(' / '):'']];
-  if(eck.some(([,v])=>has(v))){ label('Das Vorhaben auf einen Blick'); kv(eck); }
 
   /* ── 2 Geschäftsidee ── */
   heading(1,'2','Geschäftsidee');
@@ -3424,26 +3438,74 @@ async function dlPDF() {
   para('Die Ergebnisplanung zeigt, wie sich Umsätze und Kosten in den ersten drei Geschäftsjahren entwickeln und welcher Gewinn daraus entsteht.');
   heading(3,'4.2.1','Umsatzentwicklung und variable Kosten');
   { const meth={'1':'Die Umsätze sind über einen durchschnittlichen Tagesumsatz und die geplanten Umsatztage je Monat berechnet.','2':'Die geplanten Jahresumsätze sind nach Umsatztagen auf die Monate verteilt.','3':'Die Umsätze ergeben sich aus geplanter Absatzmenge und Verkaufspreis je Produkt, verteilt nach Umsatztagen.','4':'Die Umsätze sind Monat für Monat geplant.'}[R.alt];
+    const RM=R.revM, mE=v=>v.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
+    const pctS=v=>String(Math.round(v*100)/100).replace('.',',')+' %';
     if(R.rev.some(v=>v)){
       const t=['Für das erste Geschäftsjahr plane ich einen Umsatz von '+eur(R.rev[0])+', für das zweite Jahr '+eur(R.rev[1])+' und für das dritte Jahr '+eur(R.rev[2])+'.'];
       if(R.rev[0]>0&&R.rev[2]>R.rev[0]) t.push('Das entspricht einer Steigerung um '+Math.round((R.rev[2]/R.rev[0]-1)*100)+' % vom ersten zum dritten Jahr.');
       if(R.products.length>1){ const top=[...R.products].sort((a,b)=>b.y[0]-a.y[0])[0]; if(top.y[0]>0&&R.rev[0]>0) t.push('Den größten Anteil am Umsatz im ersten Jahr hat „'+top.name+'“ mit '+eur(top.y[0])+'.'); }
       t.push(meth);
       para(t.join(' '),{after:3});
+      const rng=o=>{ let lo=o,hi=o; for(let i=o;i<o+12;i++){ if(RM[i]<RM[lo]) lo=i; if(RM[i]>RM[hi]) hi=i; } return [lo,hi]; };
+      const t2=[]; const [l1,h1]=rng(0),[l2,h2]=rng(12);
+      if(RM.slice(0,12).some(v=>v)) t2.push('Im ersten Geschäftsjahr liegen die monatlichen Umsätze zwischen '+mE(RM[l1])+' im '+monName(l1)+' und '+mE(RM[h1])+' im '+monName(h1)+'.');
+      if(RM.slice(12).some(v=>v)) t2.push('Im zweiten Geschäftsjahr liegen sie zwischen '+mE(RM[l2])+' im '+monName(l2)+' und '+mE(RM[h2])+' im '+monName(h2)+'.');
+      if(R.alt!=='4'){ const an=[]; for(let i=0;i<24;i++) if(Number(fd['u_an_'+i])>0) an.push(i); if(an.length) t2.push('In der Anlaufphase ('+monName(an[0])+(an.length>1?' bis '+monName(an[an.length-1]):'')+') sind die Umsätze bewusst niedriger angesetzt, weil sich das Unternehmen zunächst am Markt etablieren und einen Kundenstamm aufbauen muss.'); }
+      if(t2.length) para(t2.join(' '),{after:3});
     }
     if(R.products.length){
-      const pr=R.products.map(p=>({cells:[p.name+(p.q?'':''),...p.y.map(eur)]}));
-      if(R.alt==='3') R.products.forEach((p,i)=>{ pr[i].cells[0]=p.name; });
+      const pr=R.products.map(p=>({cells:[p.name,...p.y.map(eur)]}));
       pr.push(row('Umsatz gesamt',R.rev,{total:true}));
-      table(Y3,pr,{cap:'Umsatzentwicklung in den ersten drei Geschäftsjahren'});
-      if(R.alt==='3'){ const mq=R.products.map(p=>[p.name,...[0,1,2].map(i=>(Math.round(p.q[i])||0).toLocaleString('de-DE')+' × '+eur(p.pr[i]))]); table([{t:'Menge × Preis',w:CW-3*28},{t:'Jahr 1',w:28,a:'right'},{t:'Jahr 2',w:28,a:'right'},{t:'Jahr 3',w:28,a:'right'}],mq,{size:7.6}); }
+      if(R.alt==='3'){ table(Y3,pr,{after:2}); const mq=R.products.map(p=>[p.name,...[0,1,2].map(i=>(Math.round(p.q[i])||0).toLocaleString('de-DE')+' × '+eur(p.pr[i]))]); table([{t:'Menge × Preis',w:CW-3*28},{t:'Jahr 1',w:28,a:'right'},{t:'Jahr 2',w:28,a:'right'},{t:'Jahr 3',w:28,a:'right'}],mq,{size:7.6,cap:'Umsatzentwicklung in den ersten drei Geschäftsjahren'}); }
+      else table(Y3,pr,{cap:'Umsatzentwicklung in den ersten drei Geschäftsjahren'});
+    }
+    if(R.sfOn && R.alt!=='4'){
+      label('Saisonfaktor');
+      const f=v=>String(Math.round(v*100)/100).replace('.',',');
+      const same=R.sf.slice(0,12).every((v,i)=>Math.abs(v-R.sf[i+12])<1e-9);
+      const lst=o=>{ const a=[]; for(let i=o;i<o+12;i++) a.push(MN[(st0.m+i)%12]+' '+f(R.sf[i])); return a.join(', '); };
+      para('Der Saisonfaktor berücksichtigt die erwarteten Schwankungen der Nachfrage im Jahresverlauf und wird auf die geplanten Umsätze angewendet. Ein Faktor von 1,0 bedeutet, dass der Umsatz unverändert bleibt, ein Faktor unter 1,0 senkt ihn und ein Faktor über 1,0 erhöht ihn. '+(same?'In beiden Geschäftsjahren gelten dieselben Faktoren: '+lst(0)+'.':'Im ersten Geschäftsjahr gelten folgende Faktoren: '+lst(0)+'. Im zweiten Geschäftsjahr: '+lst(12)+'.'),{after:3});
+    }
+    label('Variable Kosten');
+    { const t=[]; const mm=[0,1,2].map(i=>R.matY[i]-R.mtY[i]);
+      if(R.mtMode==='prod'&&R.products.some(P=>P.wPct&&P.wPct.some(v=>v))){
+        const ps=R.products.filter(P=>P.wPct.some(v=>v));
+        t.push('Die variablen Kosten entstehen vor allem durch den Einkauf von Waren und Material. Ihre Höhe richtet sich nach der Menge der verkauften Produkte und steigt mit dem Umsatz.');
+        t.push(ps.map((P,k)=>{ const sameP=P.wPct[0]===P.wPct[1]&&P.wPct[1]===P.wPct[2]; const v=pctS(P.wPct[0])+(sameP?'':' (Jahr 2: '+pctS(P.wPct[1])+', Jahr 3: '+pctS(P.wPct[2])+')'); return k===0?'Für „'+P.name+'“ wird ein Wareneinsatz von '+v+' des entsprechenden Umsatzes angesetzt':'für „'+P.name+'“ '+v; }).join(', ')+'.');
+      } else if(R.mtMode==='pct'&&R.mtPct&&R.mtPct.some(v=>v)){
+        const p=R.mtPct; t.push('Die variablen Kosten entstehen vor allem durch den Einkauf von Waren und Material und steigen mit dem Umsatz. Für den Wareneinsatz werden '+(p[0]===p[1]&&p[1]===p[2]?pctS(p[0])+' des Umsatzes':pctS(p[0])+' im ersten, '+pctS(p[1])+' im zweiten und '+pctS(p[2])+' im dritten Jahr')+' angesetzt.');
+      } else if(R.mtMode==='stk'&&nz(R.mtY)){
+        t.push('Der Wareneinsatz ergibt sich aus der geplanten Menge und dem Einkaufspreis je Produkt. Er beträgt im ersten Jahr '+eur(R.mtY[0])+'.');
+      }
+      if(nz(mm)) t.push('Weitere Material- und Wareneinkäufe sind mit '+eur(mm[0])+' im ersten Jahr geplant.');
+      if(nz(R.provY)) t.push('Für Provisionen werden '+pctS(R.provPct[0])+' des Umsatzes berücksichtigt.');
+      if(nz(R.varY)) t.push('Insgesamt betragen die variablen Kosten '+eur(R.varY[0])+' im ersten, '+eur(R.varY[1])+' im zweiten und '+eur(R.varY[2])+' im dritten Geschäftsjahr. Der verbleibende Rohertrag dient zur Deckung der laufenden Kosten wie Miete, Versicherungen und sonstiger Betriebsausgaben.');
+      else t.push('Variable Kosten wie Wareneinsatz oder Provisionen fallen nicht an. Der Umsatz steht vollständig zur Deckung der laufenden Kosten zur Verfügung.');
+      para(t.join(' '),{after:3});
     }
     const uv=[row('Umsatzerlöse (netto)',R.rev,{bold:true})];
     if(nz(R.matY)) uv.push(row('Wareneinsatz, Materialkosten',R.matY,{neg:true,indent:true}));
     if(nz(R.provY)) uv.push(row('Provisionen',R.provY,{neg:true,indent:true}));
     uv.push(row('Rohertrag',R.roh,{total:true}));
     uv.push({cells:['Rohertragsquote',...R.roh.map((r,i)=>R.rev[i]?pct(r,R.rev[i]):'–')],muted:true});
-    table(Y3,uv,{cap:'Umsatzerlöse und Rohertrag'});
+    table(Y3,uv,{cap:'Umsatzerlöse, variable Kosten und Rohertrag'});
+    // Nebenrechnung monatlich
+    if(RM.some(v=>v)){
+      label('Nebenrechnung Umsatz und variable Kosten');
+      const provM=RM.map((v,i)=>v*R.provPct[i<12?0:1]/100);
+      const lines=[];
+      if(R.products.length>1) R.products.forEach(P=>lines.push([P.name,P.m,{indent:true}]));
+      lines.push(['Umsatz gesamt',RM,{bold:true}]);
+      if(R.mtMode==='prod'&&R.products.some(P=>P.wm&&P.wm.some(v=>v))){ R.products.filter(P=>P.wm.some(v=>v)).forEach(P=>lines.push(['Wareneinsatz '+P.name,P.wm,{indent:true}])); const rest=R.matM.map((v,i)=>v-R.mtM[i]); if(rest.some(v=>Math.round(v))) lines.push(['Weiteres Material',rest,{indent:true}]); }
+      else if(R.matM.some(v=>Math.round(v))) lines.push(['Wareneinsatz, Material',R.matM,{indent:true}]);
+      if(provM.some(v=>Math.round(v))) lines.push(['Provisionen',provM,{indent:true}]);
+      const varM=RM.map((v,i)=>R.matM[i]+provM[i]);
+      if(varM.some(v=>Math.round(v))) lines.push(['Summe variable Kosten',varM,{bold:true}]);
+      lines.push(['Rohertrag',RM.map((v,i)=>v-varM[i]),{total:true}]);
+      const tb=(from,lab,cap)=>{ const cols=[{t:lab,w:CW-6*18.5},...[0,1,2,3,4,5].map(j=>({t:F2.monthLabel(fd,from+j),w:18.5,a:'right'}))];
+        table(cols,lines.map(([l,a,o])=>({cells:[l,...[0,1,2,3,4,5].map(j=>eur(a[from+j]))],...o})),{size:6.8,after:4,rh:4.7,cap}); };
+      tb(0,'Jahr 1'); tb(6,'Jahr 1'); tb(12,'Jahr 2'); tb(18,'Jahr 2','Nebenrechnung Umsatz und variable Kosten, Geschäftsjahr 1 und 2');
+    }
     ownTxt('fin_umsatz');
   }
   heading(3,'4.2.2','Entwicklung der laufenden Kosten');
@@ -3635,8 +3697,7 @@ async function dlPDF() {
   const total=doc.getNumberOfPages();
   for(let i=2;i<=total;i++){
     doc.setPage(i);
-    if(logo&&logoDim){ const mh=11,mw=40; const r=Math.min(mw/logoDim.w,mh/logoDim.h); const lw=logoDim.w*r, lh=logoDim.h*r; doc.addImage(logo,logoDim.fmt,W-MR-lw,10+(mh-lh)/2,lw,lh); }
-    else { font('normal',8.5); col(C.mu); doc.text(company,W-MR,15,{align:'right'}); }
+    if(logo&&logoDim){ const mh=15,mw=45; const r=Math.min(mw/logoDim.w,mh/logoDim.h); const lw=logoDim.w*r, lh=logoDim.h*r; doc.addImage(logo,logoDim.fmt,W-MR-lw,7+(mh-lh)/2,lw,lh); }
     fill(C.greenBar); doc.rect(W-38,H-17,38,7,'F');
     font('normal',9); col([255,255,255]); doc.text(String(i),W-MR,H-12.2,{align:'right'});
   }
