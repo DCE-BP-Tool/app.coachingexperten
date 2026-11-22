@@ -3587,16 +3587,15 @@ async function dlPDF() {
       table(cols,used.map(([l,k,o])=>({cells:[l,...[0,1,2,3,4,5].map(j=>eur(L[from+j][k]))],...(o||{}),indent:!o})),{size:6.8,after:4,rh:4.7,cap}); };
     para('Ein Unternehmen muss jederzeit in der Lage sein, seine finanziellen Verpflichtungen zu erfüllen, also Betriebsausgaben, Lebensunterhalt und Kapitaldienst zu bezahlen. Die Liquiditätsplanung zeigt Monat für Monat, ob dafür genug Geld vorhanden ist. '+(R.ku?'Das Unternehmen stellt keine Umsatzsteuer in Rechnung (Kleinunternehmerregelung nach § 19 UStG bzw. steuerfreie Umsätze). Die Umsatzsteuer auf Einkäufe ist nicht abziehbar und als Ausgabe berücksichtigt.':'Die Umsatzsteuer auf die Umsätze ist mit '+Math.round(R.ust*100)+' %, die Vorsteuer auf Einkäufe mit 19 % berücksichtigt. Vorsteuer wird im Folgemonat erstattet, Umsatzsteuer im Folgemonat abgeführt.'),{size:9.5,after:3});
     { let mi=0; for(let i=1;i<12;i++) if(L[i].liq<L[mi].liq) mi=i;
-      const t=['Der niedrigste Kontostand im ersten Jahr liegt im '+monName(mi)+' bei '+eur(L[mi].liq)+'.'];
-      if(L[mi].liq>=0) t.push('Die Liquidität ist damit in jedem Monat des ersten Jahres gesichert.');
-      else if(R.kk && -L[mi].liq<=R.kk) t.push('Dieser Betrag wird durch den eingeplanten Kontokorrentkredit über '+eur(R.kk)+' abgedeckt.');
+      const t=[];
+      if(L[mi].liq>=0) t.push('Die Liquidität ist in jedem Monat des ersten Jahres gesichert.');
+      else if(R.kk && -L[mi].liq<=R.kk) t.push('Kurzfristige Engpässe in der Anlaufphase überbrückt der eingeplante Kontokorrentkredit über '+eur(R.kk)+'.');
       t.push('Am Ende des ersten Jahres beträgt der Kontostand '+eur(L[11].liq)+', am Ende des zweiten Jahres '+eur(L[23].liq)+'.');
       para(t.join(' '),{after:3}); }
     label('Jahr 1, Monate 1–6'); tbl(0,'Jahr 1');
     label('Jahr 1, Monate 7–12'); tbl(6,'Jahr 1');
     label('Jahr 2, Monate 1–6'); tbl(12,'Jahr 2');
     label('Jahr 2, Monate 7–12'); tbl(18,'Jahr 2','Liquiditätsplanung für die ersten 24 Monate');
-    kv([['Niedrigster Kontostand Jahr 1',eur(R.liqMinY1)],['Niedrigster Kontostand Jahr 2',eur(R.liqMinY2)],...(R.kk?[['Kontokorrentkredit',eur(R.kk)]]:[])]);
     ownTxt('fin_liquid');
     R.kr.filter(k=>k.plan.length).forEach(k=>{
       label('Tilgungsplan: '+k.l);
