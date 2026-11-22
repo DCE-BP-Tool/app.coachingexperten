@@ -1820,6 +1820,8 @@ let obStep = 1;
 let obPurpose = '';
 let charts = {};
 
+const PDF_LABEL={ex_motivation:'Motivation',ex_idea:'Gegenstand des Unternehmens',co_product:'Angebot und Leistungen',co_usp:'Alleinstellungsmerkmale',mkt_target:'Zielgruppe',org_standort:'Standort',std_bedeutung:'Bedeutung für den Unternehmenserfolg',mv_sales:'Maßnahmen und Vertriebswege',mv_budget:'Marketingbudget'};
+function pdfLabel(f){return (f&&PDF_LABEL[f.id])||(f&&f.label)||'';}
 const CHAPTERS = [
   {id:'exec',sec:'1',title:'Zusammenfassung',desc:'Bring Deinen Businessplan kurz und prägnant auf den Punkt. Hier entscheidet der Leser, ob er weiterliest – wecke sein Interesse. Tipp: Schreib die Zusammenfassung zum Schluss.',fields:[
     {id:'ex_motivation',label:'Warum willst Du gründen?',hint:'Was motiviert Dich? Was hat Dich zu dieser Idee gebracht?',rows:3},
@@ -2344,7 +2346,7 @@ function renderLivePreview(){
   const ph='<div class="paper-ph"><i></i><i></i><i class="s"></i></div>';
   let h=`<div class="pl-ch">Kapitel ${currentChapter+1}</div><div class="pl-title">${esc(ch.title)}</div>`;
   if(ch.fields){
-    ch.fields.forEach(f=>{const t=val(f.id).trim();h+=`<div class="pl-h">${esc(f.label)}</div>`+(t?`<div class="pl-t">${esc(t)}</div>`:ph);});
+    ch.fields.forEach(f=>{const t=val(f.id).trim();h+=`<div class="pl-h">${esc(pdfLabel(f))}</div>`+(t?`<div class="pl-t">${esc(t)}</div>`:ph);});
   } else if(ch.isGründer){
     const kv=[['Name',[val('gr_vorname'),val('gr_nachname')].filter(Boolean).join(' ')],['Ort',[val('gr_plz'),val('gr_ort')].filter(Boolean).join(' ')],['Telefon',val('gr_telefon')],['E-Mail',val('gr_email')],['Status',val('gr_status')]];
     h+='<div class="pl-h">Persönliche Angaben</div><div class="pl-kv">'+kv.map(([k,v])=>`<span>${k}</span><span>${esc(v)||'–'}</span>`).join('')+'</div>';
@@ -2615,7 +2617,7 @@ function dlTXT() {
       if(R.kk) out+=`Kontokorrentkredit: ${fmt(R.kk)}\n`;
       out+='\n';
     }
-    else ch.fields?.forEach(f=>{out+=`${f.label}\n${window._savedData[f.id]||'–'}\n\n`;});
+    else ch.fields?.forEach(f=>{out+=`${pdfLabel(f)}\n${window._savedData[f.id]||'–'}\n\n`;});
   });
   const a=document.createElement('a');
   a.href=URL.createObjectURL(new Blob([out],{type:'text/plain;charset=utf-8'}));
@@ -3300,7 +3302,7 @@ async function dlPDF() {
   function kv(pairs){ const rows=pairs.filter(([,v])=>has(v)).map(([k,v])=>({cells:[k,clean(v)],kvRow:true})); if(rows.length) table([{t:'',w:58},{t:'',w:CW-58}],rows,{noHead:true}); }
   function fields(ch,sub){ // Unterpunkte eines Text-Kapitels
     const f=ch.fields.filter(x=>has(s[x.id]));
-    f.forEach(x=>{ if(f.length>1||sub){ label(x.label); } para(s[x.id]); });
+    f.forEach(x=>{ if(f.length>1||sub){ label(pdfLabel(x)); } para(s[x.id]); });
     return f.length;
   }
   const ch=id=>CHAPTERS.find(c=>c.id===id);
@@ -3375,9 +3377,9 @@ async function dlPDF() {
   if(sit.some(([,v])=>has(v))){ label('Aktuelle Situation'); kv(sit); }
   const og=ch('org');
   const zr=['org_zulassung','org_rechts'].filter(k=>has(s[k]));
-  if(zr.length){ heading(2,'3.2','Rechtliche Grundlagen'); zr.forEach(k=>{const f=og.fields.find(x=>x.id===k); if(zr.length>1){label(f.label);} para(s[k]);}); }
+  if(zr.length){ heading(2,'3.2','Rechtliche Grundlagen'); zr.forEach(k=>{const f=og.fields.find(x=>x.id===k); if(zr.length>1){label(pdfLabel(f));} para(s[k]);}); }
   const om=['org_struct','org_personal'].filter(k=>has(s[k]));
-  if(om.length){ heading(2,zr.length?'3.3':'3.2','Organisation und Mitarbeiter'); om.forEach(k=>{const f=og.fields.find(x=>x.id===k); if(om.length>1){label(f.label);} para(s[k]);}); }
+  if(om.length){ heading(2,zr.length?'3.3':'3.2','Organisation und Mitarbeiter'); om.forEach(k=>{const f=og.fields.find(x=>x.id===k); if(om.length>1){label(pdfLabel(f));} para(s[k]);}); }
 
   /* ── 4 Finanzen (nach der Excel-Vorlage) ── */
   heading(1,'4','Finanzen');
