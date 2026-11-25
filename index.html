@@ -1617,6 +1617,63 @@ html body #authView .fx-ic svg.sfi{width:40px!important;height:40px!important;fi
 html body #authView .fx-ic{margin:0 0 16px!important;line-height:0}
 html body #authView .feat-grid .fx-ic svg.sfi{width:48px!important;height:48px!important}
 html body #authView .feat-grid .fx-ic{margin-bottom:18px!important}
+
+
+/* MOBILE-VIEWPORT-FIX: App bleibt im Handy-Viewport verankert.
+   Nur der Inhaltsbereich scrollt, Kopfzeile, Kapitel-Navigation und Aktionen bleiben stehen. */
+@media (max-width:980px){
+  #appView{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100vh;
+    height:100dvh;
+    min-height:0;
+    overflow:hidden;
+    overscroll-behavior:none;
+  }
+  #appView .hdr{
+    flex:0 0 58px;
+    height:58px;
+    padding-top:env(safe-area-inset-top);
+  }
+  #appView .app-body{
+    flex:1 1 auto;
+    min-height:0;
+    height:0;
+    overflow:hidden;
+  }
+  #appView .main{
+    min-height:0;
+    height:100%;
+    overflow:hidden;
+  }
+  #appView .mnav{
+    flex:0 0 auto;
+    max-width:100%;
+    overscroll-behavior-x:contain;
+  }
+  #appView .escroll{
+    flex:1 1 auto;
+    min-height:0;
+    overflow-y:auto;
+    overflow-x:hidden;
+    overscroll-behavior-y:contain;
+    -webkit-overflow-scrolling:touch;
+    padding-bottom:calc(24px + env(safe-area-inset-bottom));
+  }
+  #appView .efoot{
+    flex:0 0 auto;
+    padding-bottom:calc(10px + env(safe-area-inset-bottom));
+  }
+}
+@media (max-width:640px){
+  #appView .hdr{flex-basis:54px;height:54px}
+  #appView .escroll{padding-left:14px;padding-right:14px}
+  #appView .efoot{gap:8px}
+  #appView .efoot .btn{min-width:0;padding-left:12px;padding-right:12px}
+}
+
 </style>
 </head>
 <body>
