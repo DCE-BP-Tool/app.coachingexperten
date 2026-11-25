@@ -1676,40 +1676,39 @@ html body #authView .feat-grid .fx-ic{margin-bottom:18px!important}
 
 
 
-/* MOBILE-FIX v2: viewport bleibt stehen, nur der Seiteninhalt scrollt */
+/* MOBIL-KORREKTUR: Landingpage normal scrollen lassen, Footer nicht am Viewport fixieren */
 @media (max-width:980px){
-  html,body{
-    width:100%;height:100%;min-height:0;overflow:hidden!important;
-    overscroll-behavior:none;
+  html, body{
+    height:auto !important;
+    min-height:100% !important;
+    overflow-x:hidden !important;
+    overflow-y:visible !important;
+    overscroll-behavior-y:auto !important;
   }
   #authView{
-    position:fixed;inset:0;width:100%;height:100vh;height:100dvh;
-    min-height:0;overflow:hidden;display:flex;flex-direction:column;
-    box-sizing:border-box;padding-top:env(safe-area-inset-top);
-    overscroll-behavior:none;
-  }
-  #authView .top{
-    position:relative;top:auto;flex:0 0 auto;z-index:30;
+    display:flex !important;
+    flex-direction:column !important;
+    height:auto !important;
+    min-height:100svh !important;
+    overflow:visible !important;
   }
   #authView .start{
-    flex:1 1 auto;min-height:0;height:0;overflow-y:auto;overflow-x:hidden;
-    overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;
-    touch-action:pan-y;scroll-padding-top:12px;
-    padding-bottom:calc(32px + env(safe-area-inset-bottom));
+    flex:0 0 auto !important;
+    min-height:0 !important;
+    overflow:visible !important;
   }
-  #appView{
-    position:fixed;inset:0;width:100%;height:100vh;height:100dvh;
-    min-height:0;overflow:hidden;overscroll-behavior:none;
+  #authView .foot{
+    position:static !important;
+    inset:auto !important;
+    flex:0 0 auto !important;
+    width:auto !important;
+    margin-top:0 !important;
+    transform:none !important;
+    z-index:auto !important;
   }
-}
-@media (max-width:640px){
-  /* Mehr Abstand zwischen dem Link und den drei Vorteilen */
   #authView .hero-usp{
-    margin-top:46px!important;
-    margin-bottom:28px!important;
-    gap:18px!important;
+    margin-top:32px !important;
   }
-  #authView .hero-cta{margin-bottom:0!important}
 }
 </style>
 </head>
@@ -1758,8 +1757,8 @@ html body #authView .feat-grid .fx-ic{margin-bottom:18px!important}
       <span class="top-sep"></span>
       <span class="top-name">Businessplan-Tool</span>
       <span class="top-space"></span>
-      <button class="top-login" id="topLogin" onclick="showPanel('panelLogin')">Anmelden</button>
-      <button class="top-reg" id="topReg" onclick="showPanel('panelOnboard')"><span class="tr-l">Kostenlos registrieren</span><span class="tr-s">Registrieren</span></button>
+      <button class="top-login" id="topLogin" onclick="headerAuthGo('panelLogin')">Anmelden</button>
+      <button class="top-reg" id="topReg" onclick="headerAuthGo('panelOnboard')"><span class="tr-l">Kostenlos registrieren</span><span class="tr-s">Registrieren</span></button>
     </div>
   </header>
 
@@ -4561,6 +4560,12 @@ Gesendet über das DCE Businessplan-Tool`
 document.addEventListener('scroll',function(e){var t=e.target;if(!t||t===document||!t.closest||!t.closest('#authView'))return;var o=getComputedStyle(t).overflowY;if((o==='hidden'||o==='clip')&&(t.scrollTop||t.scrollLeft)){t.scrollTop=0;t.scrollLeft=0;}},true);
 </script>
 <script>
+/* Header-Buttons: passendes Formular öffnen und zum Anmeldebereich scrollen */
+function headerAuthGo(panel){
+  try{showPanel(panel);}catch(e){}
+  requestAnimationFrame(function(){setTimeout(function(){if(typeof goStart==='function')goStart();},80);});
+}
+
 /* Hero-Button: Fragebogen zeigen und sanft dorthin scrollen */
 function heroGo(){try{showPanel('panelOnboard');}catch(e){}var c=document.getElementById('authCard');if(!c)return;var top=c.getBoundingClientRect().top+window.scrollY-88;window.scrollTo({top:Math.max(0,top),behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}
 </script>
