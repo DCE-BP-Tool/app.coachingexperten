@@ -1715,6 +1715,49 @@ html body #authView .feat-grid .fx-ic{margin-bottom:18px!important}
   }
   #authView .hero-cta{margin-bottom:0!important}
 }
+
+/* MOBILE-FIX v4: Marketingseite normal scrollen lassen, Footer bleibt im Dokumentfluss. */
+@media (max-width:980px){
+  html,body{
+    height:auto!important;
+    min-height:100%!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    overscroll-behavior-y:auto!important;
+  }
+  #authView{
+    position:relative!important;
+    inset:auto!important;
+    width:100%!important;
+    height:auto!important;
+    min-height:100vh!important;
+    min-height:100dvh!important;
+    overflow:visible!important;
+    display:block!important;
+    padding-top:0!important;
+  }
+  #authView .top{
+    position:sticky!important;
+    top:0!important;
+    flex:none!important;
+  }
+  #authView .start{
+    display:block!important;
+    height:auto!important;
+    min-height:0!important;
+    flex:none!important;
+    overflow:visible!important;
+    overscroll-behavior:initial!important;
+    -webkit-overflow-scrolling:auto!important;
+    padding-bottom:32px!important;
+  }
+  #authView .start > .foot{
+    position:static!important;
+    display:flex!important;
+    margin:18px auto 0!important;
+    transform:none!important;
+  }
+}
 </style>
 </head>
 <body>
