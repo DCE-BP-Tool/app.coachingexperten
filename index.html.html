@@ -2536,11 +2536,26 @@ function guestHasAnswers(){return !!(obPurpose||document.getElementById('obCompa
 function showPanel(id) {
   if(id==='panelReg'){ showPanel('panelOnboard'); obNext(4); return; }
   ['panelOnboard','panelLogin'].forEach(p => {
-    document.getElementById(p).style.display = p === id ? 'block' : 'none';
+    const el=document.getElementById(p);
+    if(el) el.style.display = p === id ? 'block' : 'none';
   });
   const tl=document.getElementById('topLogin');
   if(tl) tl.style.visibility = 'visible';
-  if(typeof goStart==='function' && document.getElementById('authView') && document.getElementById('authView').offsetParent!==null) goStart(); else window.scrollTo(0,0);
+
+  // Nur auf Smartphones direkt zum gewählten Formular scrollen.
+  // Tablet/Desktop behalten das ursprüngliche Verhalten der Startansicht.
+  if (window.matchMedia('(max-width: 640px)').matches) {
+    const target=document.getElementById(id);
+    const header=document.querySelector('#authView .top');
+    if(target && document.getElementById('authView') && document.getElementById('authView').offsetParent!==null){
+      requestAnimationFrame(()=>{
+        const y=target.getBoundingClientRect().top + window.scrollY - ((header?header.getBoundingClientRect().height:0) + 18);
+        window.scrollTo({top:Math.max(0,y),behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+      });
+    }
+  } else {
+    if(typeof goStart==='function' && document.getElementById('authView') && document.getElementById('authView').offsetParent!==null) goStart(); else window.scrollTo(0,0);
+  }
 }
 
 /* Gemeinsamer Abschluss nach erfolgreicher Anmeldung */
@@ -4368,13 +4383,16 @@ function renderObLogo(){
   document.querySelectorAll('.pvLogo').forEach(i=>{ if(u){i.src=u;i.hidden=false;i.parentNode.classList.add('has');} else {i.removeAttribute('src');i.hidden=true;i.parentNode.classList.remove('has');} });
 }
 function goStart(){
-  const card=document.getElementById('authCard'); if(!card) return;
+  const active=document.querySelector('#authView #panelOnboard:not([style*="display: none"]), #authView #panelLogin:not([style*="display: none"])');
+  const target=active||document.getElementById('authCard');
+  if(!target) return;
   const hdr=document.querySelector('#authView .top');
-  const target=()=>Math.max(0,card.getBoundingClientRect().top+window.scrollY-((hdr?hdr.offsetHeight:0)+16));
-  requestAnimationFrame(()=>window.scrollTo({top:target(),behavior:'smooth'}));
-  setTimeout(()=>{const t=target(); if(Math.abs(window.scrollY-t)>6) window.scrollTo({top:t,behavior:'smooth'});},700);
-  if(matchMedia('(hover:hover)').matches) setTimeout(()=>{const f=[].slice.call(card.querySelectorAll('.purpose-card,input,select,textarea')).find(e=>e.offsetParent!==null);if(f)f.focus({preventScroll:true});},500);
+  requestAnimationFrame(()=>{
+    const y=target.getBoundingClientRect().top+window.scrollY-((hdr?hdr.getBoundingClientRect().height:0)+18);
+    window.scrollTo({top:Math.max(0,y),behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+  });
 }
+
 function pickPurpose(val){
   showPanel('panelOnboard'); obNext(1);
   const el=document.querySelector('.purpose-card[data-val="'+val+'"]'); if(el) selPurpose(val,el);
@@ -4609,7 +4627,7 @@ document.addEventListener('scroll',function(e){var t=e.target;if(!t||t===documen
 </script>
 <script>
 /* Hero-Button: Fragebogen zeigen und sanft dorthin scrollen */
-function heroGo(){try{showPanel('panelOnboard');}catch(e){}var c=document.getElementById('authCard');if(!c)return;var top=c.getBoundingClientRect().top+window.scrollY-88;window.scrollTo({top:Math.max(0,top),behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}
+function heroGo(){try{showPanel('panelOnboard');}catch(e){}}
 </script>
 <script>
 /* APPLE-EBENE: Scroll-Animationen, nur Darstellung */
